@@ -23,8 +23,27 @@
             You are successfully logged in.
         </p>
 
-        <div id="userInfo">
-            Loading user information...
+        <div class="profile-card">
+
+            <div class="profile-title">
+                👤 My Profile
+            </div>
+
+            <div class="profile-row">
+                <span>Username</span>
+                <strong id="username">Loading...</strong>
+            </div>
+
+            <div class="profile-row">
+                <span>User ID</span>
+                <strong id="userId">Loading...</strong>
+            </div>
+
+            <div class="profile-row">
+                <span>Balance</span>
+                <strong id="balance">৳0.00</strong>
+            </div>
+
         </div>
 
         <button id="logoutBtn" class="main-btn">
@@ -42,7 +61,9 @@
             window.location.href = "index.html";
         }
 
-        const userInfo = document.getElementById("userInfo");
+        const username = document.getElementById("username");
+        const userId = document.getElementById("userId");
+        const balance = document.getElementById("balance");
         const logoutBtn = document.getElementById("logoutBtn");
 
         try {
@@ -51,10 +72,14 @@
                 atob(token.split(".")[1])
             );
 
-            userInfo.innerHTML = `
-                <p>Username: ${payload.username || "User"}</p>
-                <p>User ID: ${payload.user_id || "N/A"}</p>
-            `;
+            username.textContent =
+                payload.username || "User";
+
+            userId.textContent =
+                payload.user_id || "N/A";
+
+            balance.textContent =
+                "৳0.00";
 
         } catch (error) {
 
