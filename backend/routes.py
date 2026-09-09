@@ -136,7 +136,7 @@ def login():
             "message": "Username/Email and password are required."
         }), 400
 
-    conn = None
+        conn = None
     cur = None
 
     try:
@@ -171,26 +171,26 @@ def login():
             }), 401
 
         # Generate JWT Token
-token = jwt.encode(
-    {
-        "user_id": user["id"],
-        "username": user["username"],
-        "exp": datetime.datetime.utcnow() + datetime.timedelta(days=1)
-    },
-    "your-secret-key",
-    algorithm="HS256"
-)
+        token = jwt.encode(
+            {
+                "user_id": user["id"],
+                "username": user["username"],
+                "exp": datetime.datetime.utcnow() + datetime.timedelta(days=1)
+            },
+            Config.SECRET_KEY,
+            algorithm="HS256"
+        )
 
-return jsonify({
-    "success": True,
-    "message": "Login successful.",
-    "token": token,
-    "user": {
-        "id": user["id"],
-        "username": user["username"],
-        "email": user["email"]
-    }
-}), 200
+        return jsonify({
+            "success": True,
+            "message": "Login successful.",
+            "token": token,
+            "user": {
+                "id": user["id"],
+                "username": user["username"],
+                "email": user["email"]
+            }
+        }), 200
     except Exception as e:
 
         if conn:
