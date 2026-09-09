@@ -1,6 +1,9 @@
 from flask import Blueprint, request, jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
 from database import get_connection
+from config import Config
+import jwt
+import datetime
 
 api = Blueprint("api", __name__)
 
@@ -167,17 +170,27 @@ def login():
                 "message": "Invalid username/email or password."
             }), 401
 
-        # Login successful
-        return jsonify({
-            "success": True,
-            "message": "Login successful.",
-            "user": {
-                "id": user["id"],
-                "username": user["username"],
-                "email": user["email"]
-            }
-        }), 200
+        # Generate JWT Token
+token = jwt.encode(
+    {
+        "user_id": user["id"],
+        "username": user["username"],
+        "exp": datetime.datetime.utcnow() + datetime.timedelta(days=1)
+    },
+    "your-secret-key",
+    algorithm="HS256"
+)
 
+return jsonify({
+    "success": True,
+    "message": "Login successful.",
+    "token": token,
+    "user": {
+        "id": user["id"],
+        "username": user["username"],
+        "email": user["email"]
+    }
+}), 200
     except Exception as e:
 
         if conn:
