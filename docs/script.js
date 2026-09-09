@@ -104,20 +104,24 @@ loginForm.onsubmit = async function (e) {
 
         if (data.success) {
 
-            localStorage.setItem("token", data.token);
+    localStorage.setItem("token", data.token);
 
-            message.textContent = "Login successful.";
+    message.textContent = "Login successful.";
 
-        } else {
+    setTimeout(() => {
+        window.location.href = "dashboard.html";
+    }, 500);
 
-            message.textContent = data.message;
+} else {
 
-        }
+    message.textContent = data.message || "Login failed.";
 
-    } catch (err) {
+}
 
-        message.textContent = "Server Error";
+} catch (err) {
 
-    }
+    message.textContent = "Server Error";
+
+}
 
 };
