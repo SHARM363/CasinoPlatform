@@ -48,7 +48,11 @@ def init_db():
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
     """)
-
+cur.execute("""
+    ALTER TABLE withdrawals
+    ADD COLUMN IF NOT EXISTS payment_method VARCHAR(20),
+    ADD COLUMN IF NOT EXISTS account_number VARCHAR(30);
+""")
     conn.commit()
     cur.close()
     conn.close()
