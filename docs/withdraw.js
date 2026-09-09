@@ -43,7 +43,64 @@ try {
 }
 
 loadUser();
+async function loadWithdrawHistory() {
 
+    const history = document.getElementById("history");
+
+    try {
+
+        const response = await fetch(
+            `${API_URL}/api/withdrawals`,
+            {
+                method: "GET",
+                headers: {
+                    "Authorization": "Bearer " + token
+                }
+            }
+        );
+
+        const data = await response.json();
+
+        if (!data.success) {
+            history.textContent = "Unable to load withdrawal history.";
+            return;
+        }
+
+        if (!data.withdrawals || data.withdrawals.length === 0) {
+            history.textContent = "No withdrawals yet.";
+            return;
+        }
+
+        history.innerHTML = data.withdrawals.map(withdrawal => {
+
+            let statusText = withdrawal.status;
+
+            if (withdrawal.status === "pending") {
+                statusText = "Processing";
+            }
+
+            return `
+                <div class="card">
+                    <p><strong>💳 Method:</strong> ${withdrawal.payment_method}</p>
+                    <p><strong>💰 Amount:</strong> ৳${Number(withdrawal.amount).toFixed(2)}</p>
+                    <p><strong>⏳ Status:</strong> ${statusText}</p>
+                    <p><strong>🕐 Time:</strong> ${withdrawal.created_at}</p>
+                </div>
+            `;
+
+        }).join("");
+
+    } catch (error) {
+
+        console.error("Withdraw history error:", error);
+
+        history.textContent =
+            "Unable to load withdrawal history.";
+
+    }
+}
+
+loadWithdrawHistory();
 withdrawForm.onsubmit = async function (e) {
 
 e.preventDefault();
