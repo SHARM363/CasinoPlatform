@@ -112,9 +112,14 @@ const response = await fetch(
         }
     }
 
-    // Load user data
-    loadUserData();
-<div class="action-buttons"><a href="deposit.html">
+    // Logout
+    logoutBtn.onclick = function () {
+        localStorage.removeItem("token");
+
+        window.location.href = "index.html";
+    };
+</script>
+    <div class="action-buttons"><a href="deposit.html">
     <button class="main-btn deposit-btn">
         💰 Deposit
     </button>
@@ -125,17 +130,6 @@ const response = await fetch(
         💸 Withdraw
     </button>
 </a>
-
 </div>
-
-    // Logout
-    logoutBtn.onclick = function () {
-        localStorage.removeItem("token");
-
-        window.location.href = "index.html";
-
-    };
-
-</script>
 </body>
 </html>
