@@ -320,23 +320,58 @@ def create_deposit():
         }), 401
 
     try:
+
         token = token.replace("Bearer ", "")
-        payload = jwt.decode(token, Config.SECRET_KEY, algorithms=["HS256"])
+
+        payload = jwt.decode(
+            token,
+            Config.SECRET_KEY,
+            algorithms=["HS256"]
+        )
 
         user_id = payload["user_id"]
 
-        data = request.get_json()
+        data = request.get_json() or {}
 
-        amount = data.get("amount")
+        amount = float(data.get("amount", 0))
         payment_method = data.get("payment_method")
+
+        # Amount validation
+        if amount < 100:
+            return jsonify({
+                "success": False,
+                "message": "Minimum deposit amount is ৳100."
+            }), 400
+
+        if amount > 25000:
+            return jsonify({
+                "success": False,
+                "message": "Maximum deposit amount is ৳25,000."
+            }), 400
+
+        # Payment method validation
+        if payment_method not in ["bkash", "nagad", "usdt"]:
+            return jsonify({
+                "success": False,
+                "message": "Invalid payment method."
+            }), 400
 
         conn = get_connection()
         cur = conn.cursor()
 
+        # Create pending deposit request
         cur.execute("""
-            INSERT INTO deposits (user_id, amount, status)
-            VALUES (%s, %s, 'pending')
-        """, (user_id, amount))
+            INSERT INTO deposits
+            (user_id, amount, payment_method, status)
+            VALUES (%s, %s, %s, 'pending')
+            RETURNING id
+        """, (
+            user_id,
+            amount,
+            payment_method
+        ))
+
+        deposit = cur.fetchone()
 
         conn.commit()
 
@@ -345,10 +380,29 @@ def create_deposit():
 
         return jsonify({
             "success": True,
-            "message": "Deposit request submitted successfully."
-        })
+            "message": "Deposit request submitted successfully.",
+            "deposit_id": deposit["id"],
+            "amount": amount,
+            "payment_method": payment_method,
+            "status": "pending"
+        }), 200
+
+    except jwt.ExpiredSignatureError:
+
+        return jsonify({
+            "success": False,
+            "message": "Token expired."
+        }), 401
+
+    except jwt.InvalidTokenError:
+
+        return jsonify({
+            "success": False,
+            "message": "Invalid token."
+        }), 401
 
     except Exception as e:
+
         return jsonify({
             "success": False,
             "message": str(e)
