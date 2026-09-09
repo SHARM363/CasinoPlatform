@@ -1,8 +1,10 @@
 from flask import Flask
+from flask_cors import CORS
 from routes import api
 from database import init_db
 
 app = Flask(__name__)
+CORS(app)
 
 # Register API Blueprint
 app.register_blueprint(api)
