@@ -1,4 +1,4 @@
-alert("script loaded");
+
 const API_URL = "https://casinoplatform.onrender.com";
 
 const loginTab = document.getElementById("loginTab");
