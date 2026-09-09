@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>RSK32 Dashboard</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="logo">
+            RSK32
+        </div>
+
+        <h1>Welcome to RSK32</h1>
+
+        <p class="subtitle">
+            You are successfully logged in.
+        </p>
+
+        <div id="userInfo">
+            Loading user information...
+        </div>
+
+        <button id="logoutBtn" class="main-btn">
+            Logout
+        </button>
+
+    </div>
+
+    <script>
+
+        const token = localStorage.getItem("token");
+
+        // If user is not logged in
+        if (!token) {
+            window.location.href = "index.html";
+        }
+
+        const userInfo = document.getElementById("userInfo");
+        const logoutBtn = document.getElementById("logoutBtn");
+
+        try {
+
+            const payload = JSON.parse(
+                atob(token.split(".")[1])
+            );
+
+            userInfo.innerHTML = `
+                <p>Username: ${payload.username || "User"}</p>
+                <p>User ID: ${payload.user_id || "N/A"}</p>
+            `;
+
+        } catch (error) {
+
+            localStorage.removeItem("token");
+
+            window.location.href = "index.html";
+
+        }
+
+        // Logout
+        logoutBtn.onclick = function () {
+
+            localStorage.removeItem("token");
+
+            window.location.href = "index.html";
+
+        };
+
+    </script>
+
+</body>
+</html>
