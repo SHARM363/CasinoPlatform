@@ -353,3 +353,139 @@ def create_deposit():
             "success": False,
             "message": str(e)
         }), 500
+@api.route("/api/withdraw", methods=["POST"])
+def create_withdraw():
+
+    token = request.headers.get("Authorization")
+
+    if not token:
+        return jsonify({
+            "success": False,
+            "message": "Authorization token required."
+        }), 401
+
+    try:
+        token = token.replace("Bearer ", "")
+
+        payload = jwt.decode(
+            token,
+            Config.SECRET_KEY,
+            algorithms=["HS256"]
+        )
+
+        user_id = payload["user_id"]
+
+        data = request.get_json() or {}
+
+        amount = float(data.get("amount", 0))
+        payment_method = data.get("payment_method")
+        account_number = data.get("account_number")
+
+        # Amount validation
+        if amount < 300:
+            return jsonify({
+                "success": False,
+                "message": "Minimum withdrawal amount is ৳300."
+            }), 400
+
+        if amount > 25000:
+            return jsonify({
+                "success": False,
+                "message": "Maximum withdrawal amount is ৳25,000."
+            }), 400
+
+        # Payment method validation
+        if payment_method not in ["bkash", "nagad"]:
+            return jsonify({
+                "success": False,
+                "message": "Invalid payment method."
+            }), 400
+
+        # Account number validation
+        if not account_number:
+            return jsonify({
+                "success": False,
+                "message": "Account number is required."
+            }), 400
+
+        conn = get_connection()
+        cur = conn.cursor()
+
+        # Check current balance
+        cur.execute("""
+            SELECT balance
+            FROM users
+            WHERE id = %s
+        """, (user_id,))
+
+        user = cur.fetchone()
+
+        if not user:
+            cur.close()
+            conn.close()
+
+            return jsonify({
+                "success": False,
+                "message": "User not found."
+            }), 404
+
+        balance = float(user["balance"])
+
+        if amount > balance:
+            cur.close()
+            conn.close()
+
+            return jsonify({
+                "success": False,
+                "message": "Insufficient balance."
+            }), 400
+
+        # Create withdrawal request
+        cur.execute("""
+            INSERT INTO withdrawals
+            (user_id, amount, payment_method, account_number, status)
+            VALUES (%s, %s, %s, %s, 'pending')
+        """, (
+            user_id,
+            amount,
+            payment_method,
+            account_number
+        ))
+
+        # Reserve the withdrawal amount
+        cur.execute("""
+            UPDATE users
+            SET balance = balance - %s
+            WHERE id = %s
+        """, (amount, user_id))
+
+        conn.commit()
+
+        cur.close()
+        conn.close()
+
+        return jsonify({
+            "success": True,
+            "message": "Withdraw request submitted successfully."
+        }), 200
+
+    except jwt.ExpiredSignatureError:
+
+        return jsonify({
+            "success": False,
+            "message": "Token expired."
+        }), 401
+
+    except jwt.InvalidTokenError:
+
+        return jsonify({
+            "success": False,
+            "message": "Invalid token."
+        }), 401
+
+    except Exception as e:
+
+        return jsonify({
+            "success": False,
+            "message": str(e)
+        }), 500
