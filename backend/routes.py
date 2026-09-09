@@ -287,3 +287,24 @@ def get_me():
             "success": False,
             "message": str(e)
         }), 500
+@api.route("/api/test-balance", methods=["POST"])
+def test_balance():
+
+    conn = get_connection()
+    cur = conn.cursor()
+
+    cur.execute("""
+        UPDATE users
+        SET balance = 1000
+        WHERE id = 1
+    """)
+
+    conn.commit()
+
+    cur.close()
+    conn.close()
+
+    return jsonify({
+        "success": True,
+        "message": "Balance updated to 1000"
+    })
