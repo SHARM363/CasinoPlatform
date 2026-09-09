@@ -31,12 +31,14 @@ def init_db():
     );
 
     CREATE TABLE IF NOT EXISTS withdrawals (
-        id SERIAL PRIMARY KEY,
-        user_id INTEGER REFERENCES users(id),
-        amount NUMERIC(18,2) NOT NULL,
-        status VARCHAR(20) DEFAULT 'pending',
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-    );
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES users(id),
+    amount NUMERIC(18,2) NOT NULL,
+    payment_method VARCHAR(20) NOT NULL,
+    account_number VARCHAR(30) NOT NULL,
+    status VARCHAR(20) DEFAULT 'pending',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 
     CREATE TABLE IF NOT EXISTS referrals (
         id SERIAL PRIMARY KEY,
