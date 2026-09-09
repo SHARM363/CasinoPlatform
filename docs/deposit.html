@@ -1,1 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RSK32 - Deposit</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
+<div class="container">
+
+    <div class="logo">RSK32</div>
+
+    <h1>Deposit</h1>
+
+    <p class="subtitle">Add money to your account</p>
+
+    <div class="card">
+        <h3>Current Balance</h3>
+        <h2 id="balance">৳0.00</h2>
+    </div>
+
+    <form id="depositForm">
+
+        <select id="paymentMethod" required>
+            <option value="">Select Payment Method</option>
+            <option value="bkash">bKash</option>
+            <option value="nagad">Nagad</option>
+            <option value="usdt">USDT</option>
+        </select>
+
+        <input
+            type="number"
+            id="amount"
+            placeholder="Deposit Amount"
+            min="100"
+            required
+        >
+
+        <button type="submit" class="main-btn">
+            Submit Deposit
+        </button>
+
+    </form>
+
+    <div id="message"></div>
+
+    <hr>
+
+    <h2>Deposit History</h2>
+
+    <div id="history">
+        No deposits yet.
+    </div>
+
+    <br>
+
+    <a href="dashboard.html">
+        <button class="main-btn">
+            Back to Dashboard
+        </button>
+    </a>
+
+</div>
+
+<script src="deposit.js"></script>
+
+</body>
+</html>
