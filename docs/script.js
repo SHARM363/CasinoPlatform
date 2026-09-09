@@ -114,3 +114,15 @@ loginForm.addEventListener("submit", async (event) => {
 
             console.log("Login user:", data.user);
             console.log("JWT Token saved
+            console.log("Login user:", data.user);
+            console.log("JWT Token saved.");
+
+        } else {
+            message.textContent = data.message || "Login failed.";
+        }
+
+    } catch (error) {
+        console.error(error);
+        message.textContent = "Server connection failed.";
+    }
+});
