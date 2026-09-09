@@ -1,0 +1,67 @@
+<!DOCTYPE html><html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RSK32 - Withdraw</title>
+    <link rel="stylesheet" href="style.css">
+</head><body><div class="container"><div class="logo">RSK32</div>
+
+<h1>Withdraw</h1>
+
+<p class="subtitle">Withdraw money from your account</p>
+
+<div class="card">
+    <h3>Available Balance</h3>
+    <h2 id="balance">৳0.00</h2>
+</div>
+
+<form id="withdrawForm">
+
+    <select id="paymentMethod" required>
+        <option value="">Select Payment Method</option>
+        <option value="bkash">bKash</option>
+        <option value="nagad">Nagad</option>
+    </select>
+
+    <input
+        type="text"
+        id="accountNumber"
+        placeholder="bKash / Nagad Number"
+        required
+    >
+
+    <input
+        type="number"
+        id="amount"
+        placeholder="Withdraw Amount"
+        min="300"
+        max="25000"
+        required
+    >
+
+    <button type="submit" class="main-btn">
+        💸 Submit Withdraw
+    </button>
+
+</form>
+
+<div id="message"></div>
+
+<hr>
+
+<h2>Withdraw History</h2>
+
+<div id="history">
+    No withdrawals yet.
+</div>
+
+<br>
+
+<a href="dashboard.html">
+    <button class="main-btn">
+        Back to Dashboard
+    </button>
+</a>
+
+</div><script src="withdraw.js"></script></body>
+</html>
