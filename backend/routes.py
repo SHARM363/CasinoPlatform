@@ -308,3 +308,48 @@ def test_balance():
         "success": True,
         "message": "Balance updated to 1000"
     })
+@api.route("/api/deposit", methods=["POST"])
+def create_deposit():
+
+    token = request.headers.get("Authorization")
+
+    if not token:
+        return jsonify({
+            "success": False,
+            "message": "Authorization token required."
+        }), 401
+
+    try:
+        token = token.replace("Bearer ", "")
+        payload = jwt.decode(token, Config.SECRET_KEY, algorithms=["HS256"])
+
+        user_id = payload["user_id"]
+
+        data = request.get_json()
+
+        amount = data.get("amount")
+        payment_method = data.get("payment_method")
+
+        conn = get_connection()
+        cur = conn.cursor()
+
+        cur.execute("""
+            INSERT INTO deposits (user_id, amount, status)
+            VALUES (%s, %s, 'pending')
+        """, (user_id, amount))
+
+        conn.commit()
+
+        cur.close()
+        conn.close()
+
+        return jsonify({
+            "success": True,
+            "message": "Deposit request submitted successfully."
+        })
+
+    except Exception as e:
+        return jsonify({
+            "success": False,
+            "message": str(e)
+        }), 500
