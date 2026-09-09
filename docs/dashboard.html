@@ -53,7 +53,7 @@
     </div>
 
     <script>
-    alert("Dashboard script is running");
+    alert("Dashboard script is running"); 
     const token = localStorage.getItem("token");
 
     // If user is not logged in
@@ -120,7 +120,6 @@ const response = await fetch(
 
     // Logout
     logoutBtn.onclick = function () {
-
         localStorage.removeItem("token");
 
         window.location.href = "index.html";
