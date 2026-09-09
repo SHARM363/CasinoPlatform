@@ -287,7 +287,7 @@ def get_me():
             "success": False,
             "message": str(e)
         }), 500
-@api.route("/api/test-balance", methods=["GET"]
+@api.route("/api/test-balance", methods=["GET"])
 def test_balance():
 
     conn = get_connection()
