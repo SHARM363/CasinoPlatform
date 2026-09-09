@@ -8,7 +8,8 @@ const registerForm = document.getElementById("registerForm");
 
 const message = document.getElementById("message");
 
-loginTab.addEventListener("click", () => {
+// Login tab
+loginTab.onclick = function () {
     loginTab.classList.add("active");
     registerTab.classList.remove("active");
 
@@ -16,72 +17,62 @@ loginTab.addEventListener("click", () => {
     registerForm.style.display = "none";
 
     message.textContent = "";
-});
+};
 
-registerTab.addEventListener("click", () => {
+// Register tab
+registerTab.onclick = function () {
     registerTab.classList.add("active");
     loginTab.classList.remove("active");
 
-    registerForm.style.display = "block";
     loginForm.style.display = "none";
+    registerForm.style.display = "block";
 
     message.textContent = "";
-});
+};
 
-
-// ====================
-// REGISTER
-// ====================
-
-registerForm.addEventListener("submit", async (event) => {
-    event.preventDefault();
+// Register
+registerForm.onsubmit = async function (e) {
+    e.preventDefault();
 
     const username = document.getElementById("registerUsername").value.trim();
     const email = document.getElementById("registerEmail").value.trim();
     const password = document.getElementById("registerPassword").value;
 
-    message.textContent = "Creating account...";
-
     try {
-        const response = await fetch(`${API_URL}/api/register`, {
+        const response = await fetch(API_URL + "/api/register", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                username: username,
-                email: email,
-                password: password
+                username,
+                email,
+                password
             })
         });
 
         const data = await response.json();
 
         if (data.success) {
-            message.textContent = "Registration successful!";
+            message.textContent = "Registration successful.";
 
             registerForm.reset();
 
-            setTimeout(() => {
-                loginTab.click();
-            }, 1000);
+            loginTab.click();
+
         } else {
-            message.textContent = data.message || "Registration failed.";
+            message.textContent = data.message;
         }
 
-    } catch (error) {
-        console.error(error);
-        message.textContent = "Server connection failed.";
+    } catch (err) {
+        message.textContent = "Server Error";
     }
-});
+};
 
+// Login
+loginForm.onsubmit = async function (e) {
 
-// ====================
-// LOGIN
-// ====================
-
-loginForm.addEventListener("submit", async (event) => {
-    event.preventDefault();
+    e.preventDefault();
 
     const username_or_email =
         document.getElementById("loginUsername").value.trim();
@@ -89,40 +80,43 @@ loginForm.addEventListener("submit", async (event) => {
     const password =
         document.getElementById("loginPassword").value;
 
-    message.textContent = "Logging in...";
-
     try {
-        const response = await fetch(`${API_URL}/api/login`, {
+
+        const response = await fetch(API_URL + "/api/login", {
+
             method: "POST",
+
             headers: {
                 "Content-Type": "application/json"
             },
+
             body: JSON.stringify({
-                username_or_email: username_or_email,
-                password: password
+
+                username_or_email,
+                password
+
             })
+
         });
 
         const data = await response.json();
 
         if (data.success) {
 
-            // Save JWT token
-            localStorage.setItem("rsk32_token", data.token);
+            localStorage.setItem("token", data.token);
 
-            message.textContent = "Login successful!";
-
-            console.log("Login user:", data.user);
-            console.log("JWT Token saved
-            console.log("Login user:", data.user);
-            console.log("JWT Token saved.");
+            message.textContent = "Login successful.";
 
         } else {
-            message.textContent = data.message || "Login failed.";
+
+            message.textContent = data.message;
+
         }
 
-    } catch (error) {
-        console.error(error);
-        message.textContent = "Server connection failed.";
+    } catch (err) {
+
+        message.textContent = "Server Error";
+
     }
-});
+
+};
