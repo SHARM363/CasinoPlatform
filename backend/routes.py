@@ -744,3 +744,32 @@ def admin_users():
         "success": True,
         "users": users
     })
+@api.route("/api/admin/deposits", methods=["GET"])
+def admin_deposits():
+
+    conn = get_connection()
+    cur = conn.cursor()
+
+    cur.execute("""
+        SELECT
+            deposits.id,
+            users.username,
+            deposits.amount,
+            deposits.payment_method,
+            deposits.status,
+            deposits.created_at
+        FROM deposits
+        JOIN users
+            ON deposits.user_id = users.id
+        ORDER BY deposits.created_at DESC
+    """)
+
+    deposits = cur.fetchall()
+
+    cur.close()
+    conn.close()
+
+    return jsonify({
+        "success": True,
+        "deposits": deposits
+    })
