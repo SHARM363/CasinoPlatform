@@ -539,11 +539,10 @@ def create_withdraw():
 
     except Exception as e:
 
-    return jsonify({
-        "success": False,
-        "message": str(e)
-    }), 500
-
+        return jsonify({
+            "success": False,
+            "message": str(e)
+        }), 500
 
 @api.route("/api/deposits", methods=["GET"])
 def get_deposits():
