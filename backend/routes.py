@@ -682,6 +682,100 @@ def get_withdrawals():
             "success": False,
             "message": str(e)
         }), 500
+        @api.route("/api/admin/withdrawals", methods=["GET"])
+def admin_get_withdrawals():
+
+    conn = get_connection()
+    cur = conn.cursor()
+
+    try:
+
+        cur.execute("""
+            SELECT
+                id,
+                user_id,
+                amount,
+                payment_method,
+                account_number,
+                status,
+                created_at
+            FROM withdrawals
+            ORDER BY created_at DESC
+        """)
+
+        withdrawals = cur.fetchall()
+
+        return jsonify({
+            "success": True,
+            "withdrawals": withdrawals
+        }), 200
+
+    except Exception as e:
+
+        return jsonify({
+            "success": False,
+            "message": str(e)
+        }), 500
+
+    finally:
+
+        cur.close()
+        conn.close()
+        @api.route("/api/admin/withdraw/<int:withdrawal_id>/approve", methods=["POST"])
+def approve_withdrawal(withdrawal_id):
+
+    conn = get_connection()
+    cur = conn.cursor()
+
+    try:
+        # Get withdrawal information
+        cur.execute("""
+            SELECT status
+            FROM withdrawals
+            WHERE id = %s
+        """, (withdrawal_id,))
+
+        withdrawal = cur.fetchone()
+
+        if not withdrawal:
+            return jsonify({
+                "success": False,
+                "message": "Withdrawal not found."
+            }), 404
+
+        # Only pending withdrawals can be approved
+        if withdrawal["status"] != "pending":
+            return jsonify({
+                "success": False,
+                "message": "Withdrawal already processed."
+            }), 400
+
+        # Approve withdrawal
+        cur.execute("""
+            UPDATE withdrawals
+            SET status = 'approved'
+            WHERE id = %s
+        """, (withdrawal_id,))
+
+        conn.commit()
+
+        return jsonify({
+            "success": True,
+            "message": "Withdrawal approved successfully."
+        }), 200
+
+    except Exception as e:
+        conn.rollback()
+
+        return jsonify({
+            "success": False,
+            "message": str(e)
+        }), 500
+
+    finally:
+        cur.close()
+        conn.close()
+        
 @api.route("/api/admin/stats", methods=["GET"])
 def admin_stats():
 
