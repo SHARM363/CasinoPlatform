@@ -250,3 +250,43 @@ body{
     from{opacity:.4;}
     to{opacity:1;}
 }
+/* Banner Slider */
+
+.banner-slider {
+    width: 100%;
+    overflow: hidden;
+    border-radius: 15px;
+    margin-bottom: 20px;
+}
+
+.banner-track {
+    display: flex;
+    width: 300%;
+    animation: bannerSlide 12s infinite;
+}
+
+.banner-track img {
+    width: 33.333%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+}
+
+@keyframes bannerSlide {
+
+    0%, 30% {
+        transform: translateX(0);
+    }
+
+    33%, 63% {
+        transform: translateX(-33.333%);
+    }
+
+    66%, 96% {
+        transform: translateX(-66.666%);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
