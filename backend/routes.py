@@ -682,8 +682,8 @@ def get_withdrawals():
             "success": False,
             "message": str(e)
         }), 500
-        @api.route("/api/admin/withdrawals", methods=["GET"])
-def admin_get_withdrawals():
+ @api.route("/api/admin/withdrawals", methods=["GET"])
+ def admin_get_withdrawals():
 
     conn = get_connection()
     cur = conn.cursor()
@@ -721,8 +721,8 @@ def admin_get_withdrawals():
 
         cur.close()
         conn.close()
-        @api.route("/api/admin/withdraw/<int:withdrawal_id>/approve", methods=["POST"])
-def approve_withdrawal(withdrawal_id):
+ @api.route("/api/admin/withdraw/<int:withdrawal_id>/approve", methods=["POST"])
+ def approve_withdrawal(withdrawal_id):
 
     conn = get_connection()
     cur = conn.cursor()
