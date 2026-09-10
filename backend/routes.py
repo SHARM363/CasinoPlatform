@@ -773,3 +773,62 @@ def admin_deposits():
         "success": True,
         "deposits": deposits
     })
+@api.route("/api/admin/deposit/<int:deposit_id>/approve", methods=["POST"])
+def approve_deposit(deposit_id):
+
+    conn = get_connection()
+    cur = conn.cursor()
+
+    # Get deposit information
+    cur.execute("""
+        SELECT user_id, amount, status
+        FROM deposits
+        WHERE id = %s
+    """, (deposit_id,))
+
+    deposit = cur.fetchone()
+
+    if not deposit:
+        cur.close()
+        conn.close()
+
+        return jsonify({
+            "success": False,
+            "message": "Deposit not found."
+        }), 404
+
+    if deposit["status"] != "pending":
+        cur.close()
+        conn.close()
+
+        return jsonify({
+            "success": False,
+            "message": "Deposit already processed."
+        }), 400
+
+    # Deposit Approve
+    cur.execute("""
+        UPDATE deposits
+        SET status = 'approved'
+        WHERE id = %s
+    """, (deposit_id,))
+
+    # User Balance Update
+    cur.execute("""
+        UPDATE users
+        SET balance = balance + %s
+        WHERE id = %s
+    """, (
+        deposit["amount"],
+        deposit["user_id"]
+    ))
+
+    conn.commit()
+
+    cur.close()
+    conn.close()
+
+    return jsonify({
+        "success": True,
+        "message": "Deposit approved successfully."
+    })
