@@ -200,18 +200,30 @@ const response = await fetch(
 
         window.location.href = "index.html";
     };
-</script>
-    <div class="action-buttons"><a href="deposit.html">
-    <button class="main-btn deposit-btn">
-        💰 Deposit
-    </button>
-</a>
+        let slideIndex = 0;
 
-<a href="withdraw.html">
-    <button class="main-btn withdraw-btn">
-        💸 Withdraw
-    </button>
-</a>
+showSlides();
+
+function showSlides() {
+
+    let slides = document.getElementsByClassName("slides");
+
+    for (let i = 0; i < slides.length; i++) {
+        slides[i].style.display = "none";
+    }
+
+    slideIndex++;
+
+    if (slideIndex > slides.length) {
+        slideIndex = 1;
+    }
+
+    slides[slideIndex - 1].style.display = "block";
+
+    setTimeout(showSlides, 3000);
+}
+</script>
+    
 </div>
 </body>
 </html>
