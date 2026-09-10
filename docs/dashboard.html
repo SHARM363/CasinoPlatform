@@ -10,47 +10,49 @@
 </head>
 
 <body>
+<body>
 
-    <div class="container">
+<div class="container">
+
+    <div class="top-bar">
 
         <div class="logo">
             RSK32
         </div>
 
-        <h1>Welcome to RSK32</h1>
+        <div class="header-right">
 
-        <p class="subtitle">
-            You are successfully logged in.
-        </p>
-
-        <div class="profile-card">
-
-            <div class="profile-title">
-                👤 My Profile
+            <div class="balance-box">
+                💰 <span id="balance">৳0.00</span>
             </div>
 
-            <div class="profile-row">
-                <span>Username</span>
-                <strong id="username">Loading...</strong>
-            </div>
+            <button id="refreshBtn" class="icon-btn">🔄</button>
 
-            <div class="profile-row">
-                <span>User ID</span>
-                <strong id="userId">Loading...</strong>
-            </div>
-
-            <div class="profile-row">
-                <span>Balance</span>
-                <strong id="balance">৳0.00</strong>
-            </div>
+            <button id="notificationBtn" class="icon-btn">🔔</button>
 
         </div>
 
-        <button id="logoutBtn" class="main-btn">
-            Logout
-        </button>
+    </div>
+
+    <div class="welcome-card">
+
+        <h2>
+            Welcome,
+            <span id="username">Loading...</span>
+        </h2>
+
+        <p>
+            User ID:
+            <span id="userId">Loading...</span>
+        </p>
 
     </div>
+
+    <button id="logoutBtn" class="main-btn">
+        Logout
+    </button>
+
+</div>
 
     <script>
     alert("Dashboard script is running"); 
