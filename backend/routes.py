@@ -718,3 +718,29 @@ def admin_stats():
         "pending_deposits": pending_deposits,
         "pending_withdrawals": pending_withdrawals
     })
+@api.route("/api/admin/users", methods=["GET"])
+def admin_users():
+
+    conn = get_connection()
+    cur = conn.cursor()
+
+    cur.execute("""
+        SELECT
+            id,
+            username,
+            email,
+            balance,
+            created_at
+        FROM users
+        ORDER BY id ASC
+    """)
+
+    users = cur.fetchall()
+
+    cur.close()
+    conn.close()
+
+    return jsonify({
+        "success": True,
+        "users": users
+    })
