@@ -684,11 +684,11 @@ def get_withdrawals():
         }), 500
 @api.route("/api/admin/withdrawals", methods=["GET"])
 def admin_get_withdrawals():
+
     conn = get_connection()
     cur = conn.cursor()
 
     try:
-
         cur.execute("""
             SELECT
                 id,
@@ -710,18 +710,18 @@ def admin_get_withdrawals():
         }), 200
 
     except Exception as e:
-
         return jsonify({
             "success": False,
             "message": str(e)
         }), 500
 
     finally:
-
         cur.close()
         conn.close()
- @api.route("/api/admin/withdraw/<int:withdrawal_id>/approve", methods=["POST"])
- def approve_withdrawal(withdrawal_id):
+
+
+@api.route("/api/admin/withdraw/<int:withdrawal_id>/approve", methods=["POST"])
+def approve_withdrawal(withdrawal_id):
 
     conn = get_connection()
     cur = conn.cursor()
