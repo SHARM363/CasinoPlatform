@@ -832,3 +832,51 @@ def approve_deposit(deposit_id):
         "success": True,
         "message": "Deposit approved successfully."
     })
+@api.route("/api/admin/deposit/<int:deposit_id>/reject", methods=["POST"])
+def reject_deposit(deposit_id):
+
+    conn = get_connection()
+    cur = conn.cursor()
+
+    # Get deposit information
+    cur.execute("""
+        SELECT status
+        FROM deposits
+        WHERE id = %s
+    """, (deposit_id,))
+
+    deposit = cur.fetchone()
+
+    if not deposit:
+        cur.close()
+        conn.close()
+
+        return jsonify({
+            "success": False,
+            "message": "Deposit not found."
+        }), 404
+
+    if deposit["status"] != "pending":
+        cur.close()
+        conn.close()
+
+        return jsonify({
+            "success": False,
+            "message": "Deposit already processed."
+        }), 400
+
+    cur.execute("""
+        UPDATE deposits
+        SET status = 'rejected'
+        WHERE id = %s
+    """, (deposit_id,))
+
+    conn.commit()
+
+    cur.close()
+    conn.close()
+
+    return jsonify({
+        "success": True,
+        "message": "Deposit rejected successfully."
+    })
