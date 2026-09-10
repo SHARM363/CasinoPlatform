@@ -104,7 +104,31 @@ async function loadDeposits() {
 
 loadDeposits();
 async function approveDeposit(id) {
-    alert("Approve Deposit ID: " + id);
+
+    try {
+
+        const response = await fetch(
+            `${API_URL}/api/admin/deposit/${id}/approve`,
+            {
+                method: "POST"
+            }
+        );
+
+        const data = await response.json();
+
+        alert(data.message);
+
+        loadDeposits();
+        loadStats();
+        loadUsers();
+
+    } catch (error) {
+
+        console.error(error);
+        alert("Server Error");
+
+    }
+
 }
 
 async function rejectDeposit(id) {
