@@ -25,13 +25,13 @@ def init_db():
     );
 
     CREATE TABLE IF NOT EXISTS deposits (
-    id SERIAL PRIMARY KEY,
-    user_id INTEGER REFERENCES users(id),
-    amount NUMERIC(18,2) NOT NULL,
-    payment_method VARCHAR(20),
-    status VARCHAR(20) DEFAULT 'pending',
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+        id SERIAL PRIMARY KEY,
+        user_id INTEGER REFERENCES users(id),
+        amount NUMERIC(18,2) NOT NULL,
+        payment_method VARCHAR(20),
+        status VARCHAR(20) DEFAULT 'pending',
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );
 
     CREATE TABLE IF NOT EXISTS withdrawals (
         id SERIAL PRIMARY KEY,
@@ -50,6 +50,13 @@ def init_db():
         reward NUMERIC(18,2) DEFAULT 0,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
+
+    CREATE TABLE IF NOT EXISTS admins (
+        id SERIAL PRIMARY KEY,
+        username VARCHAR(100) UNIQUE NOT NULL,
+        password TEXT NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );
     """)
 
     cur.execute("""
@@ -57,10 +64,12 @@ def init_db():
     ADD COLUMN IF NOT EXISTS payment_method VARCHAR(20),
     ADD COLUMN IF NOT EXISTS account_number VARCHAR(30);
     """)
+
     cur.execute("""
     ALTER TABLE deposits
     ADD COLUMN IF NOT EXISTS payment_method VARCHAR(20);
     """)
+
     conn.commit()
     cur.close()
     conn.close()
