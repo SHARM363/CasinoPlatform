@@ -223,3 +223,30 @@ body{
 .nav-item span{
     margin-top:5px;
 }
+/* Banner Slider */
+
+.banner-slider{
+    width:100%;
+    padding:12px;
+    box-sizing:border-box;
+}
+
+.slides{
+    display:none;
+}
+
+.slides img{
+    width:100%;
+    height:180px;
+    object-fit:cover;
+    border-radius:16px;
+}
+
+.fade{
+    animation:fade 1s;
+}
+
+@keyframes fade{
+    from{opacity:.4;}
+    to{opacity:1;}
+}
