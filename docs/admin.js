@@ -164,3 +164,159 @@ async function rejectDeposit(id) {
     }
 
 }
+async function loadWithdrawals() {
+
+    try {
+
+        const response = await fetch(
+            `${API_URL}/api/admin/withdrawals`
+        );
+
+        const data = await response.json();
+
+        const withdrawalsList =
+            document.getElementById("withdrawalsList");
+
+        if (!data.success) {
+            withdrawalsList.innerHTML =
+                "Unable to load withdrawals.";
+            return;
+        }
+
+        if (data.withdrawals.length === 0) {
+            withdrawalsList.innerHTML =
+                "No withdrawals found.";
+            return;
+        }
+
+        withdrawalsList.innerHTML = data.withdrawals.map(withdrawal => `
+            <div class="card">
+
+                <p><strong>ID:</strong> ${withdrawal.id}</p>
+
+                <p><strong>User ID:</strong> ${withdrawal.user_id}</p>
+
+                <p><strong>Amount:</strong>
+                    ৳${Number(withdrawal.amount).toFixed(2)}
+                </p>
+
+                <p><strong>Method:</strong>
+                    ${withdrawal.payment_method}
+                </p>
+
+                <p><strong>Account:</strong>
+                    ${withdrawal.account_number}
+                </p>
+
+                <p><strong>Status:</strong>
+                    ${withdrawal.status}
+                </p>
+
+                ${
+                    withdrawal.status === "pending"
+                    ? `
+                        <button class="main-btn"
+                            onclick="approveWithdrawal(${withdrawal.id})">
+                            ✅ Approve
+                        </button>
+
+                        <button class="main-btn"
+                            onclick="rejectWithdrawal(${withdrawal.id})">
+                            ❌ Reject
+                        </button>
+                    `
+                    : ""
+                }
+
+            </div>
+        `).join("");
+
+    } catch (error) {
+
+        console.error("Withdrawals error:", error);
+
+        document.getElementById("withdrawalsList").innerHTML =
+            "Unable to load withdrawals.";
+
+    }
+
+}
+
+
+async function approveWithdrawal(id) {
+
+    try {
+
+        const response = await fetch(
+            `${API_URL}/api/admin/withdraw/${id}/approve`,
+            {
+                method: "POST"
+            }
+        );
+
+        const data = await response.json();
+
+        if (data.success) {
+
+            alert(data.message);
+
+            loadWithdrawals();
+            loadStats();
+            loadUsers();
+
+        } else {
+
+            alert(data.message || "Approve failed.");
+
+        }
+
+    } catch (error) {
+
+        console.error("Approve withdrawal error:", error);
+
+        alert("Approve withdrawal failed.");
+
+    }
+
+}
+
+
+async function rejectWithdrawal(id) {
+
+    try {
+
+        const response = await fetch(
+            `${API_URL}/api/admin/withdraw/${id}/reject`,
+            {
+                method: "POST"
+            }
+        );
+
+        const data = await response.json();
+
+        if (data.success) {
+
+            alert(data.message);
+
+            loadWithdrawals();
+            loadStats();
+            loadUsers();
+
+        } else {
+
+            alert(data.message || "Reject failed.");
+
+        }
+
+    } catch (error) {
+
+        console.error("Reject withdrawal error:", error);
+
+        alert("Reject withdrawal failed.");
+
+    }
+
+}
+
+
+loadWithdrawals();
