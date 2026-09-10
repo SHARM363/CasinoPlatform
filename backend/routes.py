@@ -682,3 +682,39 @@ def get_withdrawals():
             "success": False,
             "message": str(e)
         }), 500
+@api.route("/api/admin/stats", methods=["GET"])
+def admin_stats():
+
+    conn = get_connection()
+    cur = conn.cursor()
+
+    # Total Users
+    cur.execute("SELECT COUNT(*) AS total_users FROM users")
+    total_users = cur.fetchone()["total_users"]
+
+    # Total Balance
+    cur.execute("SELECT COALESCE(SUM(balance), 0) AS total_balance FROM users")
+    total_balance = cur.fetchone()["total_balance"]
+
+    # Pending Deposits
+    cur.execute(
+        "SELECT COUNT(*) AS pending_deposits FROM deposits WHERE status = 'pending'"
+    )
+    pending_deposits = cur.fetchone()["pending_deposits"]
+
+    # Pending Withdrawals
+    cur.execute(
+        "SELECT COUNT(*) AS pending_withdrawals FROM withdrawals WHERE status = 'pending'"
+    )
+    pending_withdrawals = cur.fetchone()["pending_withdrawals"]
+
+    cur.close()
+    conn.close()
+
+    return jsonify({
+        "success": True,
+        "total_users": total_users,
+        "total_balance": total_balance,
+        "pending_deposits": pending_deposits,
+        "pending_withdrawals": pending_withdrawals
+    })
