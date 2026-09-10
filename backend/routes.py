@@ -605,14 +605,46 @@ def get_deposits():
             "success": False,
             "message": "Invalid token."
         }), 401
-
     except Exception as e:
 
         return jsonify({
             "success": False,
             "message": str(e)
         }), 500
-        @api.route("/api/withdrawals", methods=["GET"])
+
+
+@api.route("/api/withdrawals", methods=["GET"])
+def get_withdrawals():
+
+    token = request.headers.get("Authorization")
+
+    if not token:
+        return jsonify({
+            "success": False,
+            "message": "Authorization token required."
+        }), 401
+
+    try:
+
+        token = token.replace("Bearer ", "")
+
+        payload = jwt.decode(
+            token,
+            Config.SECRET_KEY,
+            algorithms=["HS256"]
+        )
+
+        user_id = payload["user_id"]
+
+        conn = get_connection()    except Exception as e:
+
+        return jsonify({
+            "success": False,
+            "message": str(e)
+        }), 500
+
+
+@api.route("/api/withdrawals", methods=["GET"])
 def get_withdrawals():
 
     token = request.headers.get("Authorization")
