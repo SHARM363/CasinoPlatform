@@ -74,15 +74,28 @@ async function loadDeposits() {
         }
 
         depositsList.innerHTML = data.deposits.map(deposit => `
-            <div class="card">
-                <p><strong>ID:</strong> ${deposit.id}</p>
-                <p><strong>User:</strong> ${deposit.username}</p>
-                <p><strong>Amount:</strong> ৳${Number(deposit.amount).toFixed(2)}</p>
-                <p><strong>Method:</strong> ${deposit.payment_method}</p>
-                <p><strong>Status:</strong> ${deposit.status}</p>
-            </div>
-        `).join("");
+    <div class="card">
 
+        <p><strong>ID:</strong> ${deposit.id}</p>
+
+        <p><strong>User:</strong> ${deposit.username}</p>
+
+        <p><strong>Amount:</strong> ৳${Number(deposit.amount).toFixed(2)}</p>
+
+        <p><strong>Method:</strong> ${deposit.payment_method}</p>
+
+        <p><strong>Status:</strong> ${deposit.status}</p>
+
+        <button class="main-btn" onclick="approveDeposit(${deposit.id})">
+            ✅ Approve
+        </button>
+
+        <button class="main-btn" onclick="rejectDeposit(${deposit.id})">
+            ❌ Reject
+        </button>
+
+    </div>
+`).join("");
     } catch (error) {
         console.error(error);
     }
@@ -90,3 +103,10 @@ async function loadDeposits() {
 }
 
 loadDeposits();
+async function approveDeposit(id) {
+    alert("Approve Deposit ID: " + id);
+}
+
+async function rejectDeposit(id) {
+    alert("Reject Deposit ID: " + id);
+}
