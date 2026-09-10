@@ -136,7 +136,7 @@ def login():
             "message": "Username/Email and password are required."
         }), 400
 
-        conn = None
+    conn = None
     cur = None
 
     try:
