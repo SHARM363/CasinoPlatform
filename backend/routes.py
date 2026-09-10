@@ -636,13 +636,51 @@ def get_withdrawals():
 
         user_id = payload["user_id"]
 
-        conn = get_connection()    except Exception as e:
+        conn = get_connection()
+        cur = conn.cursor()
+
+        cur.execute("""
+            SELECT
+                id,
+                amount,
+                payment_method,
+                status,
+                created_at
+            FROM withdrawals
+            WHERE user_id = %s
+            ORDER BY created_at DESC
+        """, (user_id,))
+
+        withdrawals = cur.fetchall()
+
+        cur.close()
+        conn.close()
+
+        return jsonify({
+            "success": True,
+            "withdrawals": withdrawals
+        }), 200
+
+    except jwt.ExpiredSignatureError:
+
+        return jsonify({
+            "success": False,
+            "message": "Token expired."
+        }), 401
+
+    except jwt.InvalidTokenError:
+
+        return jsonify({
+            "success": False,
+            "message": "Invalid token."
+        }), 401
+
+    except Exception as e:
 
         return jsonify({
             "success": False,
             "message": str(e)
         }), 500
-
 
 @api.route("/api/withdrawals", methods=["GET"])
 def get_withdrawals():
