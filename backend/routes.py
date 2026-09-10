@@ -1036,3 +1036,65 @@ def reject_deposit(deposit_id):
         "success": True,
         "message": "Deposit rejected successfully."
     })
+@api.route("/api/admin/setup", methods=["POST"])
+def admin_setup():
+
+    try:
+
+        conn = get_connection()
+        cur = conn.cursor()
+
+        data = request.get_json() or {}
+
+        username = data.get("username")
+        password = data.get("password")
+
+        if not username or not password:
+            return jsonify({
+                "success": False,
+                "message": "Username and password are required."
+            }), 400
+
+        # Check existing admin
+        cur.execute("""
+            SELECT id
+            FROM admins
+            WHERE username = %s
+        """, (username,))
+
+        admin = cur.fetchone()
+
+        if admin:
+            return jsonify({
+                "success": False,
+                "message": "Admin already exists."
+            }), 400
+
+        hashed_password = generate_password_hash(password)
+
+        cur.execute("""
+            INSERT INTO admins (username, password)
+            VALUES (%s, %s)
+        """, (
+            username,
+            hashed_password
+        ))
+
+        conn.commit()
+
+        return jsonify({
+            "success": True,
+            "message": "Admin account created successfully."
+        }), 201
+
+    except Exception as e:
+
+        return jsonify({
+            "success": False,
+            "message": str(e)
+        }), 500
+
+    finally:
+
+        cur.close()
+        conn.close()
