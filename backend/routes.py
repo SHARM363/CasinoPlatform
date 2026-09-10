@@ -774,7 +774,70 @@ def approve_withdrawal(withdrawal_id):
     finally:
         cur.close()
         conn.close()
-        
+@api.route("/api/admin/withdraw/<int:withdrawal_id>/reject", methods=["POST"])
+def reject_withdrawal(withdrawal_id):
+
+    conn = get_connection()
+    cur = conn.cursor()
+
+    try:
+        # Get withdrawal information
+        cur.execute("""
+            SELECT status, amount, user_id
+            FROM withdrawals
+            WHERE id = %s
+        """, (withdrawal_id,))
+
+        withdrawal = cur.fetchone()
+
+        if not withdrawal:
+            return jsonify({
+                "success": False,
+                "message": "Withdrawal not found."
+            }), 404
+
+        # Only pending withdrawals can be rejected
+        if withdrawal["status"] != "pending":
+            return jsonify({
+                "success": False,
+                "message": "Withdrawal already processed."
+            }), 400
+
+        # Mark withdrawal as rejected
+        cur.execute("""
+            UPDATE withdrawals
+            SET status = 'rejected'
+            WHERE id = %s
+        """, (withdrawal_id,))
+
+        # Refund amount to user balance
+        cur.execute("""
+            UPDATE users
+            SET balance = balance + %s
+            WHERE id = %s
+        """, (
+            withdrawal["amount"],
+            withdrawal["user_id"]
+        ))
+
+        conn.commit()
+
+        return jsonify({
+            "success": True,
+            "message": "Withdrawal rejected and balance refunded successfully."
+        }), 200
+
+    except Exception as e:
+        conn.rollback()
+
+        return jsonify({
+            "success": False,
+            "message": str(e)
+        }), 500
+
+    finally:
+        cur.close()
+        conn.close()        
 @api.route("/api/admin/stats", methods=["GET"])
 def admin_stats():
 
