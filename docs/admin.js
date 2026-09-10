@@ -116,21 +116,51 @@ async function approveDeposit(id) {
 
         const data = await response.json();
 
-        alert(data.message);
-
-        loadDeposits();
-        loadStats();
-        loadUsers();
+        if (data.success) {
+            alert(data.message);
+            loadDeposits();
+            loadStats();
+            loadUsers();
+        } else {
+            alert(data.message || "Approve failed.");
+        }
 
     } catch (error) {
 
         console.error(error);
-        alert("Server Error");
+        alert(error);
 
     }
 
 }
 
 async function rejectDeposit(id) {
-    alert("Reject Deposit ID: " + id);
+
+    try {
+
+        const response = await fetch(
+            `${API_URL}/api/admin/deposit/${id}/reject`,
+            {
+                method: "POST"
+            }
+        );
+
+        const data = await response.json();
+
+        if (data.success) {
+            alert(data.message);
+            loadDeposits();
+            loadStats();
+            loadUsers();
+        } else {
+            alert(data.message || "Reject failed.");
+        }
+
+    } catch (error) {
+
+        console.error(error);
+        alert(error);
+
+    }
+
 }
