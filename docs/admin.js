@@ -54,3 +54,39 @@ async function loadUsers() {
 }
 
 loadUsers();
+async function loadDeposits() {
+
+    try {
+
+        const response = await fetch(`${API_URL}/api/admin/deposits`);
+        const data = await response.json();
+
+        const depositsList = document.getElementById("depositsList");
+
+        if (!data.success) {
+            depositsList.innerHTML = "Unable to load deposits.";
+            return;
+        }
+
+        if (data.deposits.length === 0) {
+            depositsList.innerHTML = "No deposits found.";
+            return;
+        }
+
+        depositsList.innerHTML = data.deposits.map(deposit => `
+            <div class="card">
+                <p><strong>ID:</strong> ${deposit.id}</p>
+                <p><strong>User:</strong> ${deposit.username}</p>
+                <p><strong>Amount:</strong> ৳${Number(deposit.amount).toFixed(2)}</p>
+                <p><strong>Method:</strong> ${deposit.payment_method}</p>
+                <p><strong>Status:</strong> ${deposit.status}</p>
+            </div>
+        `).join("");
+
+    } catch (error) {
+        console.error(error);
+    }
+
+}
+
+loadDeposits();
