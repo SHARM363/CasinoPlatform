@@ -545,8 +545,8 @@ def create_withdraw():
     }), 500
 
 
-@api.route("/api/withdrawals", methods=["GET"])
-def get_withdrawals():
+@api.route("/api/deposits", methods=["GET"])
+def get_deposits():
 
     token = request.headers.get("Authorization")
 
