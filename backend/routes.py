@@ -1812,7 +1812,7 @@ def place_bet():
             0
         ))
 
-                bet = cur.fetchone()
+        bet = cur.fetchone()
 
         # Referral Bonus Check
         cur.execute("""
@@ -1891,6 +1891,11 @@ def place_bet():
         }), 201
 
     except Exception as e:
+
+        if conn:
+            conn.rollback()
+
+        return jsonify({
             "success": False,
             "message": "Failed to place bet.",
             "error": str(e)
