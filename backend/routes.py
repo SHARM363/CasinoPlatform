@@ -1051,9 +1051,16 @@ def approve_deposit(deposit_id):
 @api.route("/api/admin/deposit/<int:deposit_id>/reject", methods=["POST"])
 def reject_deposit(deposit_id):
 
+    admin = verify_admin_token()
+
+    if not admin:
+        return jsonify({
+            "success": False,
+            "message": "Admin authorization required."
+        }), 401
+
     conn = get_connection()
     cur = conn.cursor()
-
     # Get deposit information
     cur.execute("""
         SELECT status
