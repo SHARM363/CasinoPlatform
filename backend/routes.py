@@ -985,6 +985,13 @@ def admin_deposits():
 @api.route("/api/admin/deposit/<int:deposit_id>/approve", methods=["POST"])
 def approve_deposit(deposit_id):
 
+    admin = verify_admin_token()
+
+    if not admin:
+        return jsonify({
+            "success": False,
+            "message": "Admin authorization required."
+        }), 401
     conn = get_connection()
     cur = conn.cursor()
 
