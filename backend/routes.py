@@ -64,7 +64,7 @@ def register():
     username = data.get("username")
     email = data.get("email")
     password = data.get("password")
-
+    referral_id = data.get("referral_id")
     # Check required fields
     if not username or not email or not password:
         return jsonify({
@@ -119,6 +119,47 @@ def register():
         )
 
         user = cur.fetchone()
+        user = cur.fetchone()
+
+        # Create referral record
+        if referral_id:
+
+            try:
+                referral_id = int(referral_id)
+
+                # Make sure referrer exists
+                cur.execute(
+                    """
+                    SELECT id
+                    FROM users
+                    WHERE id = %s
+                    """,
+                    (referral_id,)
+                )
+
+                referrer = cur.fetchone()
+
+                # Don't allow self-referral
+                if referrer and referral_id != user["id"]:
+
+                    cur.execute(
+                        """
+                        INSERT INTO referrals (
+                            referrer_id,
+                            referred_id,
+                            reward
+                        )
+                        VALUES (%s, %s, %s)
+                        """,
+                        (
+                            referral_id,
+                            user["id"],
+                            0
+                        )
+                    )
+
+            except (ValueError, TypeError):
+                pass
 
         conn.commit()
 
