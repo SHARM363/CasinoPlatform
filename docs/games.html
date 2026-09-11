@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>RSK32 Games</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #10121a;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            max-width: 650px;
+            margin: auto;
+            padding: 15px;
+        }
+
+        /* =========================
+           TOP BAR
+        ========================= */
+
+        .top-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .back-btn {
+            border: none;
+            background: #252938;
+            color: white;
+            padding: 10px 14px;
+            border-radius: 10px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .balance-box {
+            background: #252938;
+            padding: 10px 12px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        /* =========================
+           PAGE TITLE
+        ========================= */
+
+        .page-title {
+            font-size: 25px;
+            font-weight: bold;
+            margin-bottom: 6px;
+        }
+
+        .page-subtitle {
+            color: #aeb2c0;
+            font-size: 13px;
+            margin-bottom: 20px;
+        }
+
+        /* =========================
+           CATEGORY SECTION
+        ========================= */
+
+        #gameCategories {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .category-card {
+            background: #1d2030;
+            border: 1px solid #2c3040;
+            border-radius: 15px;
+            padding: 20px 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .category-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .category-card:active {
+            transform: scale(0.97);
+        }
+
+        .category-icon {
+            font-size: 38px;
+            margin-bottom: 10px;
+        }
+
+        .category-name {
+            font-size: 15px;
+            font-weight: bold;
+        }
+
+        /* =========================
+           GAME LIST
+        ========================= */
+
+        #gameListSection {
+            display: none;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+
+        .section-title {
+            font-size: 21px;
+            font-weight: bold;
+        }
+
+        .category-back {
+            border: none;
+            background: #252938;
+            color: white;
+            padding: 9px 12px;
+            border-radius: 9px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        #gameList {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .game-card {
+            background: #1d2030;
+            border: 1px solid #2c3040;
+            border-radius: 15px;
+            padding: 22px 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .game-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .game-card:active {
+            transform: scale(0.97);
+        }
+
+        .game-icon {
+            font-size: 45px;
+            margin-bottom: 10px;
+        }
+
+        .game-name {
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        /* =========================
+           EMPTY
+        ========================= */
+
+        .empty-box {
+            grid-column: 1 / -1;
+            background: #1d2030;
+            border-radius: 14px;
+            padding: 25px;
+            text-align: center;
+            color: #aeb2c0;
+        }
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 380px) {
+
+            .logo {
+                font-size: 21px;
+            }
+
+            .balance-box {
+                font-size: 12px;
+                padding: 8px;
+            }
+
+            .page-title {
+                font-size: 22px;
+            }
+
+            .category-icon {
+                font-size: 32px;
+            }
+
+            .game-icon {
+                font-size: 40px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<div class="container">
+
+    <!-- =========================
+         TOP BAR
+    ========================= -->
+
+    <div class="top-bar">
+
+        <button
+            class="back-btn"
+            onclick="goBack()">
+
+            ← Back
+
+        </button>
+
+
+        <div class="logo">
+            RSK32
+        </div>
+
+
+        <div class="balance-box">
+
+            💰 ৳<span id="balance">0.00</span>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         PAGE TITLE
+    ========================= -->
+
+    <div class="page-title">
+        Games
+    </div>
+
+    <div class="page-subtitle">
+        Choose a game category
+    </div>
+
+
+    <!-- =========================
+         CATEGORIES
+    ========================= -->
+
+    <div id="gameCategories">
+
+        <div
+            class="category-card"
+            onclick="openCategory('Slots')">
+
+            <div class="category-icon">
+                🎰
+            </div>
+
+            <div class="category-name">
+                Slots
+            </div>
+
+        </div>
+
+
+        <div
+            class="category-card"
+            onclick="openCategory('Live Casino')">
+
+            <div class="category-icon">
+                🎡
+            </div>
+
+            <div class="category-name">
+                Live Casino
+            </div>
+
+        </div>
+
+
+        <div
+            class="category-card"
+            onclick="openCategory('Sports')">
+
+            <div class="category-icon">
+                ⚽
+            </div>
+
+            <div class="category-name">
+                Sports
+            </div>
+
+        </div>
+
+
+        <div
+            class="category-card"
+            onclick="openCategory('Poker')">
+
+            <div class="category-icon">
+                🃏
+            </div>
+
+            <div class="category-name">
+                Poker
+            </div>
+
+        </div>
+
+
+        <div
+            class="category-card"
+            onclick="openCategory('Crash')">
+
+            <div class="category-icon">
+                🚀
+            </div>
+
+            <div class="category-name">
+                Crash
+            </div>
+
+        </div>
+
+
+        <div
+            class="category-card"
+            onclick="openCategory('Arcade')">
+
+            <div class="category-icon">
+                🕹️
+            </div>
+
+            <div class="category-name">
+                Arcade
+            </div>
+
+        </div>
+
+
+        <div
+            class="category-card"
+            onclick="openCategory('Roulette')">
+
+            <div class="category-icon">
+                🎡
+            </div>
+
+            <div class="category-name">
+                Roulette
+            </div>
+
+        </div>
+
+
+        <div
+            class="category-card"
+            onclick="openCategory('Quick Games')">
+
+            <div class="category-icon">
+                🎲
+            </div>
+
+            <div class="category-name">
+                Quick Games
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         GAME LIST
+    ========================= -->
+
+    <div id="gameListSection">
+
+        <div class="section-header">
+
+            <div
+                class="section-title"
+                id="gameListTitle">
+
+                Games
+
+            </div>
+
+
+            <button
+                class="category-back"
+                onclick="showCategories()">
+
+                ← Categories
+
+            </button>
+
+        </div>
+
+
+        <div id="gameList"></div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+    // =========================
+    // API
+    // =========================
+
+    const API_URL =
+        "https://casinoplatform.onrender.com";
+
+
+    // =========================
+    // GAME DATA
+    // =========================
+
+    const games = {
+
+        "Slots": [
+
+            {
+                name: "Lucky Slots",
+                icon: "🎰"
+            },
+
+            {
+                name: "Fruit Mania",
+                icon: "🍒"
+            },
+
+            {
+                name: "Diamond Spin",
+                icon: "💎"
+            },
+
+            {
+                name: "Super Star",
+                icon: "⭐"
+            },
+
+            {
+                name: "Fire Spin",
+                icon: "🔥"
+            },
+
+            {
+                name: "Mega Jackpot",
+                icon: "💰"
+            }
+
+        ],
+
+
+        "Live Casino": [
+
+            {
+                name: "Live Roulette",
+                icon: "🎡"
+            },
+
+            {
+                name: "Live Blackjack",
+                icon: "🃏"
+            },
+
+            {
+                name: "Live Baccarat",
+                icon: "🎯"
+            },
+
+            {
+                name: "Live Dice",
+                icon: "🎲"
+            }
+
+        ],
+
+
+        "Sports": [
+
+            {
+                name: "Football",
+                icon: "⚽"
+            },
+
+            {
+                name: "Cricket",
+                icon: "🏏"
+            },
+
+            {
+                name: "Basketball",
+                icon: "🏀"
+            },
+
+            {
+                name: "Tennis",
+                icon: "🎾"
+            }
+
+        ],
+
+
+        "Poker": [
+
+            {
+                name: "Texas Hold'em",
+                icon: "♠️"
+            },
+
+            {
+                name: "Classic Poker",
+                icon: "🃏"
+            }
+
+        ],
+
+
+        "Crash": [
+
+            {
+                name: "Rocket Crash",
+                icon: "🚀"
+            },
+
+            {
+                name: "Multiplier Crash",
+                icon: "💥"
+            }
+
+        ],
+
+
+        "Arcade": [
+
+            {
+                name: "Target Master",
+                icon: "🎯"
+            },
+
+            {
+                name: "Bowling",
+                icon: "🎳"
+            },
+
+            {
+                name: "Arcade Rush",
+                icon: "🕹️"
+            }
+
+        ],
+
+
+        "Roulette": [
+
+            {
+                name: "Classic Roulette",
+                icon: "🎡"
+            },
+
+            {
+                name: "European Roulette",
+                icon: "🔴"
+            }
+
+        ],
+
+
+        "Quick Games": [
+
+            {
+                name: "Lucky Dice",
+                icon: "🎲"
+            },
+
+            {
+                name: "Lucky Target",
+                icon: "🎯"
+            },
+
+            {
+                name: "Coin Flip",
+                icon: "🪙"
+            }
+
+        ]
+
+    };
+
+
+    // =========================
+    // LOGIN CHECK
+    // =========================
+
+    function checkLogin() {
+
+        const token =
+            localStorage.getItem("token");
+
+
+        if (!token) {
+
+            window.location.href =
+                "index.html";
+
+            return false;
+
+        }
+
+
+        return true;
+
+    }
+
+
+    // =========================
+    // LOAD BALANCE
+    // =========================
+
+    async function loadBalance() {
+
+        const token =
+            localStorage.getItem("token");
+
+
+        if (!token) {
+
+            window.location.href =
+                "index.html";
+
+            return;
+
+        }
+
+
+        try {
+
+            const response =
+                await fetch(
+                    `${API_URL}/api/me`,
+                    {
+                        method: "GET",
+
+                        headers: {
+                            "Authorization":
+                                `Bearer ${token}`
+                        }
+                    }
+                );
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Account request failed"
+                );
+
+            }
+
+
+            const data =
+                await response.json();
+
+
+            if (
+                data.success &&
+                data.user
+            ) {
+
+                const balance =
+                    Number(
+                        data.user.balance || 0
+                    ).toFixed(2);
+
+
+                document.getElementById(
+                    "balance"
+                ).textContent =
+                    balance;
+
+            }
+
+        } catch (error) {
+
+            console.error(
+                "Balance error:",
+                error
+            );
+
+        }
+
+    }
+
+
+    // =========================
+    // OPEN CATEGORY
+    // =========================
+
+    function openCategory(category) {
+
+        const categories =
+            document.getElementById(
+                "gameCategories"
+            );
+
+
+        const gameListSection =
+            document.getElementById(
+                "gameListSection"
+            );
+
+
+        const gameList =
+            document.getElementById(
+                "gameList"
+            );
+
+
+        const gameListTitle =
+            document.getElementById(
+                "gameListTitle"
+            );
+
+
+        categories.style.display =
+            "none";
+
+
+        gameListSection.style.display =
+            "block";
+
+
+        gameList.innerHTML =
+            "";
+
+
+        gameListTitle.textContent =
+            category;
+
+
+        const categoryGames =
+            games[category] || [];
+
+
+        if (categoryGames.length === 0) {
+
+            gameList.innerHTML = `
+                <div class="empty-box">
+                    No games available.
+                </div>
+            `;
+
+            return;
+
+        }
+
+
+        categoryGames.forEach(function(game) {
+
+            const card =
+                document.createElement("div");
+
+
+            card.className =
+                "game-card";
+
+
+            card.innerHTML = `
+
+                <div class="game-icon">
+                    ${game.icon}
+                </div>
+
+                <div class="game-name">
+                    ${game.name}
+                </div>
+
+            `;
+
+
+            // =========================
+            // OPEN GAME PAGE
+            // =========================
+
+            card.onclick = function() {
+
+                window.location.href =
+                    "game.html?game=" +
+                    encodeURIComponent(
+                        game.name
+                    );
+
+            };
+
+
+            gameList.appendChild(card);
+
+        });
+
+    }
+
+
+    // =========================
+    // SHOW CATEGORIES
+    // =========================
+
+    function showCategories() {
+
+        document.getElementById(
+            "gameCategories"
+        ).style.display =
+            "grid";
+
+
+        document.getElementById(
+            "gameListSection"
+        ).style.display =
+            "none";
+
+
+        document.getElementById(
+            "gameList"
+        ).innerHTML =
+            "";
+
+    }
+
+
+    // =========================
+    // BACK
+    // =========================
+
+    function goBack() {
+
+        window.location.href =
+            "dashboard.html";
+
+    }
+
+
+    // =========================
+    // START
+    // =========================
+
+    if (checkLogin()) {
+
+        loadBalance();
+
+    }
+
+</script>
+
+</body>
+
+  </html>
