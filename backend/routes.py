@@ -369,6 +369,7 @@ def create_deposit():
 
         amount = float(data.get("amount", 0))
         payment_method = data.get("payment_method")
+        transaction_id = data.get("transaction_id", "").strip()
 
         # Amount validation
         if amount < 100:
@@ -384,10 +385,23 @@ def create_deposit():
             }), 400
 
         # Payment method validation
-        if payment_method not in ["bkash", "nagad", "usdt"]:
+        if payment_method not in ["bkash", "nagad", "rocket", "usdt"]:
             return jsonify({
                 "success": False,
                 "message": "Invalid payment method."
+            }), 400
+
+        # Transaction ID validation
+        if not transaction_id:
+            return jsonify({
+                "success": False,
+                "message": "Transaction ID is required."
+            }), 400
+
+        if len(transaction_id) > 100:
+            return jsonify({
+                "success": False,
+                "message": "Transaction ID is too long."
             }), 400
 
         conn = get_connection()
@@ -396,13 +410,20 @@ def create_deposit():
         # Create pending deposit request
         cur.execute("""
             INSERT INTO deposits
-            (user_id, amount, payment_method, status)
-            VALUES (%s, %s, %s, 'pending')
+            (
+                user_id,
+                amount,
+                payment_method,
+                transaction_id,
+                status
+            )
+            VALUES (%s, %s, %s, %s, 'pending')
             RETURNING id
         """, (
             user_id,
             amount,
-            payment_method
+            payment_method,
+            transaction_id
         ))
 
         deposit = cur.fetchone()
@@ -418,6 +439,7 @@ def create_deposit():
             "deposit_id": deposit["id"],
             "amount": amount,
             "payment_method": payment_method,
+            "transaction_id": transaction_id,
             "status": "pending"
         }), 200
 
