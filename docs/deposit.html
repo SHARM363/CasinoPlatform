@@ -21,29 +21,60 @@
         <h2 id="balance">৳0.00</h2>
     </div>
 
-    <form id="depositForm">
+<form id="depositForm">
 
-        <select id="paymentMethod" required>
-            <option value="">Select Payment Method</option>
-            <option value="bkash">bKash</option>
-            <option value="nagad">Nagad</option>
-            <option value="usdt">USDT</option>
-        </select>
+    <select id="paymentMethod" required>
+        <option value="">Select Payment Method</option>
+        <option value="bkash">bKash</option>
+        <option value="nagad">Nagad</option>
+        <option value="rocket">Rocket</option>
+        <option value="usdt">USDT</option>
+    </select>
 
-        <input
-    type="number"
-    id="amount"
-    placeholder="Deposit Amount"
-    min="100"
-    max="25000"
-    required
->
+    <input
+        type="number"
+        id="amount"
+        placeholder="Deposit Amount"
+        min="100"
+        max="25000"
+        required
+    >
 
-        <button type="submit" class="main-btn">
-            Submit Deposit
-        </button>
+    <!-- Payment Instructions -->
+    <div id="paymentInfo" class="card" style="display:none;">
 
-    </form>
+        <h3 id="paymentTitle"></h3>
+
+        <p id="paymentInstruction"></p>
+
+        <div>
+            <strong id="paymentValue"></strong>
+
+            <button
+                type="button"
+                class="main-btn"
+                id="copyPaymentBtn"
+            >
+                📋 Copy
+            </button>
+        </div>
+
+    </div>
+
+    <!-- Transaction ID -->
+    <input
+        type="text"
+        id="transactionId"
+        placeholder="Enter Transaction ID"
+        maxlength="100"
+        required
+    >
+
+    <button type="submit" class="main-btn">
+        Submit Deposit
+    </button>
+
+</form>
 
     <div id="message"></div>
 
