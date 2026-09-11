@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>RSK32 - Member</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f6fa;
+            color: #222;
+            padding-bottom: 80px;
+        }
+
+        .top-header {
+            height: 60px;
+            background: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 15px;
+            border-bottom: 1px solid #eee;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .back-btn {
+            border: none;
+            background: none;
+            font-size: 25px;
+            cursor: pointer;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .header-title {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .profile-card {
+            margin: 15px;
+            padding: 20px;
+            border-radius: 15px;
+            background: #ffffff;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+            text-align: center;
+        }
+
+        .avatar {
+            width: 75px;
+            height: 75px;
+            border-radius: 50%;
+            background: #eeeeee;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 12px;
+            font-size: 35px;
+        }
+
+        .username {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .user-email {
+            color: #777;
+            font-size: 14px;
+        }
+
+        .user-id {
+            margin-top: 8px;
+            color: #888;
+            font-size: 13px;
+        }
+
+        .balance-card {
+            margin: 15px;
+            padding: 20px;
+            border-radius: 15px;
+            background: #ffffff;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+            text-align: center;
+        }
+
+        .balance-label {
+            color: #777;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .balance {
+            font-size: 30px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .balance-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .main-btn {
+            flex: 1;
+            border: none;
+            padding: 12px;
+            border-radius: 10px;
+            background: #222;
+            color: white;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .menu-section {
+            margin: 15px;
+            background: #ffffff;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+        }
+
+        .menu-title {
+            padding: 15px;
+            font-size: 16px;
+            font-weight: bold;
+            border-bottom: 1px solid #eee;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px;
+            border-bottom: 1px solid #eee;
+            text-decoration: none;
+            color: #222;
+            cursor: pointer;
+        }
+
+        .menu-item:last-child {
+            border-bottom: none;
+        }
+
+        .menu-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .menu-icon {
+            width: 35px;
+            height: 35px;
+            border-radius: 9px;
+            background: #f1f1f1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 19px;
+        }
+
+        .menu-name {
+            font-size: 15px;
+            font-weight: 500;
+        }
+
+        .arrow {
+            color: #999;
+            font-size: 20px;
+        }
+
+        .logout-btn {
+            width: calc(100% - 30px);
+            margin: 15px;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            background: #222;
+            color: #fff;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .message {
+            text-align: center;
+            margin: 10px 15px;
+            font-size: 14px;
+        }
+
+        /* Bottom Navigation */
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 68px;
+            background: #ffffff;
+            border-top: 1px solid #ddd;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 999;
+        }
+
+        .nav-item {
+            text-decoration: none;
+            color: #777;
+            text-align: center;
+            font-size: 11px;
+        }
+
+        .nav-icon {
+            display: block;
+            font-size: 22px;
+            margin-bottom: 3px;
+        }
+
+        .nav-item.active {
+            color: #111;
+            font-weight: bold;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+
+    <div class="top-header">
+
+        <button
+            class="back-btn"
+            onclick="history.back()"
+        >
+            ‹
+        </button>
+
+        <div class="header-title">
+            Member
+        </div>
+
+        <div class="logo">
+            RSK32
+        </div>
+
+    </div>
+
+
+    <!-- PROFILE -->
+
+    <div class="profile-card">
+
+        <div class="avatar">
+            👤
+        </div>
+
+        <div
+            class="username"
+            id="username"
+        >
+            Loading...
+        </div>
+
+        <div
+            class="user-email"
+            id="email"
+        >
+            Loading...
+        </div>
+
+        <div
+            class="user-id"
+            id="userId"
+        >
+            User ID: Loading...
+        </div>
+
+    </div>
+
+
+    <!-- BALANCE -->
+
+    <div class="balance-card">
+
+        <div class="balance-label">
+            Available Balance
+        </div>
+
+        <div
+            class="balance"
+            id="balance"
+        >
+            ৳0.00
+        </div>
+
+        <div class="balance-buttons">
+
+            <button
+                class="main-btn"
+                onclick="window.location.href='deposit.html'"
+            >
+                💰 Deposit
+            </button>
+
+            <button
+                class="main-btn"
+                onclick="window.location.href='withdraw.html'"
+            >
+                💸 Withdraw
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- ACCOUNT -->
+
+    <div class="menu-section">
+
+        <div class="menu-title">
+            Account
+        </div>
+
+        <a
+            class="menu-item"
+            href="deposit.html"
+        >
+            <div class="menu-left">
+
+                <div class="menu-icon">
+                    💰
+                </div>
+
+                <div class="menu-name">
+                    Deposit
+                </div>
+
+            </div>
+
+            <div class="arrow">
+                ›
+            </div>
+
+        </a>
+
+
+        <a
+            class="menu-item"
+            href="withdraw.html"
+        >
+            <div class="menu-left">
+
+                <div class="menu-icon">
+                    💸
+                </div>
+
+                <div class="menu-name">
+                    Withdraw
+                </div>
+
+            </div>
+
+            <div class="arrow">
+                ›
+            </div>
+
+        </a>
+
+
+        <a
+            class="menu-item"
+            href="promotion.html"
+        >
+            <div class="menu-left">
+
+                <div class="menu-icon">
+                    🎁
+                </div>
+
+                <div class="menu-name">
+                    Promotions
+                </div>
+
+            </div>
+
+            <div class="arrow">
+                ›
+            </div>
+
+        </a>
+
+    </div>
+
+
+    <!-- PERSONAL -->
+
+    <div class="menu-section">
+
+        <div class="menu-title">
+            Personal
+        </div>
+
+
+        <a
+            class="menu-item"
+            href="referral.html"
+        >
+            <div class="menu-left">
+
+                <div class="menu-icon">
+                    👥
+                </div>
+
+                <div class="menu-name">
+                    Referral
+                </div>
+
+            </div>
+
+            <div class="arrow">
+                ›
+            </div>
+
+        </a>
+
+
+        <a
+            class="menu-item"
+            href="service.html"
+        >
+            <div class="menu-left">
+
+                <div class="menu-icon">
+                    🎧
+                </div>
+
+                <div class="menu-name">
+                    Customer Service
+                </div>
+
+            </div>
+
+            <div class="arrow">
+                ›
+            </div>
+
+        </a>
+
+
+        <a
+            class="menu-item"
+            href="history.html"
+        >
+            <div class="menu-left">
+
+                <div class="menu-icon">
+                    📋
+                </div>
+
+                <div class="menu-name">
+                    Transaction History
+                </div>
+
+            </div>
+
+            <div class="arrow">
+                ›
+            </div>
+
+        </a>
+
+    </div>
+
+
+    <div
+        class="message"
+        id="message"
+    ></div>
+
+
+    <!-- LOGOUT -->
+
+    <button
+        class="logout-btn"
+        id="logoutBtn"
+    >
+        🚪 Logout
+    </button>
+
+
+    <!-- BOTTOM NAV -->
+
+    <div class="bottom-nav">
+
+        <a
+            href="dashboard.html"
+            class="nav-item"
+        >
+            <span class="nav-icon">🏠</span>
+            Home
+        </a>
+
+
+        <a
+            href="referral.html"
+            class="nav-item"
+        >
+            <span class="nav-icon">👥</span>
+            Referral
+        </a>
+
+
+        <a
+            href="promotion.html"
+            class="nav-item"
+        >
+            <span class="nav-icon">🎁</span>
+            Promotion
+        </a>
+
+
+        <a
+            href="service.html"
+            class="nav-item"
+        >
+            <span class="nav-icon">🎧</span>
+            Service
+        </a>
+
+
+        <a
+            href="profile.html"
+            class="nav-item active"
+        >
+            <span class="nav-icon">👤</span>
+            Member
+        </a>
+
+    </div>
+
+
+    <script>
+
+        const API_URL =
+            "https://casinoplatform.onrender.com";
+
+        const token =
+            localStorage.getItem("token");
+
+
+        /* LOGIN CHECK */
+
+        if (!token) {
+
+            window.location.href =
+                "index.html";
+
+        }
+
+
+        /* LOAD USER */
+
+        async function loadUser() {
+
+            try {
+
+                const response =
+                    await fetch(
+                        `${API_URL}/api/me`,
+                        {
+                            method: "GET",
+
+                            headers: {
+                                "Authorization":
+                                    "Bearer " + token
+                            }
+                        }
+                    );
+
+
+                if (response.status === 401) {
+
+                    localStorage.removeItem("token");
+
+                    window.location.href =
+                        "index.html";
+
+                    return;
+
+                }
+
+
+                const data =
+                    await response.json();
+
+
+                if (!data.success) {
+
+                    document.getElementById(
+                        "message"
+                    ).textContent =
+                        data.message ||
+                        "Unable to load profile.";
+
+                    return;
+
+                }
+
+
+                const user =
+                    data.user;
+
+
+                document.getElementById(
+                    "username"
+                ).textContent =
+                    user.username ||
+                    "User";
+
+
+                document.getElementById(
+                    "email"
+                ).textContent =
+                    user.email ||
+                    "";
+
+
+                document.getElementById(
+                    "userId"
+                ).textContent =
+                    "User ID: " +
+                    user.id;
+
+
+                document.getElementById(
+                    "balance"
+                ).textContent =
+                    "৳" +
+                    Number(
+                        user.balance || 0
+                    ).toFixed(2);
+
+
+            } catch (error) {
+
+                console.error(
+                    "Profile error:",
+                    error
+                );
+
+                document.getElementById(
+                    "message"
+                ).textContent =
+                    "Unable to connect to server.";
+
+            }
+
+        }
+
+
+        /* LOGOUT */
+
+        document.getElementById(
+            "logoutBtn"
+        ).addEventListener(
+            "click",
+            function () {
+
+                localStorage.removeItem(
+                    "token"
+                );
+
+                window.location.href =
+                    "index.html";
+
+            }
+        );
+
+
+        /* START */
+
+        loadUser();
+
+    </script>
+
+</body>
+  </html>
