@@ -1689,3 +1689,161 @@ def get_referrals():
 
         if conn:
             conn.close()
+@api.route("/api/bet", methods=["POST"])
+def place_bet():
+
+    conn = None
+    cur = None
+
+    try:
+
+        # Authorization
+        auth_header = request.headers.get("Authorization")
+
+        if not auth_header or not auth_header.startswith("Bearer "):
+            return jsonify({
+                "success": False,
+                "message": "Authorization token required."
+            }), 401
+
+        token = auth_header.split(" ")[1]
+
+        try:
+            payload = jwt.decode(
+                token,
+                Config.SECRET_KEY,
+                algorithms=["HS256"]
+            )
+        except jwt.ExpiredSignatureError:
+            return jsonify({
+                "success": False,
+                "message": "Token expired."
+            }), 401
+        except jwt.InvalidTokenError:
+            return jsonify({
+                "success": False,
+                "message": "Invalid token."
+            }), 401
+
+        user_id = payload.get("user_id")
+
+        if not user_id:
+            user_id = payload.get("id")
+
+        if not user_id:
+            return jsonify({
+                "success": False,
+                "message": "User ID not found."
+            }), 401
+
+        data = request.get_json() or {}
+
+        game = data.get("game")
+        bet_amount = data.get("bet_amount")
+
+        if not game or bet_amount is None:
+            return jsonify({
+                "success": False,
+                "message": "Game and bet amount are required."
+            }), 400
+
+        try:
+            bet_amount = float(bet_amount)
+        except (ValueError, TypeError):
+            return jsonify({
+                "success": False,
+                "message": "Invalid bet amount."
+            }), 400
+
+        if bet_amount <= 0:
+            return jsonify({
+                "success": False,
+                "message": "Bet amount must be greater than 0."
+            }), 400
+
+        conn = get_connection()
+        cur = conn.cursor()
+
+        # Check user balance
+        cur.execute("""
+            SELECT id, balance
+            FROM users
+            WHERE id = %s
+            FOR UPDATE
+        """, (user_id,))
+
+        user = cur.fetchone()
+
+        if not user:
+            return jsonify({
+                "success": False,
+                "message": "User not found."
+            }), 404
+
+        if float(user["balance"]) < bet_amount:
+            return jsonify({
+                "success": False,
+                "message": "Insufficient balance."
+            }), 400
+
+        # Deduct bet amount
+        cur.execute("""
+            UPDATE users
+            SET balance = balance - %s
+            WHERE id = %s
+        """, (bet_amount, user_id))
+
+        # Save bet
+        cur.execute("""
+            INSERT INTO bets (
+                user_id,
+                game,
+                bet_amount,
+                result,
+                win_loss
+            )
+            VALUES (%s, %s, %s, %s, %s)
+            RETURNING id, created_at
+        """, (
+            user_id,
+            game,
+            bet_amount,
+            "pending",
+            0
+        ))
+
+        bet = cur.fetchone()
+
+        conn.commit()
+
+        return jsonify({
+            "success": True,
+            "message": "Bet placed successfully.",
+            "bet": {
+                "id": bet["id"],
+                "game": game,
+                "bet_amount": bet_amount,
+                "result": "pending",
+                "win_loss": 0,
+                "created_at": bet["created_at"]
+            }
+        }), 201
+
+    except Exception as e:
+
+        if conn:
+            conn.rollback()
+
+        return jsonify({
+            "success": False,
+            "message": "Failed to place bet.",
+            "error": str(e)
+        }), 500
+
+    finally:
+
+        if cur:
+            cur.close()
+
+        if conn:
+            conn.close()
