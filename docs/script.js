@@ -38,19 +38,21 @@ registerForm.onsubmit = async function (e) {
     const username = document.getElementById("registerUsername").value.trim();
     const email = document.getElementById("registerEmail").value.trim();
     const password = document.getElementById("registerPassword").value;
-
+    const urlParams = new URLSearchParams(window.location.search);
+    const referralId = urlParams.get("ref");
     try {
         const response = await fetch(API_URL + "/api/register", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                username,
-                email,
-                password
-            })
-        });
+    method: "POST",
+    headers: {
+        "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+        username,
+        email,
+        password,
+        referral_id: referralId
+    })
+});
 
         const data = await response.json();
 
