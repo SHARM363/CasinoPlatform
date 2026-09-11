@@ -552,6 +552,212 @@ async function rejectWithdrawal(id) {
     }
 }
 // ===============================
+// PAYMENT SETTINGS
+// ===============================
+
+async function savePaymentSetting(method) {
+
+    let paymentType = null;
+    let paymentNumber = null;
+    let usdtNetwork = null;
+    let usdtAddress = null;
+
+    if (method === "bkash") {
+
+        paymentType =
+            document.getElementById("bkashType").value;
+
+        paymentNumber =
+            document.getElementById("bkashNumber").value.trim();
+
+        if (!paymentNumber) {
+            alert("Please enter bKash number.");
+            return;
+        }
+
+    }
+
+    if (method === "nagad") {
+
+        paymentType =
+            document.getElementById("nagadType").value;
+
+        paymentNumber =
+            document.getElementById("nagadNumber").value.trim();
+
+        if (!paymentNumber) {
+            alert("Please enter Nagad number.");
+            return;
+        }
+
+    }
+
+    if (method === "rocket") {
+
+        paymentType =
+            document.getElementById("rocketType").value;
+
+        paymentNumber =
+            document.getElementById("rocketNumber").value.trim();
+
+        if (!paymentNumber) {
+            alert("Please enter Rocket number.");
+            return;
+        }
+
+    }
+
+    if (method === "usdt") {
+
+        usdtNetwork =
+            document.getElementById("usdtNetwork").value;
+
+        usdtAddress =
+            document.getElementById("usdtAddress").value.trim();
+
+        if (!usdtAddress) {
+            alert("Please enter USDT wallet address.");
+            return;
+        }
+
+    }
+
+    try {
+
+        const response = await adminFetch(
+            `${API_URL}/api/admin/payment-settings`,
+            {
+                method: "POST",
+                body: JSON.stringify({
+
+                    payment_method: method,
+
+                    payment_type: paymentType,
+
+                    payment_number: paymentNumber,
+
+                    usdt_network: usdtNetwork,
+
+                    usdt_address: usdtAddress,
+
+                    is_active: true
+
+                })
+            }
+        );
+
+        if (!response) return;
+
+        const data = await response.json();
+
+        if (data.success) {
+
+            alert(
+                method.toUpperCase() +
+                " payment settings saved successfully."
+            );
+
+        } else {
+
+            alert(
+                data.message ||
+                "Failed to save payment settings."
+            );
+
+        }
+
+    } catch (error) {
+
+        console.error(
+            "Payment settings error:",
+            error
+        );
+
+        alert(
+            "Unable to save payment settings."
+        );
+
+    }
+}
+
+
+// ===============================
+// LOAD PAYMENT SETTINGS
+// ===============================
+
+async function loadPaymentSettings() {
+
+    try {
+
+        const response = await adminFetch(
+            `${API_URL}/api/admin/payment-settings`
+        );
+
+        if (!response) return;
+
+        const data = await response.json();
+
+        if (!data.success) {
+            return;
+        }
+
+        data.settings.forEach(setting => {
+
+            if (setting.payment_method === "bkash") {
+
+                document.getElementById("bkashType").value =
+                    setting.payment_type || "send_money";
+
+                document.getElementById("bkashNumber").value =
+                    setting.payment_number || "";
+
+            }
+
+
+            if (setting.payment_method === "nagad") {
+
+                document.getElementById("nagadType").value =
+                    setting.payment_type || "send_money";
+
+                document.getElementById("nagadNumber").value =
+                    setting.payment_number || "";
+
+            }
+
+
+            if (setting.payment_method === "rocket") {
+
+                document.getElementById("rocketType").value =
+                    setting.payment_type || "send_money";
+
+                document.getElementById("rocketNumber").value =
+                    setting.payment_number || "";
+
+            }
+
+
+            if (setting.payment_method === "usdt") {
+
+                document.getElementById("usdtNetwork").value =
+                    setting.usdt_network || "TRC20";
+
+                document.getElementById("usdtAddress").value =
+                    setting.usdt_address || "";
+
+            }
+
+        });
+
+    } catch (error) {
+
+        console.error(
+            "Load payment settings error:",
+            error
+        );
+
+    }
+}
+// ===============================
 // LOAD ALL ADMIN DATA
 // ===============================
 
@@ -559,3 +765,4 @@ loadStats();
 loadUsers();
 loadDeposits();
 loadWithdrawals();
+loadPaymentSettings();
