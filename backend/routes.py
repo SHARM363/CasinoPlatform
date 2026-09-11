@@ -4,7 +4,36 @@ from database import get_connection
 from config import Config
 import jwt
 import datetime
+def verify_admin_token():
 
+    token = request.headers.get("Authorization")
+
+    if not token:
+        return None
+
+    try:
+
+        token = token.replace("Bearer ", "")
+
+        payload = jwt.decode(
+            token,
+            Config.SECRET_KEY,
+            algorithms=["HS256"]
+        )
+
+        if payload.get("role") != "admin":
+            return None
+
+        return payload
+
+    except jwt.ExpiredSignatureError:
+
+        return None
+
+    except jwt.InvalidTokenError:
+
+        return None
+        
 api = Blueprint("api", __name__)
 
 
