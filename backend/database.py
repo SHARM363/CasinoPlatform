@@ -96,6 +96,13 @@ def init_db():
     ADD COLUMN IF NOT EXISTS transaction_id VARCHAR(100);
     """)
 
+    cur.execute("""
+    ALTER TABLE referrals
+    ADD COLUMN IF NOT EXISTS deposit_requirement NUMERIC(18,2) DEFAULT 500,
+    ADD COLUMN IF NOT EXISTS turnover_requirement NUMERIC(18,2) DEFAULT 3000,
+    ADD COLUMN IF NOT EXISTS bonus_paid BOOLEAN DEFAULT FALSE;
+    """)
+
     conn.commit()
     cur.close()
     conn.close()
