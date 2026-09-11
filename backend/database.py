@@ -57,6 +57,17 @@ def init_db():
         password TEXT NOT NULL,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
+
+    CREATE TABLE IF NOT EXISTS payment_settings (
+        id SERIAL PRIMARY KEY,
+        payment_method VARCHAR(20) UNIQUE NOT NULL,
+        payment_type VARCHAR(20),
+        payment_number VARCHAR(50),
+        usdt_network VARCHAR(20),
+        usdt_address VARCHAR(150),
+        is_active BOOLEAN DEFAULT TRUE,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );
     """)
 
     cur.execute("""
