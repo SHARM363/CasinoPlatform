@@ -1098,3 +1098,75 @@ def admin_setup():
 
         cur.close()
         conn.close()
+@api.route("/api/admin/login", methods=["POST"])
+def admin_login():
+
+    try:
+
+        data = request.get_json() or {}
+
+        username = data.get("username")
+        password = data.get("password")
+
+        if not username or not password:
+            return jsonify({
+                "success": False,
+                "message": "Username and password are required."
+            }), 400
+
+        conn = get_connection()
+        cur = conn.cursor()
+
+        cur.execute("""
+            SELECT id, username, password
+            FROM admins
+            WHERE username = %s
+        """, (username,))
+
+        admin = cur.fetchone()
+
+        if not admin:
+            cur.close()
+            conn.close()
+
+            return jsonify({
+                "success": False,
+                "message": "Invalid username or password."
+            }), 401
+
+        if not check_password_hash(admin["password"], password):
+            cur.close()
+            conn.close()
+
+            return jsonify({
+                "success": False,
+                "message": "Invalid username or password."
+            }), 401
+
+        token = jwt.encode(
+            {
+                "admin_id": admin["id"],
+                "username": admin["username"],
+                "role": "admin",
+                "exp": datetime.datetime.utcnow()
+                + datetime.timedelta(hours=24)
+            },
+            Config.SECRET_KEY,
+            algorithm="HS256"
+        )
+
+        cur.close()
+        conn.close()
+
+        return jsonify({
+            "success": True,
+            "message": "Admin login successful.",
+            "token": token
+        }), 200
+
+    except Exception as e:
+
+        return jsonify({
+            "success": False,
+            "message": str(e)
+        }), 500
