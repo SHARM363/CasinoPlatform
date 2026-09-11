@@ -1265,3 +1265,136 @@ def admin_login():
             "success": False,
             "message": str(e)
         }), 500
+# ===============================
+# ADMIN PAYMENT SETTINGS
+# ===============================
+
+@api.route("/api/admin/payment-settings", methods=["GET"])
+def get_payment_settings():
+
+    admin = verify_admin_token()
+
+    if not admin:
+        return jsonify({
+            "success": False,
+            "message": "Admin authorization required."
+        }), 401
+
+    conn = get_connection()
+    cur = conn.cursor()
+
+    try:
+
+        cur.execute("""
+            SELECT
+                id,
+                payment_method,
+                payment_type,
+                payment_number,
+                usdt_network,
+                usdt_address,
+                is_active
+            FROM payment_settings
+            ORDER BY id ASC
+        """)
+
+        settings = cur.fetchall()
+
+        return jsonify({
+            "success": True,
+            "settings": settings
+        }), 200
+
+    except Exception as e:
+
+        return jsonify({
+            "success": False,
+            "message": str(e)
+        }), 500
+
+    finally:
+
+        cur.close()
+        conn.close()
+
+
+@api.route("/api/admin/payment-settings", methods=["POST"])
+def save_payment_settings():
+
+    admin = verify_admin_token()
+
+    if not admin:
+        return jsonify({
+            "success": False,
+            "message": "Admin authorization required."
+        }), 401
+
+    data = request.get_json() or {}
+
+    payment_method = data.get("payment_method")
+    payment_type = data.get("payment_type")
+    payment_number = data.get("payment_number")
+    usdt_network = data.get("usdt_network")
+    usdt_address = data.get("usdt_address")
+    is_active = data.get("is_active", True)
+
+    if not payment_method:
+        return jsonify({
+            "success": False,
+            "message": "Payment method is required."
+        }), 400
+
+    conn = get_connection()
+    cur = conn.cursor()
+
+    try:
+
+        cur.execute("""
+            INSERT INTO payment_settings (
+                payment_method,
+                payment_type,
+                payment_number,
+                usdt_network,
+                usdt_address,
+                is_active,
+                updated_at
+            )
+            VALUES (%s, %s, %s, %s, %s, %s, CURRENT_TIMESTAMP)
+
+            ON CONFLICT (payment_method)
+            DO UPDATE SET
+                payment_type = EXCLUDED.payment_type,
+                payment_number = EXCLUDED.payment_number,
+                usdt_network = EXCLUDED.usdt_network,
+                usdt_address = EXCLUDED.usdt_address,
+                is_active = EXCLUDED.is_active,
+                updated_at = CURRENT_TIMESTAMP
+        """, (
+            payment_method,
+            payment_type,
+            payment_number,
+            usdt_network,
+            usdt_address,
+            is_active
+        ))
+
+        conn.commit()
+
+        return jsonify({
+            "success": True,
+            "message": "Payment settings saved successfully."
+        }), 200
+
+    except Exception as e:
+
+        conn.rollback()
+
+        return jsonify({
+            "success": False,
+            "message": str(e)
+        }), 500
+
+    finally:
+
+        cur.close()
+        conn.close()
