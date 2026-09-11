@@ -1474,3 +1474,76 @@ def user_payment_settings():
 
         cur.close()
         conn.close()
+# ===============================
+# USER BET HISTORY
+# ===============================
+
+@api.route("/api/bet-history", methods=["GET"])
+def get_bet_history():
+
+    try:
+
+        auth_header = request.headers.get("Authorization")
+
+        if not auth_header:
+            return jsonify({
+                "success": False,
+                "message": "Authorization token required."
+            }), 401
+
+        token = auth_header.split(" ")[1]
+
+        payload = jwt.decode(
+            token,
+            Config.SECRET_KEY,
+            algorithms=["HS256"]
+        )
+
+        user_id = payload.get("user_id")
+
+        conn = get_connection()
+        cur = conn.cursor()
+
+        cur.execute("""
+            SELECT
+                id,
+                game,
+                bet_amount,
+                result,
+                win_loss,
+                created_at
+            FROM bets
+            WHERE user_id = %s
+            ORDER BY created_at DESC
+        """, (user_id,))
+
+        bets = cur.fetchall()
+
+        cur.close()
+        conn.close()
+
+        return jsonify({
+            "success": True,
+            "bets": bets
+        }), 200
+
+    except jwt.ExpiredSignatureError:
+
+        return jsonify({
+            "success": False,
+            "message": "Token expired."
+        }), 401
+
+    except jwt.InvalidTokenError:
+
+        return jsonify({
+            "success": False,
+            "message": "Invalid token."
+        }), 401
+
+    except Exception as e:
+
+        return jsonify({
+            "success": False,
+            "message": str(e)
+        }), 500
