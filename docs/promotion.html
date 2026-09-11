@@ -1,1 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>RSK32 - Promotion</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+
+        body {
+            margin: 0;
+            padding-bottom: 80px;
+        }
+
+        .promotion-page {
+            max-width: 700px;
+            margin: auto;
+        }
+
+        /* Header */
+
+        .promotion-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .back-btn {
+            background: transparent;
+            border: none;
+            font-size: 28px;
+            cursor: pointer;
+        }
+
+        .promotion-header h1 {
+            margin: 0;
+            flex: 1;
+            text-align: center;
+        }
+
+        /* Tabs */
+
+        .promotion-tabs {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding: 5px 0 15px;
+        }
+
+        .promotion-tab {
+            flex: 0 0 auto;
+            padding: 10px 18px;
+            border-radius: 25px;
+            border: 1px solid #aaa;
+            background: white;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .promotion-tab.active {
+            background: #4b9fe8;
+            color: white;
+            border-color: #4b9fe8;
+        }
+
+        /* Promotion Cards */
+
+        .promotion-card {
+            background: white;
+            border-radius: 14px;
+            margin-bottom: 18px;
+            overflow: hidden;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.12);
+        }
+
+        .promotion-banner {
+            width: 100%;
+            display: block;
+            max-height: 280px;
+            object-fit: cover;
+        }
+
+        .promotion-content {
+            padding: 16px;
+        }
+
+        .promotion-content h2 {
+            margin-top: 0;
+        }
+
+        .promotion-content p {
+            line-height: 1.6;
+        }
+
+        .promotion-btn {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            background: #3f8fd8;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        /* Simple Promotion Banner */
+
+        .bonus-box {
+            padding: 25px 18px;
+            text-align: center;
+            background: linear-gradient(
+                135deg,
+                #4da9ed,
+                #6655dc
+            );
+            color: white;
+        }
+
+        .bonus-box h2 {
+            margin: 5px 0;
+            font-size: 28px;
+        }
+
+        .bonus-box .amount {
+            font-size: 38px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        /* Bottom Navigation */
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 68px;
+            background: white;
+            border-top: 1px solid #ddd;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 999;
+        }
+
+        .nav-item {
+            text-decoration: none;
+            color: #666;
+            text-align: center;
+            font-size: 13px;
+        }
+
+        .nav-item .icon {
+            display: block;
+            font-size: 25px;
+            margin-bottom: 2px;
+        }
+
+        .nav-item.active {
+            color: #238bd1;
+            font-weight: bold;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container promotion-page">
+
+    <!-- HEADER -->
+
+    <div class="promotion-header">
+
+        <button
+            class="back-btn"
+            onclick="history.back()">
+            ←
+        </button>
+
+        <h1>Promotion</h1>
+
+    </div>
+
+
+    <!-- PROMOTION TABS -->
+
+    <div class="promotion-tabs">
+
+        <button
+            class="promotion-tab active"
+            data-category="all">
+            All
+        </button>
+
+        <button
+            class="promotion-tab"
+            data-category="deposit">
+            Deposit Bonus
+        </button>
+
+        <button
+            class="promotion-tab"
+            data-category="vip">
+            VIP
+        </button>
+
+        <button
+            class="promotion-tab"
+            data-category="referral">
+            Referral
+        </button>
+
+    </div>
+
+
+    <!-- DEPOSIT BONUS -->
+
+    <div
+        class="promotion-card"
+        data-category="deposit">
+
+        <div class="bonus-box">
+
+            <div style="font-size:45px;">
+                💰
+            </div>
+
+            <h2>Deposit Bonus</h2>
+
+            <div class="amount">
+                3%
+            </div>
+
+            <p>
+                Deposit and receive bonus rewards.
+            </p>
+
+        </div>
+
+        <div class="promotion-content">
+
+            <h2>
+                💰 Deposit Bonus
+            </h2>
+
+            <p>
+                Make a deposit and enjoy the available
+                bonus according to the current promotion.
+            </p>
+
+            <button
+                class="promotion-btn"
+                onclick="window.location.href='deposit.html'">
+                Deposit Now
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- VIP PROMOTION -->
+
+    <div
+        class="promotion-card"
+        data-category="vip">
+
+        <div class="bonus-box">
+
+            <div style="font-size:45px;">
+                💎
+            </div>
+
+            <h2>VIP Membership</h2>
+
+            <div class="amount">
+                VIP
+            </div>
+
+            <p>
+                Enjoy exclusive VIP benefits and rewards.
+            </p>
+
+        </div>
+
+        <div class="promotion-content">
+
+            <h2>
+                💎 VIP Member Benefits
+            </h2>
+
+            <p>
+                Higher VIP levels can provide additional
+                rewards, benefits and exclusive offers.
+            </p>
+
+            <button
+                class="promotion-btn"
+                onclick="window.location.href='profile.html'">
+                View VIP
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- USDT PROMOTION -->
+
+    <div
+        class="promotion-card"
+        data-category="deposit">
+
+        <div class="bonus-box">
+
+            <div style="font-size:45px;">
+                🪙
+            </div>
+
+            <h2>USDT Deposit</h2>
+
+            <div class="amount">
+                USDT
+            </div>
+
+            <p>
+                Deposit using supported USDT networks.
+            </p>
+
+        </div>
+
+        <div class="promotion-content">
+
+            <h2>
+                🪙 USDT Deposit
+            </h2>
+
+            <p>
+                Use the supported network and complete
+                your deposit through the Deposit page.
+            </p>
+
+            <button
+                class="promotion-btn"
+                onclick="window.location.href='deposit.html'">
+                Deposit USDT
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- REFERRAL PROMOTION -->
+
+    <div
+        class="promotion-card"
+        data-category="referral">
+
+        <div class="bonus-box">
+
+            <div style="font-size:45px;">
+                🤝
+            </div>
+
+            <h2>Referral Bonus</h2>
+
+            <div class="amount">
+                BONUS
+            </div>
+
+            <p>
+                Invite friends and earn referral rewards.
+            </p>
+
+        </div>
+
+        <div class="promotion-content">
+
+            <h2>
+                🤝 Invite Friends
+            </h2>
+
+            <p>
+                Share your referral link with friends and
+                earn rewards when eligible conditions are met.
+            </p>
+
+            <button
+                class="promotion-btn"
+                onclick="window.location.href='referral.html'">
+                Invite Friends
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- BOTTOM NAVIGATION -->
+
+<div class="bottom-nav">
+
+    <a
+        href="dashboard.html"
+        class="nav-item">
+
+        <span class="icon">🏠</span>
+        Home
+
+    </a>
+
+
+    <a
+        href="promotion.html"
+        class="nav-item active">
+
+        <span class="icon">🎁</span>
+        Promotion
+
+    </a>
+
+
+    <a
+        href="service.html"
+        class="nav-item">
+
+        <span class="icon">💬</span>
+        Service
+
+    </a>
+
+
+    <a
+        href="profile.html"
+        class="nav-item">
+
+        <span class="icon">👤</span>
+        Profile
+
+    </a>
+
+</div>
+
+
+<script src="promotion.js"></script>
+
+</body>
+
+</html>
