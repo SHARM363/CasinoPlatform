@@ -1420,3 +1420,45 @@ def save_payment_settings():
 
         cur.close()
         conn.close()
+# ===============================
+# USER PAYMENT SETTINGS
+# ===============================
+
+@api.route("/api/payment-settings", methods=["GET"])
+def user_payment_settings():
+
+    conn = get_connection()
+    cur = conn.cursor()
+
+    try:
+
+        cur.execute("""
+            SELECT
+                payment_method,
+                payment_type,
+                payment_number,
+                usdt_network,
+                usdt_address
+            FROM payment_settings
+            WHERE is_active = TRUE
+            ORDER BY id ASC
+        """)
+
+        settings = cur.fetchall()
+
+        return jsonify({
+            "success": True,
+            "settings": settings
+        }), 200
+
+    except Exception as e:
+
+        return jsonify({
+            "success": False,
+            "message": str(e)
+        }), 500
+
+    finally:
+
+        cur.close()
+        conn.close()
