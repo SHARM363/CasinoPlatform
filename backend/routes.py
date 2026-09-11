@@ -906,6 +906,14 @@ def admin_stats():
 @api.route("/api/admin/users", methods=["GET"])
 def admin_users():
 
+    admin = verify_admin_token()
+
+    if not admin:
+        return jsonify({
+            "success": False,
+            "message": "Admin authorization required."
+        }), 401
+
     conn = get_connection()
     cur = conn.cursor()
 
