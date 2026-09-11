@@ -714,6 +714,14 @@ def get_withdrawals():
 @api.route("/api/admin/withdrawals", methods=["GET"])
 def admin_get_withdrawals():
 
+    admin = verify_admin_token()
+
+    if not admin:
+        return jsonify({
+            "success": False,
+            "message": "Admin authorization required."
+        }), 401
+
     conn = get_connection()
     cur = conn.cursor()
 
@@ -751,6 +759,14 @@ def admin_get_withdrawals():
 
 @api.route("/api/admin/withdraw/<int:withdrawal_id>/approve", methods=["POST"])
 def approve_withdrawal(withdrawal_id):
+
+    admin = verify_admin_token()
+
+    if not admin:
+        return jsonify({
+            "success": False,
+            "message": "Admin authorization required."
+        }), 401
 
     conn = get_connection()
     cur = conn.cursor()
@@ -806,9 +822,16 @@ def approve_withdrawal(withdrawal_id):
 @api.route("/api/admin/withdraw/<int:withdrawal_id>/reject", methods=["POST"])
 def reject_withdrawal(withdrawal_id):
 
+    admin = verify_admin_token()
+
+    if not admin:
+        return jsonify({
+            "success": False,
+            "message": "Admin authorization required."
+        }), 401
+
     conn = get_connection()
     cur = conn.cursor()
-
     try:
         # Get withdrawal information
         cur.execute("""
