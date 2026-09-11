@@ -68,6 +68,16 @@ def init_db():
         is_active BOOLEAN DEFAULT TRUE,
         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
+
+    CREATE TABLE IF NOT EXISTS bets (
+        id SERIAL PRIMARY KEY,
+        user_id INTEGER REFERENCES users(id),
+        game VARCHAR(100),
+        bet_amount NUMERIC(18,2) NOT NULL,
+        result VARCHAR(20),
+        win_loss NUMERIC(18,2) DEFAULT 0,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );
     """)
 
     cur.execute("""
