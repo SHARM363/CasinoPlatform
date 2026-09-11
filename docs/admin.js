@@ -5,7 +5,7 @@ const API_URL = "https://casinoplatform.onrender.com";
 // ===============================
 
 const adminToken = localStorage.getItem("admin_token");
-
+console.log("ADMIN TOKEN EXISTS:", !!adminToken);
 if (!adminToken) {
     window.location.href = "admin-login.html";
 }
