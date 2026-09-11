@@ -1,5 +1,7 @@
 const API_URL = "https://casinoplatform.onrender.com";
 
+alert("ADMIN JS LOADED");
+
 async function loadStats() {
     try {
         const response = await fetch(`${API_URL}/api/admin/stats`);
