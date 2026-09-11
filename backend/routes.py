@@ -6,14 +6,17 @@ import jwt
 import datetime
 def verify_admin_token():
 
-    token = request.headers.get("Authorization")
+    auth_header = request.headers.get("Authorization")
 
-    if not token:
+    if not auth_header:
+        return None
+
+    if not auth_header.startswith("Bearer "):
         return None
 
     try:
 
-        token = token.replace("Bearer ", "")
+        token = auth_header.split(" ", 1)[1]
 
         payload = jwt.decode(
             token,
@@ -27,13 +30,15 @@ def verify_admin_token():
         return payload
 
     except jwt.ExpiredSignatureError:
-
         return None
 
     except jwt.InvalidTokenError:
-
         return None
-        
+
+    except Exception:
+        return None
+
+
 api = Blueprint("api", __name__)
 
 
