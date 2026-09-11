@@ -1554,24 +1554,16 @@ def get_referrals():
     cur = None
 
     try:
-        # Get JWT token
         auth_header = request.headers.get("Authorization")
 
-        if not auth_header:
+        if not auth_header or not auth_header.startswith("Bearer "):
             return jsonify({
                 "success": False,
                 "message": "Authorization token required."
             }), 401
 
-        if not auth_header.startswith("Bearer "):
-            return jsonify({
-                "success": False,
-                "message": "Invalid authorization format."
-            }), 401
-
         token = auth_header.split(" ")[1]
 
-        # Decode JWT
         try:
             decoded = jwt.decode(
                 token,
@@ -1592,42 +1584,49 @@ def get_referrals():
         if not user_id:
             return jsonify({
                 "success": False,
-                "message": "User ID not found in token."
+                "message": "User ID not found."
             }), 401
 
         conn = get_connection()
         cur = conn.cursor()
 
-        # Check whether referrals table exists
         cur.execute("""
             SELECT
-                id,
-                username,
-                email,
-                created_at
-            FROM users
-            WHERE id != %s
-            ORDER BY created_at DESC
+                r.id,
+                r.referrer_id,
+                r.referred_id,
+                r.reward,
+                r.created_at,
+                u.username,
+                u.email
+            FROM referrals r
+            JOIN users u
+                ON u.id = r.referred_id
+            WHERE r.referrer_id = %s
+            ORDER BY r.created_at DESC
         """, (user_id,))
 
-        users = cur.fetchall()
+        referral_rows = cur.fetchall()
 
         referrals = []
 
-        for user in users:
+        for row in referral_rows:
 
             referrals.append({
-                "id": user["id"],
-                "username": user["username"],
-                "email": user["email"],
+                "id": row["id"],
+                "referred_id": row["referred_id"],
+                "username": row["username"],
+                "email": row["email"],
+                "reward": float(row["reward"] or 0),
                 "status": "pending",
-                "created_at": user["created_at"]
+                "created_at": row["created_at"]
             })
 
         return jsonify({
             "success": True,
             "referral_link":
                 f"https://sharm363.github.io/CasinoPlatform/?ref={user_id}",
+            "total_referrals": len(referrals),
             "referrals": referrals
         }), 200
 
