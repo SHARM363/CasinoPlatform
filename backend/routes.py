@@ -1812,7 +1812,68 @@ def place_bet():
             0
         ))
 
-        bet = cur.fetchone()
+                bet = cur.fetchone()
+
+        # Referral Bonus Check
+        cur.execute("""
+            SELECT
+                r.id,
+                r.referrer_id,
+                r.deposit_requirement,
+                r.turnover_requirement,
+                r.bonus_paid
+            FROM referrals r
+            WHERE r.referred_id = %s
+            AND r.bonus_paid = FALSE
+            FOR UPDATE
+        """, (user_id,))
+
+        referral = cur.fetchone()
+
+        if referral:
+
+            # Check approved deposits
+            cur.execute("""
+                SELECT COALESCE(SUM(amount), 0) AS total_deposit
+                FROM deposits
+                WHERE user_id = %s
+                AND status = 'approved'
+            """, (user_id,))
+
+            deposit_data = cur.fetchone()
+            total_deposit = float(deposit_data["total_deposit"] or 0)
+
+            # Check total turnover
+            cur.execute("""
+                SELECT COALESCE(SUM(bet_amount), 0) AS total_turnover
+                FROM bets
+                WHERE user_id = %s
+            """, (user_id,))
+
+            turnover_data = cur.fetchone()
+            total_turnover = float(turnover_data["total_turnover"] or 0)
+
+            # Both conditions completed
+            if (
+                total_deposit >= float(referral["deposit_requirement"])
+                and total_turnover >= float(referral["turnover_requirement"])
+            ):
+
+                # Give referral bonus to referrer
+                cur.execute("""
+                    UPDATE users
+                    SET balance = balance + 300
+                    WHERE id = %s
+                """, (referral["referrer_id"],))
+
+                # Mark bonus as paid
+                cur.execute("""
+                    UPDATE referrals
+                    SET
+                        reward = 300,
+                        bonus_paid = TRUE
+                    WHERE id = %s
+                """, (referral["id"],))
 
         conn.commit()
 
@@ -1830,11 +1891,6 @@ def place_bet():
         }), 201
 
     except Exception as e:
-
-        if conn:
-            conn.rollback()
-
-        return jsonify({
             "success": False,
             "message": "Failed to place bet.",
             "error": str(e)
