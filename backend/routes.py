@@ -1009,29 +1009,41 @@ def admin_deposits():
     conn = get_connection()
     cur = conn.cursor()
 
-    cur.execute("""
-        SELECT
-            deposits.id,
-            users.username,
-            deposits.amount,
-            deposits.payment_method,
-            deposits.status,
-            deposits.created_at
-        FROM deposits
-        JOIN users
-            ON deposits.user_id = users.id
-        ORDER BY deposits.created_at DESC
-    """)
+    try:
 
-    deposits = cur.fetchall()
+        cur.execute("""
+            SELECT
+                deposits.id,
+                users.username,
+                deposits.amount,
+                deposits.payment_method,
+                deposits.transaction_id,
+                deposits.status,
+                deposits.created_at
+            FROM deposits
+            JOIN users
+                ON deposits.user_id = users.id
+            ORDER BY deposits.created_at DESC
+        """)
 
-    cur.close()
-    conn.close()
+        deposits = cur.fetchall()
 
-    return jsonify({
-        "success": True,
-        "deposits": deposits
-    })
+        return jsonify({
+            "success": True,
+            "deposits": deposits
+        })
+
+    except Exception as e:
+
+        return jsonify({
+            "success": False,
+            "message": str(e)
+        }), 500
+
+    finally:
+
+        cur.close()
+        conn.close()
 @api.route("/api/admin/deposit/<int:deposit_id>/approve", methods=["POST"])
 def approve_deposit(deposit_id):
 
