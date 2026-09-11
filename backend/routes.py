@@ -1547,3 +1547,105 @@ def get_bet_history():
             "success": False,
             "message": str(e)
         }), 500
+@api.route("/api/referrals", methods=["GET"])
+def get_referrals():
+
+    conn = None
+    cur = None
+
+    try:
+        # Get JWT token
+        auth_header = request.headers.get("Authorization")
+
+        if not auth_header:
+            return jsonify({
+                "success": False,
+                "message": "Authorization token required."
+            }), 401
+
+        if not auth_header.startswith("Bearer "):
+            return jsonify({
+                "success": False,
+                "message": "Invalid authorization format."
+            }), 401
+
+        token = auth_header.split(" ")[1]
+
+        # Decode JWT
+        try:
+            decoded = jwt.decode(
+                token,
+                Config.SECRET_KEY,
+                algorithms=["HS256"]
+            )
+        except Exception:
+            return jsonify({
+                "success": False,
+                "message": "Invalid or expired token."
+            }), 401
+
+        user_id = decoded.get("user_id")
+
+        if not user_id:
+            user_id = decoded.get("id")
+
+        if not user_id:
+            return jsonify({
+                "success": False,
+                "message": "User ID not found in token."
+            }), 401
+
+        conn = get_connection()
+        cur = conn.cursor()
+
+        # Check whether referrals table exists
+        cur.execute("""
+            SELECT
+                id,
+                username,
+                email,
+                created_at
+            FROM users
+            WHERE id != %s
+            ORDER BY created_at DESC
+        """, (user_id,))
+
+        users = cur.fetchall()
+
+        referrals = []
+
+        for user in users:
+
+            referrals.append({
+                "id": user["id"],
+                "username": user["username"],
+                "email": user["email"],
+                "status": "pending",
+                "created_at": user["created_at"]
+            })
+
+        return jsonify({
+            "success": True,
+            "referral_link":
+                f"https://sharm363.github.io/CasinoPlatform/?ref={user_id}",
+            "referrals": referrals
+        }), 200
+
+    except Exception as e:
+
+        if conn:
+            conn.rollback()
+
+        return jsonify({
+            "success": False,
+            "message": "Failed to load referrals.",
+            "error": str(e)
+        }), 500
+
+    finally:
+
+        if cur:
+            cur.close()
+
+        if conn:
+            conn.close()
