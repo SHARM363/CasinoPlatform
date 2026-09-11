@@ -431,3 +431,40 @@ async function loadWithdrawals() {
                             class="main-btn"
                             onclick="approveWithdrawal(${withdrawal.id})">
                             ✅
+                        </button>
+
+                        <button
+                            class="main-btn"
+                            onclick="rejectWithdrawal(${withdrawal.id})">
+                            ❌ Reject
+                        </button>
+
+                    `
+                    : ""
+                }
+
+            </div>
+
+        `).join("");
+
+    } catch (error) {
+
+        console.error("Withdrawals error:", error);
+
+        document.getElementById(
+            "withdrawalsList"
+        ).innerHTML =
+            "Unable to load withdrawals.";
+
+    }
+}
+
+
+// ===============================
+// LOAD ALL ADMIN DATA
+// ===============================
+
+loadStats();
+loadUsers();
+loadDeposits();
+loadWithdrawals();
