@@ -479,10 +479,9 @@
 
     function openGame(gameName) {
 
-        alert(
-            gameName +
-            " selected.\n\nGame screen will be added next."
-        );
+    window.location.href =
+        "game.html?game=" +
+        encodeURIComponent(gameName);
 
     }
 
