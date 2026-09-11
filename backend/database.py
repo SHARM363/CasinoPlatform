@@ -70,7 +70,7 @@ def init_db():
     );
     """)
 
-        cur.execute("""
+    cur.execute("""
     ALTER TABLE withdrawals
     ADD COLUMN IF NOT EXISTS payment_method VARCHAR(20),
     ADD COLUMN IF NOT EXISTS account_number VARCHAR(30);
