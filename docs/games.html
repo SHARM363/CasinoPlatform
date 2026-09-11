@@ -1171,7 +1171,7 @@ const gameIcons = {
                 </div>
 
                 <div class="demo-label">
-                    DEMO
+                    REAL
                 </div>
 
             `;
@@ -1218,35 +1218,13 @@ const gameIcons = {
     // OPEN GAME
     // =========================
 
-    function openGame(
-        gameName,
-        category
-    ) {
+    function openGame(gameName, category) {
 
+    window.location.href =
+        "game.html?game=" +
+        encodeURIComponent(gameName);
 
-        if (
-            category === "slots" &&
-            gameName === "Lucky Slots"
-        ) {
-
-            window.location.href =
-                "game.html?game=" +
-                encodeURIComponent(
-                    gameName
-                );
-
-            return;
-
-        }
-
-
-        alert(
-            gameName +
-            "\n\nDemo game screen will be added next."
-        );
-
-    }
-
+}
 
     // =========================
     // DASHBOARD
