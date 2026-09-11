@@ -1,87 +1,427 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
     <title>RSK32 Admin Panel</title>
-    <link rel="stylesheet" href="style.css">
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
 </head>
+
 <body>
 
 <div class="container">
 
-    <div class="logo">RSK32 Admin</div>
-
-    <h1>Admin Dashboard</h1>
-
-    <div class="card">
-        <h3>Total Users</h3>
-        <h2 id="totalUsers">0</h2>
+    <div class="logo">
+        RSK32 Admin
     </div>
 
-    <div class="card">
-        <h3>Total Balance</h3>
-        <h2 id="totalBalance">৳0.00</h2>
-    </div>
+    <h1>
+        Admin Dashboard
+    </h1>
+
+
+    <!-- ========================= -->
+    <!-- ADMIN STATS -->
+    <!-- ========================= -->
 
     <div class="card">
-        <h3>Pending Deposits</h3>
-        <h2 id="pendingDeposits">0</h2>
+
+        <h3>
+            Total Users
+        </h3>
+
+        <h2 id="totalUsers">
+            0
+        </h2>
+
     </div>
 
+
     <div class="card">
-        <h3>Pending Withdrawals</h3>
-        <h2 id="pendingWithdrawals">0</h2>
+
+        <h3>
+            Total Balance
+        </h3>
+
+        <h2 id="totalBalance">
+            ৳0.00
+        </h2>
+
     </div>
+
+
+    <div class="card">
+
+        <h3>
+            Pending Deposits
+        </h3>
+
+        <h2 id="pendingDeposits">
+            0
+        </h2>
+
+    </div>
+
+
+    <div class="card">
+
+        <h3>
+            Pending Withdrawals
+        </h3>
+
+        <h2 id="pendingWithdrawals">
+            0
+        </h2>
+
+    </div>
+
 
     <hr>
 
-    <h2>Quick Management</h2>
 
-<button class="main-btn" onclick="loadUsers()">
-    👥 Users
-</button>
+    <!-- ========================= -->
+    <!-- QUICK MANAGEMENT -->
+    <!-- ========================= -->
 
-<button class="main-btn" onclick="alert('Deposits page coming next')">
-    💰 Deposits
-</button>
+    <h2>
+        Quick Management
+    </h2>
 
-<button class="main-btn" onclick="alert('Withdrawals page coming next')">
-    💸 Withdrawals
-</button>
 
-<button class="main-btn" onclick="alert('Rewards page coming next')">
-    🎁 Rewards
-</button>
+    <button
+        class="main-btn"
+        onclick="loadUsers()"
+    >
+        👥 Users
+    </button>
 
-<button class="main-btn" onclick="alert('VIP page coming next')">
-    💎 VIP
-</button>
+
+    <button
+        class="main-btn"
+        onclick="alert('Deposits page coming next')"
+    >
+        💰 Deposits
+    </button>
+
+
+    <button
+        class="main-btn"
+        onclick="alert('Withdrawals page coming next')"
+    >
+        💸 Withdrawals
+    </button>
+
+
+    <button
+        class="main-btn"
+        onclick="alert('Rewards page coming next')"
+    >
+        🎁 Rewards
+    </button>
+
+
+    <button
+        class="main-btn"
+        onclick="alert('VIP page coming next')"
+    >
+        💎 VIP
+    </button>
+
 
     <hr>
 
-    <h2>Users List</h2>
 
-<div id="usersList">
-    Loading users...
+    <!-- ========================= -->
+    <!-- PAYMENT SETTINGS -->
+    <!-- ========================= -->
+
+    <h2>
+        💳 Payment Settings
+    </h2>
+
+
+    <!-- bKash -->
+
+    <div class="card">
+
+        <h3>
+            🟣 bKash
+        </h3>
+
+        <label>
+            Payment Type
+        </label>
+
+        <select id="bkashType">
+
+            <option value="send_money">
+                Send Money
+            </option>
+
+            <option value="cash_out">
+                Cash Out
+            </option>
+
+        </select>
+
+
+        <br><br>
+
+
+        <label>
+            bKash Number
+        </label>
+
+        <input
+            type="text"
+            id="bkashNumber"
+            placeholder="01XXXXXXXXX"
+        >
+
+
+        <br><br>
+
+
+        <button
+            class="main-btn"
+            onclick="savePaymentSetting('bkash')"
+        >
+            Save bKash
+        </button>
+
+    </div>
+
+
+    <!-- Nagad -->
+
+    <div class="card">
+
+        <h3>
+            🟠 Nagad
+        </h3>
+
+        <label>
+            Payment Type
+        </label>
+
+        <select id="nagadType">
+
+            <option value="send_money">
+                Send Money
+            </option>
+
+            <option value="cash_out">
+                Cash Out
+            </option>
+
+        </select>
+
+
+        <br><br>
+
+
+        <label>
+            Nagad Number
+        </label>
+
+        <input
+            type="text"
+            id="nagadNumber"
+            placeholder="01XXXXXXXXX"
+        >
+
+
+        <br><br>
+
+
+        <button
+            class="main-btn"
+            onclick="savePaymentSetting('nagad')"
+        >
+            Save Nagad
+        </button>
+
+    </div>
+
+
+    <!-- Rocket -->
+
+    <div class="card">
+
+        <h3>
+            🔵 Rocket
+        </h3>
+
+        <label>
+            Payment Type
+        </label>
+
+        <select id="rocketType">
+
+            <option value="send_money">
+                Send Money
+            </option>
+
+            <option value="cash_out">
+                Cash Out
+            </option>
+
+        </select>
+
+
+        <br><br>
+
+
+        <label>
+            Rocket Number
+        </label>
+
+        <input
+            type="text"
+            id="rocketNumber"
+            placeholder="01XXXXXXXXX"
+        >
+
+
+        <br><br>
+
+
+        <button
+            class="main-btn"
+            onclick="savePaymentSetting('rocket')"
+        >
+            Save Rocket
+        </button>
+
+    </div>
+
+
+    <!-- USDT -->
+
+    <div class="card">
+
+        <h3>
+            🪙 USDT
+        </h3>
+
+
+        <label>
+            Network
+        </label>
+
+        <select id="usdtNetwork">
+
+            <option value="TRC20">
+                TRC20
+            </option>
+
+            <option value="BEP20">
+                BEP20
+            </option>
+
+            <option value="ERC20">
+                ERC20
+            </option>
+
+        </select>
+
+
+        <br><br>
+
+
+        <label>
+            USDT Wallet Address
+        </label>
+
+        <input
+            type="text"
+            id="usdtAddress"
+            placeholder="Enter USDT wallet address"
+        >
+
+
+        <br><br>
+
+
+        <button
+            class="main-btn"
+            onclick="savePaymentSetting('usdt')"
+        >
+            Save USDT
+        </button>
+
+    </div>
+
+
+    <hr>
+
+
+    <!-- ========================= -->
+    <!-- USERS -->
+    <!-- ========================= -->
+
+    <h2>
+        Users List
+    </h2>
+
+
+    <div id="usersList">
+        Loading users...
+    </div>
+
+
+    <hr>
+
+
+    <!-- ========================= -->
+    <!-- DEPOSITS -->
+    <!-- ========================= -->
+
+    <h2>
+        Pending Deposits
+    </h2>
+
+
+    <div id="depositsList">
+        Loading deposits...
+    </div>
+
+
+    <hr>
+
+
+    <!-- ========================= -->
+    <!-- WITHDRAWALS -->
+    <!-- ========================= -->
+
+    <h2>
+        Pending Withdrawals
+    </h2>
+
+
+    <div id="withdrawalsList">
+        Loading withdrawals...
+    </div>
+
+
 </div>
 
-<hr>
-
-<h2>Pending Deposits</h2>
-
-<div id="depositsList">
-    Loading deposits...
-</div>
-<hr>
-
-<h2>Pending Withdrawals</h2>
-
-<div id="withdrawalsList">
-    Loading withdrawals...
-</div>
 
 <script src="https://sharm363.github.io/CasinoPlatform/admin.js"></script>
 
+
 </body>
+
 </html>
