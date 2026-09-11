@@ -76,9 +76,14 @@ def init_db():
     ADD COLUMN IF NOT EXISTS account_number VARCHAR(30);
     """)
 
-    cur.execute("""
+        cur.execute("""
     ALTER TABLE deposits
     ADD COLUMN IF NOT EXISTS payment_method VARCHAR(20);
+    """)
+
+    cur.execute("""
+    ALTER TABLE deposits
+    ADD COLUMN IF NOT EXISTS transaction_id VARCHAR(100);
     """)
 
     conn.commit()
