@@ -1,8 +1,5 @@
 const API_URL = "https://casinoplatform.onrender.com";
 
-alert("ADMIN JS LOADED");
-
-
 // ===============================
 // ADMIN AUTHENTICATION
 // ===============================
