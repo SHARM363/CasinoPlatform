@@ -459,7 +459,98 @@ async function loadWithdrawals() {
     }
 }
 
+// ===============================
+// APPROVE WITHDRAWAL
+// ===============================
 
+async function approveWithdrawal(id) {
+
+    if (!confirm("Approve this withdrawal?")) {
+        return;
+    }
+
+    try {
+
+        const response = await adminFetch(
+            `${API_URL}/api/admin/withdraw/${id}/approve`,
+            {
+                method: "POST"
+            }
+        );
+
+        if (!response) return;
+
+        const data = await response.json();
+
+        if (data.success) {
+
+            alert("Withdrawal approved successfully.");
+
+            loadWithdrawals();
+            loadStats();
+
+        } else {
+
+            alert(
+                data.message || "Failed to approve withdrawal."
+            );
+        }
+
+    } catch (error) {
+
+        console.error("Approve withdrawal error:", error);
+
+        alert("Unable to approve withdrawal.");
+
+    }
+}
+
+
+// ===============================
+// REJECT WITHDRAWAL
+// ===============================
+
+async function rejectWithdrawal(id) {
+
+    if (!confirm("Reject this withdrawal?")) {
+        return;
+    }
+
+    try {
+
+        const response = await adminFetch(
+            `${API_URL}/api/admin/withdraw/${id}/reject`,
+            {
+                method: "POST"
+            }
+        );
+
+        if (!response) return;
+
+        const data = await response.json();
+
+        if (data.success) {
+
+            alert("Withdrawal rejected successfully.");
+
+            loadWithdrawals();
+            loadStats();
+
+        } else {
+
+            alert(
+                data.message || "Failed to reject withdrawal."
+            );
+        }
+
+    } catch (error) {
+
+        console.error("Reject withdrawal error:", error);
+
+        alert("Unable to reject withdrawal.");
+
+    }
+}
 // ===============================
 // LOAD ALL ADMIN DATA
 // ===============================
