@@ -178,7 +178,10 @@ async function loadDeposits() {
             return;
         }
 
-        if (!data.deposits || data.deposits.length === 0) {
+        if (
+            !data.deposits ||
+            data.deposits.length === 0
+        ) {
 
             depositsList.innerHTML =
                 "No deposits found.";
@@ -186,72 +189,77 @@ async function loadDeposits() {
             return;
         }
 
-        depositsList.innerHTML = data.deposits.map(deposit => `
+        depositsList.innerHTML =
+            data.deposits.map(deposit => `
 
-            <div class="card">
+                <div class="card">
 
-                <p>
-                    <strong>ID:</strong>
-                    ${deposit.id}
-                </p>
+                    <p>
+                        <strong>ID:</strong>
+                        ${deposit.id}
+                    </p>
 
-                <p>
-                    <strong>User:</strong>
-                    ${deposit.username || deposit.user_id}
-                </p>
+                    <p>
+                        <strong>User:</strong>
+                        ${deposit.username || deposit.user_id}
+                    </p>
 
-                <p>
-                    <strong>Amount:</strong>
-                    ৳${Number(deposit.amount).toFixed(2)}
-                </p>
+                    <p>
+                        <strong>Amount:</strong>
+                        ৳${Number(deposit.amount).toFixed(2)}
+                    </p>
 
-                <p>
-                    <strong>Method:</strong>
-                    ${deposit.payment_method}
-                </p>
+                    <p>
+                        <strong>Method:</strong>
+                        ${deposit.payment_method}
+                    </p>
 
-                <p>
-                    <strong>Status:</strong>
-                    ${deposit.status}
-                </p>
+                    <p>
+                        <strong>Transaction ID:</strong>
+                        ${deposit.transaction_id || "N/A"}
+                    </p>
 
-                ${
-                    deposit.status === "pending"
-                    ? `
+                    <p>
+                        <strong>Status:</strong>
+                        ${deposit.status}
+                    </p>
 
-                        <button
-                            class="main-btn"
-                            onclick="approveDeposit(${deposit.id})">
-                            ✅ Approve
-                        </button>
+                    ${
+                        deposit.status === "pending"
+                        ? `
+                            <button
+                                class="main-btn"
+                                onclick="approveDeposit(${deposit.id})"
+                            >
+                                ✅ Approve
+                            </button>
 
-                        <button
-                            class="main-btn"
-                            onclick="rejectDeposit(${deposit.id})">
-                            ❌ Reject
-                        </button>
+                            <button
+                                class="main-btn"
+                                onclick="rejectDeposit(${deposit.id})"
+                            >
+                                ❌ Reject
+                            </button>
+                        `
+                        : ""
+                    }
 
-                    `
-                    : ""
-                }
+                </div>
 
-            </div>
-
-        `).join("");
+            `).join("");
 
     } catch (error) {
 
-        console.error("Deposits error:", error);
+        console.error(
+            "Deposits error:",
+            error
+        );
 
-        document.getElementById(
-            "depositsList"
-        ).innerHTML =
+        document.getElementById("depositsList").innerHTML =
             "Unable to load deposits.";
 
     }
 }
-
-
 // ===============================
 // APPROVE DEPOSIT
 // ===============================
