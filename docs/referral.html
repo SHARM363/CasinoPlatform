@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>RSK32 - Referral</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f5f6fa;
+            color: #222;
+        }
+
+        .referral-container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        .top-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .top-bar h2 {
+            margin: 0;
+        }
+
+        .back-btn {
+            border: none;
+            background: #222;
+            color: white;
+            padding: 9px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .card {
+            background: white;
+            border-radius: 14px;
+            padding: 18px;
+            margin-bottom: 15px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+        }
+
+        .card h3 {
+            margin-top: 0;
+            margin-bottom: 12px;
+        }
+
+        .referral-link-box {
+            display: flex;
+            gap: 8px;
+        }
+
+        .referral-link-box input {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 13px;
+        }
+
+        .copy-btn {
+            border: none;
+            background: #222;
+            color: white;
+            padding: 0 15px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .stat-box {
+            background: #f7f7f7;
+            padding: 15px;
+            border-radius: 10px;
+        }
+
+        .stat-title {
+            font-size: 13px;
+            color: #777;
+            margin-bottom: 6px;
+        }
+
+        .stat-value {
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 5px 9px;
+            border-radius: 20px;
+            font-size: 12px;
+            background: #eee;
+        }
+
+        .status.verified {
+            background: #dff7e5;
+            color: #16803c;
+        }
+
+        .status.pending {
+            background: #fff2cc;
+            color: #996c00;
+        }
+
+        .history-item {
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .history-item:last-child {
+            border-bottom: none;
+        }
+
+        .history-user {
+            font-weight: bold;
+        }
+
+        .history-date {
+            font-size: 12px;
+            color: #888;
+            margin-top: 4px;
+        }
+
+        .empty {
+            text-align: center;
+            color: #888;
+            padding: 20px 0;
+        }
+
+        .message {
+            text-align: center;
+            margin: 10px 0;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="referral-container">
+
+    <div class="top-bar">
+        <h2>👥 Referral</h2>
+        <button class="back-btn" onclick="goBack()">Back</button>
+    </div>
+
+    <!-- Referral Link -->
+    <div class="card">
+
+        <h3>🔗 Your Referral Link</h3>
+
+        <div class="referral-link-box">
+
+            <input
+                type="text"
+                id="referralLink"
+                readonly
+                value="Loading..."
+            >
+
+            <button
+                class="copy-btn"
+                onclick="copyReferralLink()"
+            >
+                Copy
+            </button>
+
+        </div>
+
+        <div id="copyMessage" class="message"></div>
+
+    </div>
+
+
+    <!-- Referral Statistics -->
+    <div class="card">
+
+        <h3>📊 Referral Statistics</h3>
+
+        <div class="stats">
+
+            <div class="stat-box">
+                <div class="stat-title">
+                    Total Referral
+                </div>
+
+                <div
+                    class="stat-value"
+                    id="totalReferral"
+                >
+                    0
+                </div>
+            </div>
+
+
+            <div class="stat-box">
+                <div class="stat-title">
+                    Verified
+                </div>
+
+                <div
+                    class="stat-value"
+                    id="verifiedReferral"
+                >
+                    0
+                </div>
+            </div>
+
+
+            <div class="stat-box">
+                <div class="stat-title">
+                    Pending
+                </div>
+
+                <div
+                    class="stat-value"
+                    id="pendingReferral"
+                >
+                    0
+                </div>
+            </div>
+
+
+            <div class="stat-box">
+                <div class="stat-title">
+                    Active
+                </div>
+
+                <div
+                    class="stat-value"
+                    id="activeReferral"
+                >
+                    0
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Referral Status -->
+    <div class="card">
+
+        <h3>📋 Referral Status</h3>
+
+        <div id="referralStatus">
+            Loading referral status...
+        </div>
+
+    </div>
+
+
+    <!-- Referral History -->
+    <div class="card">
+
+        <h3>🧾 Referral History</h3>
+
+        <div id="referralHistory">
+
+            <div class="empty">
+                Loading history...
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+const API_URL = "https://casinoplatform.onrender.com";
+
+
+/* =========================
+   Authentication
+========================= */
+
+function getToken() {
+
+    return localStorage.getItem("token");
+
+}
+
+
+/* =========================
+   Load Referral Data
+========================= */
+
+async function loadReferralData() {
+
+    const token = getToken();
+
+    if (!token) {
+
+        window.location.href = "index.html";
+        return;
+
+    }
+
+    try {
+
+        /*
+         * Existing referral API
+         */
+
+        const response = await fetch(
+            `${API_URL}/api/referrals`,
+            {
+                method: "GET",
+
+                headers: {
+                    "Authorization": `Bearer ${token}`,
+                    "Content-Type": "application/json"
+                }
+            }
+        );
+
+
+        const data = await response.json();
+
+        console.log("Referral API:", data);
+
+
+        if (!response.ok || !data.success) {
+
+            throw new Error(
+                data.message || "Failed to load referrals"
+            );
+
+        }
+
+
+        /*
+         * Referral link
+         */
+
+        if (data.referral_link) {
+
+            document.getElementById(
+                "referralLink"
+            ).value = data.referral_link;
+
+        }
+
+
+        /*
+         * Statistics
+         */
+
+        const referrals =
+            data.referrals || [];
+
+
+        document.getElementById(
+            "totalReferral"
+        ).textContent =
+            referrals.length;
+
+
+        let verified = 0;
+        let pending = 0;
+        let active = 0;
+
+
+        referrals.forEach(ref => {
+
+            const status =
+                String(
+                    ref.status || "pending"
+                ).toLowerCase();
+
+
+            if (status === "verified") {
+                verified++;
+            }
+
+
+            if (status === "pending") {
+                pending++;
+            }
+
+
+            if (
+                status === "active" ||
+                status === "verified"
+            ) {
+                active++;
+            }
+
+        });
+
+
+        document.getElementById(
+            "verifiedReferral"
+        ).textContent = verified;
+
+
+        document.getElementById(
+            "pendingReferral"
+        ).textContent = pending;
+
+
+        document.getElementById(
+            "activeReferral"
+        ).textContent = active;
+
+
+        /*
+         * Status
+         */
+
+        loadReferralStatus(
+            referrals
+        );
+
+
+        /*
+         * History
+         */
+
+        loadReferralHistory(
+            referrals
+        );
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Referral error:",
+            error
+        );
+
+
+        document.getElementById(
+            "referralStatus"
+        ).innerHTML =
+            "Unable to load referral data.";
+
+
+        document.getElementById(
+            "referralHistory"
+        ).innerHTML =
+            '<div class="empty">No referral history found.</div>';
+
+    }
+
+}
+
+
+/* =========================
+   Referral Status
+========================= */
+
+function loadReferralStatus(
+    referrals
+) {
+
+    const container =
+        document.getElementById(
+            "referralStatus"
+        );
+
+
+    if (!referrals.length) {
+
+        container.innerHTML =
+            '<div class="empty">No referrals yet.</div>';
+
+        return;
+
+    }
+
+
+    let html = "";
+
+
+    referrals.forEach(ref => {
+
+        const username =
+            ref.username ||
+            ref.first_name ||
+            "User";
+
+
+        const status =
+            String(
+                ref.status || "pending"
+            ).toLowerCase();
+
+
+        let statusClass =
+            "pending";
+
+
+        if (status === "verified") {
+
+            statusClass =
+                "verified";
+
+        }
+
+
+        html += `
+
+            <div
+                style="
+                    display:flex;
+                    justify-content:space-between;
+                    align-items:center;
+                    padding:10px 0;
+                    border-bottom:1px solid #eee;
+                "
+            >
+
+                <div>
+
+                    <strong>
+                        ${escapeHtml(username)}
+                    </strong>
+
+                </div>
+
+
+                <span class="status ${statusClass}">
+
+                    ${escapeHtml(status)}
+
+                </span>
+
+            </div>
+
+        `;
+
+    });
+
+
+    container.innerHTML = html;
+
+}
+
+
+/* =========================
+   Referral History
+========================= */
+
+function loadReferralHistory(
+    referrals
+) {
+
+    const container =
+        document.getElementById(
+            "referralHistory"
+        );
+
+
+    if (!referrals.length) {
+
+        container.innerHTML =
+            '<div class="empty">No referral history found.</div>';
+
+        return;
+
+    }
+
+
+    let html = "";
+
+
+    referrals.forEach(ref => {
+
+        const username =
+            ref.username ||
+            ref.first_name ||
+            "User";
+
+
+        const status =
+            ref.status ||
+            "pending";
+
+
+        const date =
+            ref.created_at ||
+            ref.joined_at ||
+            "";
+
+
+        html += `
+
+            <div class="history-item">
+
+                <div class="history-user">
+
+                    👤 ${escapeHtml(username)}
+
+                </div>
+
+
+                <div style="margin-top:6px;">
+
+                    Status:
+
+                    <span class="status">
+
+                        ${escapeHtml(status)}
+
+                    </span>
+
+                </div>
+
+
+                ${
+                    date
+                    ?
+                    `<div class="history-date">
+                        ${escapeHtml(String(date))}
+                    </div>`
+                    :
+                    ""
+                }
+
+            </div>
+
+        `;
+
+    });
+
+
+    container.innerHTML = html;
+
+}
+
+
+/* =========================
+   Copy Referral Link
+========================= */
+
+async function copyReferralLink() {
+
+    const input =
+        document.getElementById(
+            "referralLink"
+        );
+
+
+    try {
+
+        await navigator.clipboard.writeText(
+            input.value
+        );
+
+
+        document.getElementById(
+            "copyMessage"
+        ).textContent =
+            "✅ Referral link copied!";
+
+
+        setTimeout(() => {
+
+            document.getElementById(
+                "copyMessage"
+            ).textContent = "";
+
+        }, 2000);
+
+    }
+
+    catch (error) {
+
+        input.select();
+
+        document.execCommand(
+            "copy"
+        );
+
+        document.getElementById(
+            "copyMessage"
+        ).textContent =
+            "✅ Referral link copied!";
+
+    }
+
+}
+
+
+/* =========================
+   Back
+========================= */
+
+function goBack() {
+
+    window.location.href =
+        "dashboard.html";
+
+}
+
+
+/* =========================
+   Security
+========================= */
+
+function escapeHtml(value) {
+
+    return String(value)
+
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+
+        .replace(
+            /</g,
+            "&lt;"
+        )
+
+        .replace(
+            />/g,
+            "&gt;"
+        )
+
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+}
+
+
+/* =========================
+   Start
+========================= */
+
+loadReferralData();
+
+</script>
+
+</body>
+  </html>
