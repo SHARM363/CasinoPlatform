@@ -870,6 +870,14 @@ def reject_withdrawal(withdrawal_id):
 @api.route("/api/admin/stats", methods=["GET"])
 def admin_stats():
 
+    admin = verify_admin_token()
+
+    if not admin:
+        return jsonify({
+            "success": False,
+            "message": "Admin authorization required."
+        }), 401
+
     conn = get_connection()
     cur = conn.cursor()
 
@@ -939,6 +947,14 @@ def admin_users():
     })
 @api.route("/api/admin/deposits", methods=["GET"])
 def admin_deposits():
+
+    admin = verify_admin_token()
+
+    if not admin:
+        return jsonify({
+            "success": False,
+            "message": "Admin authorization required."
+        }), 401
 
     conn = get_connection()
     cur = conn.cursor()
