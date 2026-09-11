@@ -1,0 +1,438 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>RSK32 Game</title>
+
+<style>
+
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        background: #10121a;
+        color: #ffffff;
+        font-family: Arial, sans-serif;
+    }
+
+    .container {
+        max-width: 650px;
+        margin: auto;
+        padding: 15px;
+    }
+
+    /* =========================
+       TOP BAR
+    ========================= */
+
+    .top-bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 25px;
+    }
+
+    .back-btn {
+        border: none;
+        background: #252938;
+        color: white;
+        padding: 10px 14px;
+        border-radius: 10px;
+        font-size: 14px;
+        cursor: pointer;
+    }
+
+    .logo {
+        font-size: 24px;
+        font-weight: bold;
+    }
+
+    .balance-box {
+        background: #252938;
+        padding: 10px 12px;
+        border-radius: 10px;
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    /* =========================
+       GAME BOX
+    ========================= */
+
+    .game-box {
+        background: #1d2030;
+        border: 1px solid #2c3040;
+        border-radius: 18px;
+        padding: 30px 20px;
+        text-align: center;
+        min-height: 350px;
+    }
+
+    .demo {
+        display: inline-block;
+        background: #303446;
+        color: #ffffff;
+        padding: 7px 14px;
+        border-radius: 8px;
+        font-size: 12px;
+        font-weight: bold;
+        margin-bottom: 25px;
+    }
+
+    .game-icon {
+        font-size: 70px;
+        margin-bottom: 15px;
+    }
+
+    .game-name {
+        font-size: 27px;
+        font-weight: bold;
+        margin-bottom: 15px;
+    }
+
+    .game-balance {
+        color: #b4b8c5;
+        font-size: 15px;
+    }
+
+    .game-balance strong {
+        color: #ffffff;
+        font-size: 20px;
+    }
+
+    /* =========================
+       INFO
+    ========================= */
+
+    .info-box {
+        margin-top: 15px;
+        background: #1d2030;
+        border-radius: 12px;
+        padding: 15px;
+        text-align: center;
+        color: #aeb2c0;
+        font-size: 13px;
+        line-height: 1.5;
+    }
+
+    /* =========================
+       MOBILE
+    ========================= */
+
+    @media (max-width: 380px) {
+
+        .logo {
+            font-size: 21px;
+        }
+
+        .game-name {
+            font-size: 23px;
+        }
+
+        .game-icon {
+            font-size: 60px;
+        }
+
+        .balance-box {
+            font-size: 12px;
+            padding: 8px;
+        }
+
+    }
+
+</style>
+
+</head><body><div class="container"><!-- =========================
+     TOP BAR
+========================= -->
+
+<div class="top-bar">
+
+    <button
+        class="back-btn"
+        onclick="goBack()">
+
+        ← Back
+
+    </button>
+
+    <div class="logo">
+        RSK32
+    </div>
+
+    <div class="balance-box">
+
+        💰 ৳<span id="balance">0.00</span>
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     GAME
+========================= -->
+
+<div class="game-box">
+
+    <div class="demo">
+        REAL BALANCE
+    </div>
+
+
+    <div
+        class="game-icon"
+        id="gameIcon">
+
+        🎮
+
+    </div>
+
+
+    <div
+        class="game-name"
+        id="gameName">
+
+        Loading...
+
+    </div>
+
+
+    <div class="game-balance">
+
+        Balance
+
+        <br>
+
+        <strong>
+            ৳<span id="gameBalance">0.00</span>
+        </strong>
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     INFO
+========================= -->
+
+<div class="info-box">
+
+    🎮 This is a Real Balance Game.
+
+</div>
+
+</div><script>
+
+    // =========================
+    // API
+    // =========================
+
+    const API_URL =
+        "https://casinoplatform.onrender.com";
+
+
+    // =========================
+    // GAME DATA
+    // =========================
+
+    const gameIcons = {
+
+        "Lucky Slots": "🎰",
+        "Fruit Mania": "🍒",
+        "Diamond Spin": "💎",
+        "Super Star": "⭐",
+        "Fire Spin": "🔥",
+        "Mega Jackpot": "💰",
+
+        "Live Roulette": "🎡",
+        "Live Blackjack": "🃏",
+        "Live Baccarat": "🎯",
+        "Live Dice": "🎲",
+
+        "Football": "⚽",
+        "Cricket": "🏏",
+        "Basketball": "🏀",
+        "Tennis": "🎾",
+
+        "Texas Hold'em": "♠️",
+        "Classic Poker": "🃏",
+
+        "Rocket Crash": "🚀",
+        "Multiplier Crash": "💥",
+
+        "Target Master": "🎯",
+        "Bowling": "🎳",
+        "Arcade Rush": "🕹️",
+
+        "Classic Roulette": "🎡",
+        "European Roulette": "🔴",
+
+        "Lucky Dice": "🎲",
+        "Lucky Target": "🎯",
+        "Coin Flip": "🪙"
+
+    };
+
+
+    // =========================
+    // GET GAME NAME
+    // =========================
+
+    function loadGame() {
+
+        const params =
+            new URLSearchParams(
+                window.location.search
+            );
+
+
+        const game =
+            params.get("game");
+
+
+        if (game) {
+
+            document.getElementById(
+                "gameName"
+            ).textContent =
+                game;
+
+
+            document.getElementById(
+                "gameIcon"
+            ).textContent =
+                gameIcons[game] || "🎮";
+
+        } else {
+
+            document.getElementById(
+                "gameName"
+            ).textContent =
+                "Game";
+
+        }
+
+    }
+
+
+    // =========================
+    // LOAD BALANCE
+    // =========================
+
+    async function loadBalance() {
+
+        const token =
+            localStorage.getItem(
+                "token"
+            );
+
+
+        // LOGIN CHECK
+
+        if (!token) {
+
+            window.location.href =
+                "index.html";
+
+            return;
+
+        }
+
+
+        try {
+
+            const response =
+                await fetch(
+                    `${API_URL}/api/me`,
+                    {
+                        method: "GET",
+
+                        headers: {
+                            "Authorization":
+                                `Bearer ${token}`
+                        }
+                    }
+                );
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Account request failed"
+                );
+
+            }
+
+
+            const data =
+                await response.json();
+
+
+            if (
+                data.success &&
+                data.user
+            ) {
+
+                const balance =
+                    Number(
+                        data.user.balance || 0
+                    ).toFixed(2);
+
+
+                // TOP BALANCE
+
+                document.getElementById(
+                    "balance"
+                ).textContent =
+                    balance;
+
+
+                // GAME BALANCE
+
+                document.getElementById(
+                    "gameBalance"
+                ).textContent =
+                    balance;
+
+            }
+
+        } catch (error) {
+
+            console.error(
+                "Balance error:",
+                error
+            );
+
+        }
+
+    }
+
+
+    // =========================
+    // BACK
+    // =========================
+
+    function goBack() {
+
+        window.location.href =
+            "games.html";
+
+    }
+
+
+    // =========================
+    // START
+    // =========================
+
+    loadGame();
+
+    loadBalance();
+
+</script>
+</body>
+</html>
