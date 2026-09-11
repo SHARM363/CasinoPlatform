@@ -2,16 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
     <title>RSK32 - Member</title>
 
     <style>
-
         * {
             box-sizing: border-box;
             margin: 0;
@@ -20,29 +16,25 @@
 
         body {
             font-family: Arial, sans-serif;
-            background: #f5f6fa;
+            background: #f4f5f9;
             color: #222;
             padding-bottom: 80px;
         }
 
-        .top-header {
+        .header {
             height: 60px;
             background: #ffffff;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 15px;
-            border-bottom: 1px solid #eee;
-            position: sticky;
-            top: 0;
-            z-index: 100;
+            padding: 0 16px;
+            border-bottom: 1px solid #ddd;
         }
 
         .back-btn {
-            border: none;
-            background: none;
-            font-size: 25px;
-            cursor: pointer;
+            font-size: 24px;
+            text-decoration: none;
+            color: #222;
         }
 
         .logo {
@@ -56,67 +48,68 @@
         }
 
         .profile-card {
+            background: #ffffff;
             margin: 15px;
             padding: 20px;
             border-radius: 15px;
-            background: #ffffff;
-            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
             text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
         }
 
         .avatar {
-            width: 75px;
-            height: 75px;
+            width: 70px;
+            height: 70px;
+            margin: auto;
             border-radius: 50%;
-            background: #eeeeee;
+            background: #222;
+            color: white;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 12px;
-            font-size: 35px;
+            font-size: 30px;
+            font-weight: bold;
         }
 
         .username {
+            margin-top: 10px;
             font-size: 20px;
             font-weight: bold;
-            margin-bottom: 5px;
         }
 
-        .user-email {
+        .email {
+            margin-top: 5px;
             color: #777;
             font-size: 14px;
         }
 
         .user-id {
-            margin-top: 8px;
-            color: #888;
+            margin-top: 5px;
+            color: #777;
             font-size: 13px;
         }
 
-        .balance-card {
-            margin: 15px;
-            padding: 20px;
-            border-radius: 15px;
-            background: #ffffff;
-            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
-            text-align: center;
+        .balance-box {
+            margin-top: 15px;
+            background: #f1f2f6;
+            padding: 15px;
+            border-radius: 12px;
         }
 
         .balance-label {
+            font-size: 13px;
             color: #777;
-            font-size: 14px;
-            margin-bottom: 8px;
         }
 
         .balance {
-            font-size: 30px;
+            font-size: 27px;
             font-weight: bold;
-            margin-bottom: 15px;
+            margin-top: 5px;
         }
 
-        .balance-buttons {
+        .action-row {
             display: flex;
             gap: 10px;
+            margin-top: 15px;
         }
 
         .main-btn {
@@ -131,26 +124,28 @@
             cursor: pointer;
         }
 
-        .menu-section {
+        .section {
             margin: 15px;
-            background: #ffffff;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 3px 12px rgba(0,0,0,0.06);
         }
 
-        .menu-title {
-            padding: 15px;
-            font-size: 16px;
+        .section-title {
+            font-size: 18px;
             font-weight: bold;
-            border-bottom: 1px solid #eee;
+            margin-bottom: 10px;
+        }
+
+        .menu-card {
+            background: white;
+            border-radius: 13px;
+            overflow: hidden;
+            box-shadow: 0 2px 7px rgba(0,0,0,0.06);
         }
 
         .menu-item {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 16px;
+            padding: 17px 15px;
             border-bottom: 1px solid #eee;
             text-decoration: none;
             color: #222;
@@ -171,16 +166,11 @@
             width: 35px;
             height: 35px;
             border-radius: 9px;
-            background: #f1f1f1;
+            background: #f1f2f6;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 19px;
-        }
-
-        .menu-name {
-            font-size: 15px;
-            font-weight: 500;
+            font-size: 18px;
         }
 
         .arrow {
@@ -188,23 +178,69 @@
             font-size: 20px;
         }
 
-        .logout-btn {
-            width: calc(100% - 30px);
+        .logout {
             margin: 15px;
+        }
+
+        .logout-btn {
+            width: 100%;
             padding: 14px;
             border: none;
             border-radius: 12px;
-            background: #222;
-            color: #fff;
+            background: #e74c3c;
+            color: white;
             font-size: 16px;
             font-weight: bold;
             cursor: pointer;
         }
 
-        .message {
-            text-align: center;
-            margin: 10px 15px;
+        /* Bet History */
+
+        #betHistorySection {
+            display: none;
+        }
+
+        .history-card {
+            background: white;
+            margin-bottom: 10px;
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: 0 2px 7px rgba(0,0,0,0.06);
+        }
+
+        .history-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
             font-size: 14px;
+        }
+
+        .history-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .history-label {
+            color: #777;
+        }
+
+        .history-value {
+            font-weight: bold;
+        }
+
+        .win {
+            color: green;
+        }
+
+        .loss {
+            color: red;
+        }
+
+        .empty-history {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+            color: #777;
         }
 
         /* Bottom Navigation */
@@ -214,13 +250,13 @@
             bottom: 0;
             left: 0;
             right: 0;
-            height: 68px;
-            background: #ffffff;
+            height: 65px;
+            background: white;
             border-top: 1px solid #ddd;
             display: flex;
             justify-content: space-around;
             align-items: center;
-            z-index: 999;
+            z-index: 1000;
         }
 
         .nav-item {
@@ -232,7 +268,7 @@
 
         .nav-icon {
             display: block;
-            font-size: 22px;
+            font-size: 21px;
             margin-bottom: 3px;
         }
 
@@ -241,122 +277,113 @@
             font-weight: bold;
         }
 
+        @media (min-width: 700px) {
+            body {
+                max-width: 500px;
+                margin: auto;
+            }
+
+            .bottom-nav {
+                max-width: 500px;
+                margin: auto;
+            }
+        }
     </style>
 </head>
 
 <body>
 
-    <!-- HEADER -->
+<!-- Header -->
 
-    <div class="top-header">
+<div class="header">
 
-        <button
-            class="back-btn"
-            onclick="history.back()"
-        >
-            ‹
-        </button>
+    <a href="dashboard.html" class="back-btn">
+        ←
+    </a>
 
-        <div class="header-title">
-            Member
-        </div>
-
-        <div class="logo">
-            RSK32
-        </div>
-
+    <div class="header-title">
+        Member
     </div>
 
-
-    <!-- PROFILE -->
-
-    <div class="profile-card">
-
-        <div class="avatar">
-            👤
-        </div>
-
-        <div
-            class="username"
-            id="username"
-        >
-            Loading...
-        </div>
-
-        <div
-            class="user-email"
-            id="email"
-        >
-            Loading...
-        </div>
-
-        <div
-            class="user-id"
-            id="userId"
-        >
-            User ID: Loading...
-        </div>
-
+    <div class="logo">
+        RSK32
     </div>
 
+</div>
 
-    <!-- BALANCE -->
 
-    <div class="balance-card">
+<!-- Profile -->
+
+<div class="profile-card">
+
+    <div class="avatar">
+        👤
+    </div>
+
+    <div class="username" id="username">
+        Loading...
+    </div>
+
+    <div class="email" id="email">
+        Loading...
+    </div>
+
+    <div class="user-id">
+        User ID: <span id="userId">Loading...</span>
+    </div>
+
+    <div class="balance-box">
 
         <div class="balance-label">
             Available Balance
         </div>
 
-        <div
-            class="balance"
-            id="balance"
-        >
+        <div class="balance" id="balance">
             ৳0.00
-        </div>
-
-        <div class="balance-buttons">
-
-            <button
-                class="main-btn"
-                onclick="window.location.href='deposit.html'"
-            >
-                💰 Deposit
-            </button>
-
-            <button
-                class="main-btn"
-                onclick="window.location.href='withdraw.html'"
-            >
-                💸 Withdraw
-            </button>
-
         </div>
 
     </div>
 
+    <div class="action-row">
 
-    <!-- ACCOUNT -->
+        <button
+            class="main-btn"
+            onclick="location.href='deposit.html'">
+            💳 Deposit
+        </button>
 
-    <div class="menu-section">
+        <button
+            class="main-btn"
+            onclick="location.href='withdraw.html'">
+            💸 Withdraw
+        </button>
 
-        <div class="menu-title">
-            Account
-        </div>
+    </div>
 
-        <a
-            class="menu-item"
-            href="deposit.html"
-        >
+</div>
+
+
+<!-- Account -->
+
+<div class="section">
+
+    <div class="section-title">
+        Account
+    </div>
+
+    <div class="menu-card">
+
+        <a href="deposit.html" class="menu-item">
+
             <div class="menu-left">
 
                 <div class="menu-icon">
-                    💰
+                    💳
                 </div>
 
-                <div class="menu-name">
+                <span>
                     Deposit
-                </div>
+                </span>
 
             </div>
 
@@ -367,19 +394,17 @@
         </a>
 
 
-        <a
-            class="menu-item"
-            href="withdraw.html"
-        >
+        <a href="withdraw.html" class="menu-item">
+
             <div class="menu-left">
 
                 <div class="menu-icon">
                     💸
                 </div>
 
-                <div class="menu-name">
+                <span>
                     Withdraw
-                </div>
+                </span>
 
             </div>
 
@@ -390,19 +415,17 @@
         </a>
 
 
-        <a
-            class="menu-item"
-            href="promotion.html"
-        >
+        <a href="promotion.html" class="menu-item">
+
             <div class="menu-left">
 
                 <div class="menu-icon">
                     🎁
                 </div>
 
-                <div class="menu-name">
+                <span>
                     Promotions
-                </div>
+                </span>
 
             </div>
 
@@ -414,29 +437,30 @@
 
     </div>
 
-
-    <!-- PERSONAL -->
-
-    <div class="menu-section">
-
-        <div class="menu-title">
-            Personal
-        </div>
+</div>
 
 
-        <a
-            class="menu-item"
-            href="referral.html"
-        >
+<!-- Personal -->
+
+<div class="section">
+
+    <div class="section-title">
+        Personal
+    </div>
+
+    <div class="menu-card">
+
+        <a href="referral.html" class="menu-item">
+
             <div class="menu-left">
 
                 <div class="menu-icon">
                     👥
                 </div>
 
-                <div class="menu-name">
+                <span>
                     Referral
-                </div>
+                </span>
 
             </div>
 
@@ -447,19 +471,21 @@
         </a>
 
 
-        <a
+        <!-- Bet History -->
+
+        <div
             class="menu-item"
-            href="service.html"
-        >
+            onclick="showBetHistory()">
+
             <div class="menu-left">
 
                 <div class="menu-icon">
-                    🎧
+                    🎮
                 </div>
 
-                <div class="menu-name">
-                    Customer Service
-                </div>
+                <span>
+                    Bet History
+                </span>
 
             </div>
 
@@ -467,22 +493,20 @@
                 ›
             </div>
 
-        </a>
+        </div>
 
 
-        <a
-            class="menu-item"
-            href="history.html"
-        >
+        <div class="menu-item">
+
             <div class="menu-left">
 
                 <div class="menu-icon">
-                    📋
+                    🧾
                 </div>
 
-                <div class="menu-name">
+                <span>
                     Transaction History
-                </div>
+                </span>
 
             </div>
 
@@ -490,221 +514,461 @@
                 ›
             </div>
 
-        </a>
+        </div>
+
+
+        <div class="menu-item">
+
+            <div class="menu-left">
+
+                <div class="menu-icon">
+                    💬
+                </div>
+
+                <span>
+                    Customer Service
+                </span>
+
+            </div>
+
+            <div class="arrow">
+                ›
+            </div>
+
+        </div>
 
     </div>
 
-
-    <div
-        class="message"
-        id="message"
-    ></div>
+</div>
 
 
-    <!-- LOGOUT -->
+<!-- Bet History Section -->
+
+<div
+    class="section"
+    id="betHistorySection">
+
+    <div class="section-title">
+        🎮 Bet History
+    </div>
+
+    <div id="betHistory">
+        Loading...
+    </div>
+
+</div>
+
+
+<!-- Logout -->
+
+<div class="logout">
 
     <button
         class="logout-btn"
-        id="logoutBtn"
-    >
+        onclick="logout()">
+
         🚪 Logout
+
     </button>
 
-
-    <!-- BOTTOM NAV -->
-
-    <div class="bottom-nav">
-
-        <a
-            href="dashboard.html"
-            class="nav-item"
-        >
-            <span class="nav-icon">🏠</span>
-            Home
-        </a>
+</div>
 
 
-        <a
-            href="referral.html"
-            class="nav-item"
-        >
-            <span class="nav-icon">👥</span>
-            Referral
-        </a>
+<!-- Bottom Navigation -->
+
+<div class="bottom-nav">
+
+    <a href="dashboard.html" class="nav-item">
+
+        <span class="nav-icon">
+            🏠
+        </span>
+
+        Home
+
+    </a>
 
 
-        <a
-            href="promotion.html"
-            class="nav-item"
-        >
-            <span class="nav-icon">🎁</span>
-            Promotion
-        </a>
+    <a href="referral.html" class="nav-item">
+
+        <span class="nav-icon">
+            👥
+        </span>
+
+        Referral
+
+    </a>
 
 
-        <a
-            href="service.html"
-            class="nav-item"
-        >
-            <span class="nav-icon">🎧</span>
-            Service
-        </a>
+    <a href="promotion.html" class="nav-item">
+
+        <span class="nav-icon">
+            🎁
+        </span>
+
+        Promotion
+
+    </a>
 
 
-        <a
-            href="profile.html"
-            class="nav-item active"
-        >
-            <span class="nav-icon">👤</span>
-            Member
-        </a>
+    <a href="#" class="nav-item">
 
-    </div>
+        <span class="nav-icon">
+            💬
+        </span>
 
+        Service
 
-    <script>
-
-        const API_URL =
-            "https://casinoplatform.onrender.com";
-
-        const token =
-            localStorage.getItem("token");
+    </a>
 
 
-        /* LOGIN CHECK */
+    <a href="profile.html" class="nav-item active">
 
-        if (!token) {
+        <span class="nav-icon">
+            👤
+        </span>
 
-            window.location.href =
-                "index.html";
+        Member
 
-        }
+    </a>
 
-
-        /* LOAD USER */
-
-        async function loadUser() {
-
-            try {
-
-                const response =
-                    await fetch(
-                        `${API_URL}/api/me`,
-                        {
-                            method: "GET",
-
-                            headers: {
-                                "Authorization":
-                                    "Bearer " + token
-                            }
-                        }
-                    );
+</div>
 
 
-                if (response.status === 401) {
+<script>
 
-                    localStorage.removeItem("token");
+const API_URL =
+    "https://casinoplatform.onrender.com";
 
-                    window.location.href =
-                        "index.html";
+const token =
+    localStorage.getItem("token");
 
-                    return;
 
+if (!token) {
+
+    window.location.href =
+        "index.html";
+
+}
+
+
+/* =========================
+   LOAD USER
+========================= */
+
+async function loadUser() {
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_URL}/api/me`,
+                {
+                    method: "GET",
+                    headers: {
+                        "Authorization":
+                            "Bearer " + token
+                    }
                 }
+            );
+
+        const data =
+            await response.json();
 
 
-                const data =
-                    await response.json();
+        if (!data.success) {
 
+            if (
+                response.status === 401
+            ) {
 
-                if (!data.success) {
-
-                    document.getElementById(
-                        "message"
-                    ).textContent =
-                        data.message ||
-                        "Unable to load profile.";
-
-                    return;
-
-                }
-
-
-                const user =
-                    data.user;
-
-
-                document.getElementById(
-                    "username"
-                ).textContent =
-                    user.username ||
-                    "User";
-
-
-                document.getElementById(
-                    "email"
-                ).textContent =
-                    user.email ||
-                    "";
-
-
-                document.getElementById(
-                    "userId"
-                ).textContent =
-                    "User ID: " +
-                    user.id;
-
-
-                document.getElementById(
-                    "balance"
-                ).textContent =
-                    "৳" +
-                    Number(
-                        user.balance || 0
-                    ).toFixed(2);
-
-
-            } catch (error) {
-
-                console.error(
-                    "Profile error:",
-                    error
-                );
-
-                document.getElementById(
-                    "message"
-                ).textContent =
-                    "Unable to connect to server.";
+                logout();
 
             }
 
+            return;
+
         }
 
-
-        /* LOGOUT */
 
         document.getElementById(
-            "logoutBtn"
-        ).addEventListener(
-            "click",
-            function () {
+            "username"
+        ).textContent =
+            data.user.username || "User";
 
-                localStorage.removeItem(
-                    "token"
-                );
 
-                window.location.href =
-                    "index.html";
+        document.getElementById(
+            "email"
+        ).textContent =
+            data.user.email || "";
 
-            }
+
+        document.getElementById(
+            "userId"
+        ).textContent =
+            data.user.id;
+
+
+        document.getElementById(
+            "balance"
+        ).textContent =
+            "৳" +
+            Number(
+                data.user.balance
+            ).toFixed(2);
+
+
+    } catch (error) {
+
+        console.error(
+            "User loading error:",
+            error
+        );
+
+    }
+
+}
+
+
+/* =========================
+   BET HISTORY
+========================= */
+
+async function showBetHistory() {
+
+    const section =
+        document.getElementById(
+            "betHistorySection"
+        );
+
+    section.style.display =
+        "block";
+
+
+    section.scrollIntoView({
+        behavior: "smooth"
+    });
+
+
+    const history =
+        document.getElementById(
+            "betHistory"
         );
 
 
-        /* START */
+    history.innerHTML =
+        "Loading...";
 
-        loadUser();
 
-    </script>
+    try {
+
+        const response =
+            await fetch(
+                `${API_URL}/api/bet-history`,
+                {
+                    method: "GET",
+                    headers: {
+                        "Authorization":
+                            "Bearer " + token
+                    }
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (!data.success) {
+
+            history.innerHTML =
+                `<div class="empty-history">
+                    Unable to load bet history.
+                </div>`;
+
+            return;
+
+        }
+
+
+        if (
+            !data.bets ||
+            data.bets.length === 0
+        ) {
+
+            history.innerHTML =
+                `<div class="empty-history">
+                    No bet history found.
+                </div>`;
+
+            return;
+
+        }
+
+
+        history.innerHTML =
+            data.bets.map(
+                bet => {
+
+                    const winLoss =
+                        Number(
+                            bet.win_loss || 0
+                        );
+
+
+                    let resultClass =
+                        "";
+
+                    if (
+                        winLoss > 0
+                    ) {
+
+                        resultClass =
+                            "win";
+
+                    } else if (
+                        winLoss < 0
+                    ) {
+
+                        resultClass =
+                            "loss";
+
+                    }
+
+
+                    return `
+
+                        <div class="history-card">
+
+                            <div class="history-row">
+
+                                <span class="history-label">
+                                    Bet ID
+                                </span>
+
+                                <span class="history-value">
+                                    #${bet.id}
+                                </span>
+
+                            </div>
+
+
+                            <div class="history-row">
+
+                                <span class="history-label">
+                                    Game
+                                </span>
+
+                                <span class="history-value">
+                                    ${bet.game || "N/A"}
+                                </span>
+
+                            </div>
+
+
+                            <div class="history-row">
+
+                                <span class="history-label">
+                                    Bet Amount
+                                </span>
+
+                                <span class="history-value">
+                                    ৳${Number(
+                                        bet.bet_amount
+                                    ).toFixed(2)}
+                                </span>
+
+                            </div>
+
+
+                            <div class="history-row">
+
+                                <span class="history-label">
+                                    Result
+                                </span>
+
+                                <span class="history-value">
+                                    ${bet.result || "N/A"}
+                                </span>
+
+                            </div>
+
+
+                            <div class="history-row">
+
+                                <span class="history-label">
+                                    Win / Loss
+                                </span>
+
+                                <span
+                                    class="history-value ${resultClass}">
+                                    ৳${winLoss.toFixed(2)}
+                                </span>
+
+                            </div>
+
+
+                            <div class="history-row">
+
+                                <span class="history-label">
+                                    Date & Time
+                                </span>
+
+                                <span class="history-value">
+                                    ${bet.created_at}
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    `;
+
+                }
+            ).join("");
+
+
+    } catch (error) {
+
+        console.error(
+            "Bet history error:",
+            error
+        );
+
+
+        history.innerHTML =
+            `<div class="empty-history">
+                Unable to connect to server.
+            </div>`;
+
+    }
+
+}
+
+
+/* =========================
+   LOGOUT
+========================= */
+
+function logout() {
+
+    localStorage.removeItem(
+        "token"
+    );
+
+    window.location.href =
+        "index.html";
+
+}
+
+
+/* =========================
+   START
+========================= */
+
+loadUser();
+
+</script>
 
 </body>
-  </html>
+</html>: f
