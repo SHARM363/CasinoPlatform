@@ -5,10 +5,10 @@ const API_URL = "https://casinoplatform.onrender.com";
 // ===============================
 
 const adminToken = localStorage.getItem("admin_token");
-document.title = "TOKEN: " + (!!adminToken);
+
+if (!adminToken) {
     window.location.href = "admin-login.html";
 }
-
 
 // ===============================
 // AUTHENTICATED FETCH
@@ -45,15 +45,19 @@ async function loadStats() {
 
     try {
 
-        const response = await adminFetch(
-            `${API_URL}/api/admin/stats`
-        );
+const response = await adminFetch(
+    `${API_URL}/api/admin/stats`
+);
 
-        if (!response) return;
+if (!response) return;
 
-        const data = await response.json();
+console.log("STATS STATUS:", response.status);
 
-        if (data.success) {
+const data = await response.json();
+
+console.log("STATS DATA:", data);
+
+if (data.success) {
 
             document.getElementById("totalUsers").textContent =
                 data.total_users;
