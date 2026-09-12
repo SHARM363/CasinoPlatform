@@ -1438,9 +1438,32 @@ async function loadUser() {
 
 function openFeature(name) {
 
+    if (name === "আমার অ্যাকাউন্ট") {
+
+        window.location.href = "account.html";
+
+        return;
+    }
+
+
+    if (name === "সুরক্ষা কেন্দ্র") {
+
+        window.location.href = "security.html";
+
+        return;
+    }
+
+
+    if (name === "বন্ধুদের আমন্ত্রণ") {
+
+        window.location.href = "referral.html";
+
+        return;
+    }
+
+
     alert(
-        name +
-        " system will be added here."
+        name + " system will be added here."
     );
 
 }
