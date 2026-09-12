@@ -1252,6 +1252,56 @@ def admin_users():
         "success": True,
         "users": users
     })
+@api.route("/api/admin/account-information", methods=["GET"])
+def admin_account_information():
+
+    admin = verify_admin_token()
+
+    if not admin:
+        return jsonify({
+            "success": False,
+            "message": "Admin authorization required."
+        }), 401
+
+    conn = get_connection()
+    cur = conn.cursor()
+
+    try:
+
+        cur.execute("""
+            SELECT
+                account_information.id,
+                account_information.user_id,
+                account_information.real_name,
+                account_information.username,
+                account_information.email,
+                account_information.phone,
+                account_information.whatsapp,
+                account_information.submitted,
+                account_information.created_at,
+                account_information.updated_at
+            FROM account_information
+            ORDER BY account_information.created_at DESC
+        """)
+
+        accounts = cur.fetchall()
+
+        return jsonify({
+            "success": True,
+            "accounts": accounts
+        })
+
+    except Exception as e:
+
+        return jsonify({
+            "success": False,
+            "message": str(e)
+        }), 500
+
+    finally:
+
+        cur.close()
+        conn.close()   
 @api.route("/api/admin/deposits", methods=["GET"])
 def admin_deposits():
 
