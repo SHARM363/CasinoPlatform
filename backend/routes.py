@@ -362,7 +362,7 @@ def get_me():
             "success": False,
             "message": str(e)
         }), 500
-        @api.route("/api/account", methods=["GET"])
+@api.route("/api/account", methods=["GET"])
 def get_account():
 
     try:
