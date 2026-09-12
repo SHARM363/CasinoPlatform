@@ -115,7 +115,48 @@ def init_db():
     ADD COLUMN IF NOT EXISTS turnover_requirement NUMERIC(18,2) DEFAULT 3000,
     ADD COLUMN IF NOT EXISTS bonus_paid BOOLEAN DEFAULT FALSE;
     """)
+    # =========================
+    # SECURITY VERIFICATION
+    # =========================
 
+    cur.execute("""
+    ALTER TABLE users
+    ADD COLUMN IF NOT EXISTS email_verified BOOLEAN DEFAULT FALSE;
+    """)
+
+    cur.execute("""
+    ALTER TABLE account_information
+    ADD COLUMN IF NOT EXISTS phone_verified BOOLEAN DEFAULT FALSE;
+    """)
+
+    cur.execute("""
+    ALTER TABLE account_information
+    ADD COLUMN IF NOT EXISTS email_verified BOOLEAN DEFAULT FALSE;
+    """)
+
+    # One phone number = One account
+    cur.execute("""
+    CREATE UNIQUE INDEX IF NOT EXISTS
+    unique_verified_phone
+    ON account_information (phone)
+    WHERE phone IS NOT NULL
+      AND phone <> '';
+    """)
+
+    # OTP storage
+    cur.execute("""
+    CREATE TABLE IF NOT EXISTS verification_otps (
+        id SERIAL PRIMARY KEY,
+        user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+        verification_type VARCHAR(20) NOT NULL,
+        destination VARCHAR(150) NOT NULL,
+        code_hash TEXT NOT NULL,
+        expires_at TIMESTAMP NOT NULL,
+        attempts INTEGER DEFAULT 0,
+        verified BOOLEAN DEFAULT FALSE,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );
+    """)
     conn.commit()
     cur.close()
     conn.close()
