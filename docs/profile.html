@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 
 <head>
 
@@ -10,6 +10,7 @@
 
     <title>RSK32 - Member</title>
 
+
     <style>
 
         * {
@@ -18,17 +19,19 @@
             padding: 0;
         }
 
+
         body {
 
             font-family:
                 Arial,
+                "Noto Sans Bengali",
                 sans-serif;
 
-            background: #f5f6fa;
+            background: #ffffff;
 
-            color: #222;
+            color: #333;
 
-            padding-bottom: 85px;
+            padding-bottom: 80px;
 
         }
 
@@ -39,7 +42,7 @@
 
         .header {
 
-            height: 60px;
+            height: 58px;
 
             background: #ffffff;
 
@@ -49,107 +52,27 @@
 
             justify-content: space-between;
 
-            padding: 0 16px;
+            padding: 0 18px;
 
-            border-bottom:
-                1px solid #e5e5e5;
-
-            position: sticky;
-
-            top: 0;
-
-            z-index: 100;
+            border-bottom: 1px solid #eeeeee;
 
         }
+
 
         .back-btn {
 
-            width: 35px;
+            font-size: 27px;
 
-            height: 35px;
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content: center;
+            color: #333;
 
             text-decoration: none;
 
-            color: #222;
-
-            font-size: 26px;
+            width: 40px;
 
         }
+
 
         .header-title {
-
-            font-size: 18px;
-
-            font-weight: bold;
-
-        }
-
-        .header-logo {
-
-            font-size: 21px;
-
-            font-weight: bold;
-
-        }
-
-
-        /* =========================
-           PROFILE CARD
-        ========================= */
-
-        .profile-card {
-
-            background: #ffffff;
-
-            margin: 15px;
-
-            padding: 20px;
-
-            border-radius: 16px;
-
-            text-align: center;
-
-            box-shadow:
-                0 3px 12px
-                rgba(0,0,0,0.07);
-
-        }
-
-        .avatar {
-
-            width: 72px;
-
-            height: 72px;
-
-            margin: 0 auto;
-
-            border-radius: 50%;
-
-            background: #222;
-
-            color: #ffffff;
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content: center;
-
-            font-size: 30px;
-
-            font-weight: bold;
-
-        }
-
-        .username {
-
-            margin-top: 10px;
 
             font-size: 20px;
 
@@ -157,25 +80,155 @@
 
         }
 
-        .email {
 
-            margin-top: 5px;
+        .header-logo {
 
-            color: #777;
+            font-size: 22px;
 
-            font-size: 14px;
+            font-weight: bold;
+
+            width: 65px;
+
+            text-align: right;
+
+        }
+
+
+        /* =========================
+           MEMBER PROFILE CARD
+        ========================= */
+
+        .member-card {
+
+            margin: 12px 12px 8px 12px;
+
+            padding: 18px 14px 14px 14px;
+
+            border-radius: 20px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #f7fbff,
+                    #eaf5ff
+                );
+
+            box-shadow:
+                0 3px 15px
+                rgba(0,0,0,0.10);
+
+            position: relative;
+
+            overflow: hidden;
+
+        }
+
+
+        .profile-top {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 14px;
+
+        }
+
+
+        .avatar {
+
+            width: 105px;
+
+            height: 105px;
+
+            min-width: 105px;
+
+            border-radius: 50%;
+
+            background: #222;
+
+            border: 5px solid #ffffff;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 48px;
+
+            box-shadow:
+                0 2px 8px
+                rgba(0,0,0,0.18);
+
+        }
+
+
+        .member-info {
+
+            flex: 1;
+
+            min-width: 0;
+
+        }
+
+
+        .vip {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 5px;
+
+            padding: 7px 17px;
+
+            border-radius: 20px;
+
+            background: #777;
+
+            color: #ffffff;
+
+            font-size: 15px;
+
+            font-weight: bold;
+
+            margin-bottom: 10px;
+
+        }
+
+
+        .user-name {
+
+            font-size: 22px;
+
+            font-weight: bold;
+
+            color: #111;
 
             word-break: break-word;
 
         }
 
+
         .user-id {
 
-            margin-top: 5px;
+            margin-top: 8px;
 
-            color: #888;
+            font-size: 14px;
 
-            font-size: 13px;
+            color: #666;
+
+        }
+
+
+        .join-date {
+
+            margin-top: 8px;
+
+            font-size: 14px;
+
+            color: #777;
 
         }
 
@@ -184,74 +237,96 @@
            BALANCE
         ========================= */
 
-        .balance-box {
+        .balance-area {
 
-            margin-top: 17px;
-
-            padding: 16px;
-
-            background: #f2f3f7;
-
-            border-radius: 13px;
-
-        }
-
-        .balance-label {
-
-            font-size: 13px;
-
-            color: #777;
-
-        }
-
-        .balance {
-
-            margin-top: 5px;
-
-            font-size: 28px;
-
-            font-weight: bold;
-
-        }
-
-
-        /* =========================
-           DEPOSIT / WITHDRAW
-        ========================= */
-
-        .action-row {
+            margin-top: 12px;
 
             display: flex;
 
-            gap: 10px;
+            align-items: center;
 
-            margin-top: 15px;
+            justify-content: space-between;
 
         }
 
-        .main-btn {
 
-            flex: 1;
+        .balance {
+
+            font-size: 31px;
+
+            font-weight: bold;
+
+            color: #222;
+
+        }
+
+
+        .refresh-btn {
 
             border: none;
 
-            padding: 13px 8px;
+            background: transparent;
 
-            border-radius: 11px;
+            font-size: 29px;
 
-            background: #222;
-
-            color: #ffffff;
-
-            font-size: 15px;
-
-            font-weight: bold;
+            color: #777;
 
             cursor: pointer;
 
         }
 
-        .main-btn:active {
+
+        .refresh-btn:active {
+
+            transform: rotate(90deg);
+
+        }
+
+
+        /* =========================
+           WALLET BUTTONS
+        ========================= */
+
+        .wallet-actions {
+
+            display: grid;
+
+            grid-template-columns:
+                1fr 1fr 1fr;
+
+            gap: 10px;
+
+            margin-top: 12px;
+
+        }
+
+
+        .wallet-btn {
+
+            height: 48px;
+
+            border: none;
+
+            border-radius: 25px;
+
+            background: #ffffff;
+
+            color: #444;
+
+            font-size: 16px;
+
+            font-weight: bold;
+
+            box-shadow:
+                0 2px 8px
+                rgba(0,0,0,0.13);
+
+            cursor: pointer;
+
+        }
+
+
+        .wallet-btn:active {
 
             transform: scale(0.97);
 
@@ -259,87 +334,77 @@
 
 
         /* =========================
-           SECTION
+           MEMBER CENTER LABEL
         ========================= */
 
-        .section {
+        .member-label {
 
-            margin: 15px;
+            display: inline-block;
 
-        }
+            margin: 2px 0 5px 18px;
 
-        .section-title {
+            padding: 6px 14px;
 
-            font-size: 17px;
+            border-radius: 18px;
+
+            background: #eeeeee;
+
+            font-size: 14px;
 
             font-weight: bold;
 
-            margin-bottom: 10px;
+        }
+
+
+        /* =========================
+           MENU GRID
+        ========================= */
+
+        .menu-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            padding: 7px 10px 20px 10px;
+
+            row-gap: 20px;
 
         }
 
-        .menu-card {
-
-            background: #ffffff;
-
-            border-radius: 14px;
-
-            overflow: hidden;
-
-            box-shadow:
-                0 2px 8px
-                rgba(0,0,0,0.06);
-
-        }
 
         .menu-item {
 
-            min-height: 62px;
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content: space-between;
-
-            padding: 12px 15px;
-
-            border-bottom:
-                1px solid #eeeeee;
-
             text-decoration: none;
 
-            color: #222;
+            color: #444;
+
+            text-align: center;
 
             cursor: pointer;
 
-        }
-
-        .menu-item:last-child {
-
-            border-bottom: none;
+            min-width: 0;
 
         }
 
-        .menu-left {
-
-            display: flex;
-
-            align-items: center;
-
-            gap: 12px;
-
-        }
 
         .menu-icon {
 
-            width: 38px;
+            width: 58px;
 
-            height: 38px;
+            height: 58px;
 
-            border-radius: 10px;
+            margin: 0 auto 7px auto;
 
-            background: #f1f2f6;
+            border-radius: 50%;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #fff9e7,
+                    #fff0c8
+                );
 
             display: flex;
 
@@ -347,116 +412,72 @@
 
             justify-content: center;
 
-            font-size: 19px;
+            font-size: 29px;
+
+            border: 1px solid #f3dfac;
 
         }
 
-        .menu-text {
 
-            font-size: 15px;
+        .menu-title {
 
-            font-weight: 500;
+            font-size: 13px;
 
-        }
+            line-height: 1.25;
 
-        .arrow {
-
-            color: #999;
-
-            font-size: 22px;
+            min-height: 32px;
 
         }
 
 
         /* =========================
-           BET HISTORY
+           BADGE
         ========================= */
 
-        #betHistorySection {
+        .icon-wrap {
 
-            display: none;
+            position: relative;
 
-        }
+            width: 58px;
 
-        .history-card {
-
-            background: #ffffff;
-
-            margin-bottom: 10px;
-
-            padding: 15px;
-
-            border-radius: 12px;
-
-            box-shadow:
-                0 2px 7px
-                rgba(0,0,0,0.06);
+            margin: auto;
 
         }
 
-        .history-row {
+
+        .badge {
+
+            position: absolute;
+
+            top: -6px;
+
+            right: -4px;
+
+            width: 25px;
+
+            height: 25px;
+
+            border-radius: 50%;
+
+            background: #e84242;
+
+            color: #ffffff;
 
             display: flex;
 
-            justify-content: space-between;
+            align-items: center;
 
-            gap: 10px;
+            justify-content: center;
 
-            margin-bottom: 8px;
-
-            font-size: 14px;
-
-        }
-
-        .history-row:last-child {
-
-            margin-bottom: 0;
-
-        }
-
-        .history-label {
-
-            color: #777;
-
-        }
-
-        .history-value {
+            font-size: 13px;
 
             font-weight: bold;
-
-            text-align: right;
-
-        }
-
-        .win {
-
-            color: green;
-
-        }
-
-        .loss {
-
-            color: red;
-
-        }
-
-        .empty-history {
-
-            background: #ffffff;
-
-            padding: 25px;
-
-            border-radius: 12px;
-
-            text-align: center;
-
-            color: #777;
 
         }
 
 
         /* =========================
-           BOTTOM NAVIGATION
+           BOTTOM NAV
         ========================= */
 
         .bottom-nav {
@@ -469,7 +490,7 @@
 
             bottom: 0;
 
-            height: 68px;
+            height: 70px;
 
             background: #ffffff;
 
@@ -478,38 +499,41 @@
 
             display: flex;
 
+            align-items: center;
+
             justify-content:
                 space-around;
 
-            align-items: center;
-
-            z-index: 1000;
+            z-index: 9999;
 
         }
+
 
         .nav-item {
 
             flex: 1;
 
+            text-align: center;
+
             text-decoration: none;
 
             color: #777;
-
-            text-align: center;
 
             font-size: 11px;
 
         }
 
+
         .nav-icon {
 
             display: block;
 
-            font-size: 21px;
+            font-size: 23px;
 
             margin-bottom: 3px;
 
         }
+
 
         .nav-item.active {
 
@@ -534,6 +558,7 @@
 
             }
 
+
             .bottom-nav {
 
                 max-width: 500px;
@@ -549,6 +574,7 @@
 </head>
 
 
+
 <body>
 
 
@@ -557,6 +583,7 @@
 ========================= -->
 
 <div class="header">
+
 
     <a
         href="dashboard.html"
@@ -580,63 +607,81 @@
 
     </div>
 
+
 </div>
 
 
 
 <!-- =========================
-     PROFILE CARD
+     MEMBER PROFILE
 ========================= -->
 
-<div class="profile-card">
+<div class="member-card">
 
 
-    <div class="avatar">
-
-        👤
-
-    </div>
+    <div class="profile-top">
 
 
-    <div
-        class="username"
-        id="username">
+        <div class="avatar">
 
-        Loading...
-
-    </div>
-
-
-    <div
-        class="email"
-        id="email">
-
-        Loading...
-
-    </div>
-
-
-    <div class="user-id">
-
-        User ID:
-
-        <span id="userId">
-
-            Loading...
-
-        </span>
-
-    </div>
-
-
-    <div class="balance-box">
-
-
-        <div class="balance-label">
-
-            Available Balance
+            👤
 
         </div>
+
+
+        <div class="member-info">
+
+
+            <div class="vip">
+
+                🏆 VIP4
+
+            </div>
+
+
+            <div
+                class="user-name"
+                id="username">
+
+                Loading...
+
+            </div>
+
+
+            <div class="user-id">
+
+                User ID:
+                <span id="userId">
+
+                    Loading...
+
+                </span>
+
+            </div>
+
+
+            <div class="join-date">
+
+                যোগদান করেছেন:
+                <span id="joinDate">
+
+                    Loading...
+
+                </span>
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- BALANCE -->
+
+    <div class="balance-area">
 
 
         <div
@@ -648,26 +693,47 @@
         </div>
 
 
+        <button
+            class="refresh-btn"
+            onclick="loadUser()">
+
+            ↻
+
+        </button>
+
+
     </div>
 
 
-    <div class="action-row">
+
+    <!-- WALLET ACTIONS -->
+
+    <div class="wallet-actions">
 
 
         <button
-            class="main-btn"
+            class="wallet-btn"
             onclick="location.href='deposit.html'">
 
-            💳 Deposit
+            জমা দিন
 
         </button>
 
 
         <button
-            class="main-btn"
+            class="wallet-btn"
             onclick="location.href='withdraw.html'">
 
-            💸 Withdraw
+            উত্তোলন
+
+        </button>
+
+
+        <button
+            class="wallet-btn"
+            onclick="openFeature('আমার কার্ড')">
+
+            আমার কার্ড
 
         </button>
 
@@ -680,366 +746,409 @@
 
 
 <!-- =========================
-     ACCOUNT
+     MEMBER CENTER
 ========================= -->
 
-<div class="section">
+<div class="member-label">
 
-
-    <div class="section-title">
-
-        Account
-
-    </div>
-
-
-    <div class="menu-card">
-
-
-        <a
-            href="deposit.html"
-            class="menu-item">
-
-
-            <div class="menu-left">
-
-
-                <div class="menu-icon">
-
-                    💳
-
-                </div>
-
-
-                <span class="menu-text">
-
-                    Deposit
-
-                </span>
-
-
-            </div>
-
-
-            <div class="arrow">
-
-                ›
-
-            </div>
-
-
-        </a>
-
-
-
-        <a
-            href="withdraw.html"
-            class="menu-item">
-
-
-            <div class="menu-left">
-
-
-                <div class="menu-icon">
-
-                    💸
-
-                </div>
-
-
-                <span class="menu-text">
-
-                    Withdraw
-
-                </span>
-
-
-            </div>
-
-
-            <div class="arrow">
-
-                ›
-
-            </div>
-
-
-        </a>
-
-
-
-        <a
-            href="promotion.html"
-            class="menu-item">
-
-
-            <div class="menu-left">
-
-
-                <div class="menu-icon">
-
-                    🎁
-
-                </div>
-
-
-                <span class="menu-text">
-
-                    Promotions
-
-                </span>
-
-
-            </div>
-
-
-            <div class="arrow">
-
-                ›
-
-            </div>
-
-
-        </a>
-
-
-    </div>
+    সদস্য সেন্টার
 
 </div>
 
 
 
-<!-- =========================
-     PERSONAL
-========================= -->
-
-<div class="section">
+<div class="menu-grid">
 
 
-    <div class="section-title">
+    <!-- 1 Rewards Center -->
 
-        Personal
+    <div
+        class="menu-item"
+        onclick="openFeature('পুরস্কার সেন্টার')">
+
+        <div class="icon-wrap">
+
+            <div class="menu-icon">
+
+                🏆
+
+            </div>
+
+            <span class="badge">
+
+                3
+
+            </span>
+
+        </div>
+
+        <div class="menu-title">
+
+            পুরস্কার সেন্টার
+
+        </div>
 
     </div>
 
 
-    <div class="menu-card">
 
+    <!-- 2 Betting Record -->
 
-        <!-- Referral -->
+    <div
+        class="menu-item"
+        onclick="openFeature('বেটিং রেকর্ড')">
 
-        <a
-            href="referral.html"
-            class="menu-item">
+        <div class="menu-icon">
 
-
-            <div class="menu-left">
-
-
-                <div class="menu-icon">
-
-                    👥
-
-                </div>
-
-
-                <span class="menu-text">
-
-                    Referral
-
-                </span>
-
-
-            </div>
-
-
-            <div class="arrow">
-
-                ›
-
-            </div>
-
-
-        </a>
-
-
-
-        <!-- Security Center -->
-
-        <a
-            href="security.html"
-            class="menu-item">
-
-
-            <div class="menu-left">
-
-
-                <div class="menu-icon">
-
-                    🔐
-
-                </div>
-
-
-                <span class="menu-text">
-
-                    Security Center
-
-                </span>
-
-
-            </div>
-
-
-            <div class="arrow">
-
-                ›
-
-            </div>
-
-
-        </a>
-
-
-
-        <!-- Bet History -->
-
-        <div
-            class="menu-item"
-            onclick="showBetHistory()">
-
-
-            <div class="menu-left">
-
-
-                <div class="menu-icon">
-
-                    🎮
-
-                </div>
-
-
-                <span class="menu-text">
-
-                    Bet History
-
-                </span>
-
-
-            </div>
-
-
-            <div class="arrow">
-
-                ›
-
-            </div>
-
+            📊
 
         </div>
 
+        <div class="menu-title">
 
-
-        <!-- Transaction History -->
-
-        <div
-            class="menu-item"
-            onclick="showTransactionMessage()">
-
-
-            <div class="menu-left">
-
-
-                <div class="menu-icon">
-
-                    🧾
-
-                </div>
-
-
-                <span class="menu-text">
-
-                    Transaction History
-
-                </span>
-
-
-            </div>
-
-
-            <div class="arrow">
-
-                ›
-
-            </div>
-
+            বেটিং রেকর্ড
 
         </div>
-
-
-
-        <!-- Customer Service -->
-
-        <div
-            class="menu-item"
-            onclick="showServiceMessage()">
-
-
-            <div class="menu-left">
-
-
-                <div class="menu-icon">
-
-                    💬
-
-                </div>
-
-
-                <span class="menu-text">
-
-                    Customer Service
-
-                </span>
-
-
-            </div>
-
-
-            <div class="arrow">
-
-                ›
-
-            </div>
-
-
-        </div>
-
-
-    </div>
-
-</div>
-
-
-
-<!-- =========================
-     BET HISTORY
-========================= -->
-
-<div
-    class="section"
-    id="betHistorySection">
-
-
-    <div class="section-title">
-
-        🎮 Bet History
 
     </div>
 
 
-    <div id="betHistory">
 
-        Loading...
+    <!-- 3 Profit Loss -->
+
+    <div
+        class="menu-item"
+        onclick="openFeature('লাভ ক্ষতি')">
+
+        <div class="menu-icon">
+
+            💰
+
+        </div>
+
+        <div class="menu-title">
+
+            লাভ ক্ষতি
+
+        </div>
+
+    </div>
+
+
+
+    <!-- 4 Deposit Record -->
+
+    <div
+        class="menu-item"
+        onclick="openFeature('জমা রেকর্ড')">
+
+        <div class="menu-icon">
+
+            💳
+
+        </div>
+
+        <div class="menu-title">
+
+            জমা রেকর্ড
+
+        </div>
+
+    </div>
+
+
+
+    <!-- 5 Withdraw Record -->
+
+    <div
+        class="menu-item"
+        onclick="openFeature('উত্তোলন রেকর্ড')">
+
+        <div class="menu-icon">
+
+            🧾
+
+        </div>
+
+        <div class="menu-title">
+
+            উত্তোলন রেকর্ড
+
+        </div>
+
+    </div>
+
+
+
+    <!-- 6 Account Record -->
+
+    <div
+        class="menu-item"
+        onclick="openFeature('অ্যাকাউন্ট রেকর্ড')">
+
+        <div class="menu-icon">
+
+            📋
+
+        </div>
+
+        <div class="menu-title">
+
+            অ্যাকাউন্ট রেকর্ড
+
+        </div>
+
+    </div>
+
+
+
+    <!-- 7 My Account -->
+
+    <div
+        class="menu-item"
+        onclick="openFeature('আমার অ্যাকাউন্ট')">
+
+        <div class="menu-icon">
+
+            👤
+
+        </div>
+
+        <div class="menu-title">
+
+            আমার অ্যাকাউন্ট
+
+        </div>
+
+    </div>
+
+
+
+    <!-- 8 Security Center -->
+
+    <div
+        class="menu-item"
+        onclick="location.href='security.html'">
+
+        <div class="menu-icon">
+
+            🛡️
+
+        </div>
+
+        <div class="menu-title">
+
+            সুরক্ষা কেন্দ্র
+
+        </div>
+
+    </div>
+
+
+
+    <!-- 9 Invite Friends -->
+
+    <div
+        class="menu-item"
+        onclick="location.href='referral.html'">
+
+        <div class="menu-icon">
+
+            👥
+
+        </div>
+
+        <div class="menu-title">
+
+            বন্ধুদের আমন্ত্রণ জানান
+
+        </div>
+
+    </div>
+
+
+
+    <!-- 10 Mission -->
+
+    <div
+        class="menu-item"
+        onclick="openFeature('মিশন')">
+
+        <div class="icon-wrap">
+
+            <div class="menu-icon">
+
+                🎁
+
+            </div>
+
+            <span class="badge">
+
+                1
+
+            </span>
+
+        </div>
+
+        <div class="menu-title">
+
+            মিশন
+
+        </div>
+
+    </div>
+
+
+
+    <!-- 11 Rebate -->
+
+    <div
+        class="menu-item"
+        onclick="openFeature('রিবেট')">
+
+        <div class="menu-icon">
+
+            💵
+
+        </div>
+
+        <div class="menu-title">
+
+            রিবেট
+
+        </div>
+
+    </div>
+
+
+
+    <!-- 12 Mail -->
+
+    <div
+        class="menu-item"
+        onclick="openFeature('মেইল')">
+
+        <div class="menu-icon">
+
+            ✉️
+
+        </div>
+
+        <div class="menu-title">
+
+            মেইল
+
+        </div>
+
+    </div>
+
+
+
+    <!-- 13 Advice -->
+
+    <div
+        class="menu-item"
+        onclick="openFeature('পরামর্শ')">
+
+        <div class="menu-icon">
+
+            💡
+
+        </div>
+
+        <div class="menu-title">
+
+            পরামর্শ
+
+        </div>
+
+    </div>
+
+
+
+    <!-- 14 App Download -->
+
+    <div
+        class="menu-item"
+        onclick="openFeature('অ্যাপ ডাউনলোড করুন')">
+
+        <div class="menu-icon">
+
+            📱
+
+        </div>
+
+        <div class="menu-title">
+
+            অ্যাপ ডাউনলোড করুন
+
+        </div>
+
+    </div>
+
+
+
+    <!-- 15 Customer Service -->
+
+    <div
+        class="menu-item"
+        onclick="openFeature('কাস্টমার সার্ভিস')">
+
+        <div class="menu-icon">
+
+            💬
+
+        </div>
+
+        <div class="menu-title">
+
+            কাস্টমার সার্ভিস
+
+        </div>
+
+    </div>
+
+
+
+    <!-- 16 Help Center -->
+
+    <div
+        class="menu-item"
+        onclick="openFeature('সাহায্য কেন্দ্র')">
+
+        <div class="menu-icon">
+
+            ❓
+
+        </div>
+
+        <div class="menu-title">
+
+            সাহায্য কেন্দ্র
+
+        </div>
+
+    </div>
+
+
+
+    <!-- 17 Logout -->
+
+    <div
+        class="menu-item"
+        onclick="logout()">
+
+        <div class="menu-icon">
+
+            🚪
+
+        </div>
+
+        <div class="menu-title">
+
+            লগআউট
+
+        </div>
 
     </div>
 
@@ -1066,7 +1175,6 @@
 
         </span>
 
-
         Home
 
     </a>
@@ -1083,7 +1191,6 @@
             👥
 
         </span>
-
 
         Referral
 
@@ -1102,7 +1209,6 @@
 
         </span>
 
-
         Promotion
 
     </a>
@@ -1112,7 +1218,10 @@
     <a
         href="#"
         class="nav-item"
-        onclick="showServiceMessage(); return false;">
+        onclick="
+            alert('Customer Service will be available here.');
+            return false;
+        ">
 
 
         <span class="nav-icon">
@@ -1120,7 +1229,6 @@
             💬
 
         </span>
-
 
         Service
 
@@ -1139,7 +1247,6 @@
 
         </span>
 
-
         Member
 
     </a>
@@ -1152,6 +1259,10 @@
 <script>
 
 
+/* =========================
+   API
+========================= */
+
 const API_URL =
     "https://casinoplatform.onrender.com";
 
@@ -1162,7 +1273,7 @@ const token =
 
 
 /* =========================
-   AUTH CHECK
+   LOGIN CHECK
 ========================= */
 
 if (!token) {
@@ -1213,12 +1324,7 @@ async function loadUser() {
                 response.status === 401
             ) {
 
-                localStorage.removeItem(
-                    "token"
-                );
-
-                window.location.href =
-                    "index.html";
+                logout();
 
             }
 
@@ -1239,22 +1345,13 @@ async function loadUser() {
 
 
 
-        /* EMAIL */
-
-        document.getElementById(
-            "email"
-        ).textContent =
-            data.user.email ||
-            "";
-
-
-
         /* USER ID */
 
         document.getElementById(
             "userId"
         ).textContent =
-            data.user.id;
+            data.user.id ||
+            "N/A";
 
 
 
@@ -1269,318 +1366,53 @@ async function loadUser() {
             ).toFixed(2);
 
 
-    }
 
-    catch (error) {
-
-
-        console.error(
-            "User loading error:",
-            error
-        );
-
-
-    }
-
-}
-
-
-
-/* =========================
-   BET HISTORY
-========================= */
-
-async function showBetHistory() {
-
-
-    const section =
-        document.getElementById(
-            "betHistorySection"
-        );
-
-
-    section.style.display =
-        "block";
-
-
-    section.scrollIntoView({
-        behavior: "smooth"
-    });
-
-
-
-    const history =
-        document.getElementById(
-            "betHistory"
-        );
-
-
-    history.innerHTML =
-        "Loading...";
-
-
-    try {
-
-
-        const response =
-            await fetch(
-                `${API_URL}/api/bet-history`,
-                {
-                    method: "GET",
-
-                    headers: {
-
-                        "Authorization":
-                            "Bearer " + token
-
-                    }
-
-                }
-            );
-
-
-        const data =
-            await response.json();
-
-
-
-        if (!data.success) {
-
-
-            history.innerHTML = `
-
-                <div class="empty-history">
-
-                    Unable to load bet history.
-
-                </div>
-
-            `;
-
-
-            return;
-
-        }
-
-
+        /* JOIN DATE */
 
         if (
-            !data.bets ||
-            data.bets.length === 0
+            data.user.created_at
         ) {
 
-
-            history.innerHTML = `
-
-                <div class="empty-history">
-
-                    No bet history found.
-
-                </div>
-
-            `;
+            const date =
+                new Date(
+                    data.user.created_at
+                );
 
 
-            return;
+            if (
+                !isNaN(
+                    date.getTime()
+                )
+            ) {
+
+                document.getElementById(
+                    "joinDate"
+                ).textContent =
+                    date
+                    .toISOString()
+                    .slice(0, 10);
+
+            }
+
+            else {
+
+                document.getElementById(
+                    "joinDate"
+                ).textContent =
+                    data.user.created_at;
+
+            }
 
         }
 
+        else {
 
+            document.getElementById(
+                "joinDate"
+            ).textContent =
+                "N/A";
 
-        history.innerHTML =
-            data.bets.map(
-                bet => {
-
-
-                    const winLoss =
-                        Number(
-                            bet.win_loss || 0
-                        );
-
-
-                    let resultClass =
-                        "";
-
-
-                    if (
-                        winLoss > 0
-                    ) {
-
-                        resultClass =
-                            "win";
-
-                    }
-
-                    else if (
-                        winLoss < 0
-                    ) {
-
-                        resultClass =
-                            "loss";
-
-                    }
-
-
-
-                    return `
-
-                        <div
-                            class="history-card">
-
-
-                            <div
-                                class="history-row">
-
-
-                                <span
-                                    class="history-label">
-
-                                    Bet ID
-
-                                </span>
-
-
-                                <span
-                                    class="history-value">
-
-                                    #${bet.id}
-
-                                </span>
-
-
-                            </div>
-
-
-
-                            <div
-                                class="history-row">
-
-
-                                <span
-                                    class="history-label">
-
-                                    Game
-
-                                </span>
-
-
-                                <span
-                                    class="history-value">
-
-                                    ${bet.game || "N/A"}
-
-                                </span>
-
-
-                            </div>
-
-
-
-                            <div
-                                class="history-row">
-
-
-                                <span
-                                    class="history-label">
-
-                                    Bet Amount
-
-                                </span>
-
-
-                                <span
-                                    class="history-value">
-
-                                    ৳${Number(
-                                        bet.bet_amount || 0
-                                    ).toFixed(2)}
-
-                                </span>
-
-
-                            </div>
-
-
-
-                            <div
-                                class="history-row">
-
-
-                                <span
-                                    class="history-label">
-
- 
-                                    Result
-
-                                </span>
-
-
-                                <span
-                                    class="history-value">
-
-                                    ${bet.result || "N/A"}
-
-                                </span>
-
-
-                            </div>
-
-
-
-                            <div
-                                class="history-row">
-
-
-                                <span
-                                    class="history-label">
-
-                                    Win / Loss
-
-                                </span>
-
-
-                                <span
-                                    class="history-value ${resultClass}">
-
-                                    ৳${winLoss.toFixed(2)}
-
-                                </span>
-
-
-                            </div>
-
-
-
-                            <div
-                                class="history-row">
-
-
-                                <span
-                                    class="history-label">
-
-                                    Date & Time
-
-                                </span>
-
-
-                                <span
-                                    class="history-value">
-
-                                    ${bet.created_at || "N/A"}
-
-                                </span>
-
-
-                            </div>
-
-
-                        </div>
-
-                    `;
-
-                }
-
-            ).join("");
+        }
 
 
     }
@@ -1589,20 +1421,10 @@ async function showBetHistory() {
 
 
         console.error(
-            "Bet history error:",
+            "Profile loading error:",
             error
         );
 
-
-        history.innerHTML = `
-
-            <div class="empty-history">
-
-                Unable to connect to server.
-
-            </div>
-
-        `;
 
     }
 
@@ -1611,27 +1433,14 @@ async function showBetHistory() {
 
 
 /* =========================
-   TRANSACTION HISTORY
+   FUTURE FEATURES
 ========================= */
 
-function showTransactionMessage() {
+function openFeature(name) {
 
     alert(
-        "Transaction History will be available here."
-    );
-
-}
-
-
-
-/* =========================
-   CUSTOMER SERVICE
-========================= */
-
-function showServiceMessage() {
-
-    alert(
-        "Customer Service will be available here."
+        name +
+        " system will be added here."
     );
 
 }
@@ -1668,4 +1477,4 @@ loadUser();
 
 </body>
 
-</html>
+    </html>
