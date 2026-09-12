@@ -1,0 +1,1415 @@
+<!DOCTYPE html>
+<html lang="bn">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>RSK32 - আমার অ্যাকাউন্ট</title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+
+        body {
+
+            font-family:
+                Arial,
+                "Noto Sans Bengali",
+                sans-serif;
+
+            background: #ffffff;
+
+            color: #222222;
+
+            min-height: 100vh;
+
+        }
+
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        .header {
+
+            height: 64px;
+
+            background: #1b1b1b;
+
+            color: #ffffff;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            position: relative;
+
+        }
+
+
+        .back-btn {
+
+            position: absolute;
+
+            left: 18px;
+
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            background: transparent;
+
+            border: none;
+
+            color: #ffffff;
+
+            font-size: 38px;
+
+            font-weight: 300;
+
+            line-height: 1;
+
+            cursor: pointer;
+
+        }
+
+
+        .header-title {
+
+            font-size: 22px;
+
+            font-weight: 600;
+
+        }
+
+
+        /* =========================
+           MAIN
+        ========================= */
+
+        .container {
+
+            width: 100%;
+
+            max-width: 650px;
+
+            margin: auto;
+
+            padding: 28px 18px 100px;
+
+        }
+
+
+        .user-number {
+
+            font-size: 21px;
+
+            margin-bottom: 24px;
+
+            color: #222222;
+
+            line-height: 1.5;
+
+        }
+
+
+        .user-number strong {
+
+            font-weight: 500;
+
+        }
+
+
+        /* =========================
+           ACCOUNT INFORMATION
+        ========================= */
+
+        .account-list {
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 14px;
+
+        }
+
+
+        .account-item {
+
+            min-height: 72px;
+
+            background: #eeeeee;
+
+            border-radius: 14px;
+
+            display: flex;
+
+            align-items: center;
+
+            padding: 12px 18px;
+
+            gap: 16px;
+
+        }
+
+
+        .account-item.highlight {
+
+            background: #cfcfcf;
+
+        }
+
+
+        .account-icon {
+
+            width: 42px;
+
+            height: 42px;
+
+            flex-shrink: 0;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 28px;
+
+            color: #999999;
+
+        }
+
+
+        .account-content {
+
+            min-width: 0;
+
+            flex: 1;
+
+        }
+
+
+        .account-value {
+
+            font-size: 20px;
+
+            color: #777777;
+
+            font-weight: 400;
+
+            white-space: nowrap;
+
+            overflow: hidden;
+
+            text-overflow: ellipsis;
+
+        }
+
+
+        .account-subtitle {
+
+            font-size: 11px;
+
+            color: #aaaaaa;
+
+            margin-top: 3px;
+
+        }
+
+
+        /* =========================
+           PRIVACY TITLE
+        ========================= */
+
+        .privacy-title {
+
+            margin-top: 28px;
+
+            color: #3299dc;
+
+            font-size: 20px;
+
+            font-weight: 500;
+
+            line-height: 1.4;
+
+        }
+
+
+        .privacy-text {
+
+            margin-top: 12px;
+
+            color: #999999;
+
+            font-size: 14px;
+
+            line-height: 1.65;
+
+        }
+
+
+        /* =========================
+           DEPOSIT BUTTON
+        ========================= */
+
+        .deposit-btn {
+
+            width: 100%;
+
+            height: 62px;
+
+            margin-top: 28px;
+
+            border: none;
+
+            border-radius: 13px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #ff2738,
+                    #ff3340
+                );
+
+            color: #ffffff;
+
+            font-size: 22px;
+
+            font-weight: 600;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 6px 15px
+                rgba(255, 35, 55, 0.25);
+
+        }
+
+
+        .deposit-btn:active {
+
+            transform: scale(0.98);
+
+        }
+
+
+        /* =========================
+           SECURITY BUTTON
+        ========================= */
+
+        .security-link {
+
+            display: block;
+
+            width: 100%;
+
+            text-align: center;
+
+            margin-top: 16px;
+
+            color: #777777;
+
+            font-size: 14px;
+
+            text-decoration: none;
+
+        }
+
+
+        /* =========================
+           LOADING
+        ========================= */
+
+        .loading {
+
+            position: fixed;
+
+            inset: 0;
+
+            background: rgba(
+                255,
+                255,
+                255,
+                0.88
+            );
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            z-index: 500;
+
+            font-size: 16px;
+
+            color: #555555;
+
+        }
+
+
+        .loading.hidden {
+
+            display: none;
+
+        }
+
+
+        /* =========================
+           ERROR
+        ========================= */
+
+        .error-message {
+
+            display: none;
+
+            margin-top: 15px;
+
+            padding: 12px;
+
+            border-radius: 9px;
+
+            background: #fff0f0;
+
+            color: #d00000;
+
+            font-size: 13px;
+
+            text-align: center;
+
+        }
+
+
+        /* =========================
+           BOTTOM NAV
+        ========================= */
+
+        .bottom-nav {
+
+            position: fixed;
+
+            bottom: 0;
+
+            left: 0;
+
+            right: 0;
+
+            height: 66px;
+
+            background: #ffffff;
+
+            border-top: 1px solid #eeeeee;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-around;
+
+            z-index: 200;
+
+        }
+
+
+        .nav-item {
+
+            text-decoration: none;
+
+            color: #777777;
+
+            text-align: center;
+
+            font-size: 11px;
+
+            min-width: 55px;
+
+        }
+
+
+        .nav-icon {
+
+            display: block;
+
+            font-size: 21px;
+
+            margin-bottom: 3px;
+
+        }
+
+
+        .nav-item.active {
+
+            color: #e60000;
+
+            font-weight: 700;
+
+        }
+
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 420px) {
+
+            .container {
+
+                padding:
+                    26px 16px 100px;
+
+            }
+
+
+            .header-title {
+
+                font-size: 21px;
+
+            }
+
+
+            .user-number {
+
+                font-size: 20px;
+
+            }
+
+
+            .account-item {
+
+                min-height: 70px;
+
+                padding: 10px 14px;
+
+            }
+
+
+            .account-value {
+
+                font-size: 19px;
+
+            }
+
+
+            .privacy-title {
+
+                font-size: 19px;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     LOADING
+========================= -->
+
+<div class="loading"
+     id="loading">
+
+    অ্যাকাউন্ট তথ্য লোড হচ্ছে...
+
+</div>
+
+
+<!-- =========================
+     HEADER
+========================= -->
+
+<header class="header">
+
+    <button
+        class="back-btn"
+        onclick="goBack()">
+
+        ‹
+
+    </button>
+
+
+    <div class="header-title">
+
+        আমার অ্যাকাউন্ট
+
+    </div>
+
+</header>
+
+
+<!-- =========================
+     MAIN
+========================= -->
+
+<main class="container">
+
+
+    <!-- USER PHONE -->
+    <div class="user-number">
+
+        ব্যবহারকারীর নাম:
+
+        <strong id="mobileNumber">
+            Loading...
+        </strong>
+
+    </div>
+
+
+    <!-- ACCOUNT INFORMATION -->
+    <div class="account-list">
+
+
+        <!-- REAL NAME -->
+        <div class="account-item highlight">
+
+            <div class="account-icon">
+                🪪
+            </div>
+
+
+            <div class="account-content">
+
+                <div
+                    class="account-value"
+                    id="realName">
+
+                    H******
+
+                </div>
+
+                <div class="account-subtitle">
+
+                    আসল নাম
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- WALLET / BANK -->
+        <div class="account-item">
+
+            <div class="account-icon">
+                🏦
+            </div>
+
+
+            <div class="account-content">
+
+                <div
+                    class="account-value"
+                    id="walletInfo">
+
+                    Wallet তথ্য নেই
+
+                </div>
+
+                <div class="account-subtitle">
+
+                    Wallet / Bank
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- MOBILE -->
+        <div class="account-item">
+
+            <div class="account-icon">
+                👤
+            </div>
+
+
+            <div class="account-content">
+
+                <div
+                    class="account-value"
+                    id="mobileInfo">
+
+                    01*********
+
+                </div>
+
+                <div class="account-subtitle">
+
+                    মোবাইল নম্বর
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- USERNAME -->
+        <div class="account-item highlight">
+
+            <div class="account-icon">
+                👤
+            </div>
+
+
+            <div class="account-content">
+
+                <div
+                    class="account-value"
+                    id="username">
+
+                    Loading...
+
+                </div>
+
+                <div class="account-subtitle">
+
+                    Username
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- EMAIL -->
+        <div class="account-item">
+
+            <div class="account-icon">
+                ✉️
+            </div>
+
+
+            <div class="account-content">
+
+                <div
+                    class="account-value"
+                    id="email">
+
+                    Email Verify করা হয়নি
+
+                </div>
+
+                <div class="account-subtitle">
+
+                    Email Address
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- =========================
+         PRIVACY
+    ========================= -->
+
+    <div class="privacy-title">
+
+        আমরা আপনার গোপনীয়তা সম্পর্কে চিন্তা করি
+
+    </div>
+
+
+    <div class="privacy-text">
+
+        সমস্ত ব্যবহারকারীর তথ্য এনক্রিপ্ট করা হয়
+        আপনার ব্যক্তিগত গোপনীয়তা এবং নিরাপত্তা
+        রক্ষা করার জন্য।
+
+    </div>
+
+
+    <!-- =========================
+         ERROR
+    ========================= -->
+
+    <div
+        class="error-message"
+        id="errorMessage">
+
+        অ্যাকাউন্ট তথ্য লোড করা সম্ভব হয়নি।
+
+    </div>
+
+
+    <!-- =========================
+         DEPOSIT
+    ========================= -->
+
+    <button
+        class="deposit-btn"
+        onclick="goDeposit()">
+
+        জমা দিন
+
+    </button>
+
+
+    <!-- SECURITY -->
+    <a
+        href="security.html"
+        class="security-link">
+
+        🔐 Security Center
+
+    </a>
+
+
+</main>
+
+
+<!-- =========================
+     BOTTOM NAV
+========================= -->
+
+<nav class="bottom-nav">
+
+
+    <a
+        href="dashboard.html"
+        class="nav-item">
+
+        <span class="nav-icon">
+            ⌂
+        </span>
+
+        Home
+
+    </a>
+
+
+    <a
+        href="referral.html"
+        class="nav-item">
+
+        <span class="nav-icon">
+            👥
+        </span>
+
+        Referral
+
+    </a>
+
+
+    <a
+        href="promotion.html"
+        class="nav-item">
+
+        <span class="nav-icon">
+            🎁
+        </span>
+
+        Promotion
+
+    </a>
+
+
+    <a
+        href="#"
+        class="nav-item"
+        onclick="
+            alert('Service Center coming soon');
+            return false;
+        ">
+
+        <span class="nav-icon">
+            💬
+        </span>
+
+        Service
+
+    </a>
+
+
+    <a
+        href="profile.html"
+        class="nav-item active">
+
+        <span class="nav-icon">
+            👤
+        </span>
+
+        Member
+
+    </a>
+
+
+</nav>
+
+
+<script>
+
+
+    /* =========================
+       API
+    ========================= */
+
+    const API_URL =
+        "https://casinoplatform.onrender.com";
+
+
+    /* =========================
+       TOKEN
+    ========================= */
+
+    const token =
+        localStorage.getItem("token");
+
+
+    if (!token) {
+
+        window.location.href =
+            "index.html";
+
+    }
+
+
+    /* =========================
+       MASK TEXT
+    ========================= */
+
+    function maskText(
+        value,
+        start = 1,
+        end = 1
+    ) {
+
+        if (!value) {
+
+            return "Not Set";
+
+        }
+
+
+        value =
+            String(value);
+
+
+        if (value.length <= start + end) {
+
+            return "*".repeat(
+                value.length
+            );
+
+        }
+
+
+        const first =
+            value.substring(
+                0,
+                start
+            );
+
+
+        const last =
+            value.substring(
+                value.length - end
+            );
+
+
+        const stars =
+            "*".repeat(
+                Math.max(
+                    3,
+                    value.length -
+                    start -
+                    end
+                )
+            );
+
+
+        return first +
+               stars +
+               last;
+
+    }
+
+
+    /* =========================
+       MASK MOBILE
+    ========================= */
+
+    function maskMobile(
+        value
+    ) {
+
+        if (!value) {
+
+            return "Not Verified";
+
+        }
+
+
+        value =
+            String(value);
+
+
+        if (value.length < 7) {
+
+            return maskText(
+                value,
+                2,
+                2
+            );
+
+        }
+
+
+        return (
+            value.substring(
+                0,
+                3
+            ) +
+            "****" +
+            value.substring(
+                value.length - 3
+            )
+        );
+
+    }
+
+
+    /* =========================
+       MASK EMAIL
+    ========================= */
+
+    function maskEmail(
+        email
+    ) {
+
+        if (!email) {
+
+            return "Email Verify করা হয়নি";
+
+        }
+
+
+        email =
+            String(email);
+
+
+        const parts =
+            email.split("@");
+
+
+        if (parts.length !== 2) {
+
+            return maskText(
+                email,
+                2,
+                2
+            );
+
+        }
+
+
+        const name =
+            parts[0];
+
+        const domain =
+            parts[1];
+
+
+        let maskedName;
+
+
+        if (name.length <= 2) {
+
+            maskedName =
+                name.charAt(0) +
+                "****";
+
+        } else {
+
+            maskedName =
+                name.substring(
+                    0,
+                    2
+                ) +
+                "********";
+
+        }
+
+
+        return (
+            maskedName +
+            "@" +
+            domain
+        );
+
+    }
+
+
+    /* =========================
+       MASK WALLET
+    ========================= */
+
+    function maskWallet(
+        value
+    ) {
+
+        if (!value) {
+
+            return "Wallet তথ্য নেই";
+
+        }
+
+
+        value =
+            String(value);
+
+
+        if (value.length <= 6) {
+
+            return "******";
+
+        }
+
+
+        return (
+            value.substring(
+                0,
+                2
+            ) +
+            "****************" +
+            value.substring(
+                value.length - 3
+            )
+        );
+
+    }
+
+
+    /* =========================
+       LOAD USER
+    ========================= */
+
+    async function loadAccount() {
+
+        const loading =
+            document.getElementById(
+                "loading"
+            );
+
+
+        try {
+
+            const response =
+                await fetch(
+                    `${API_URL}/api/me`,
+                    {
+
+                        method: "GET",
+
+                        headers: {
+
+                            "Authorization":
+                                `Bearer ${token}`,
+
+                            "Content-Type":
+                                "application/json"
+
+                        }
+
+                    }
+                );
+
+
+            const data =
+                await response.json();
+
+
+            if (
+                !response.ok ||
+                !data.success
+            ) {
+
+                throw new Error(
+                    data.message ||
+                    "Account loading failed"
+                );
+
+            }
+
+
+            const user =
+                data.user || {};
+
+
+            /* =====================
+               USERNAME
+            ===================== */
+
+            const username =
+                user.username ||
+                "-";
+
+
+            document.getElementById(
+                "username"
+            ).textContent =
+                maskText(
+                    username,
+                    2,
+                    1
+                );
+
+
+            /* =====================
+               MOBILE
+            ===================== */
+
+            const mobile =
+                user.mobile ||
+                user.phone ||
+                user.phone_number ||
+                user.mobile_number ||
+                "";
+
+
+            if (mobile) {
+
+                document.getElementById(
+                    "mobileNumber"
+                ).textContent =
+                    mobile;
+
+
+                document.getElementById(
+                    "mobileInfo"
+                ).textContent =
+                    maskMobile(
+                        mobile
+                    );
+
+            } else {
+
+                document.getElementById(
+                    "mobileNumber"
+                ).textContent =
+                    "Not Verified";
+
+
+                document.getElementById(
+                    "mobileInfo"
+                ).textContent =
+                    "Not Verified";
+
+            }
+
+
+            /* =====================
+               REAL NAME
+            ===================== */
+
+            const realName =
+                user.real_name ||
+                user.full_name ||
+                user.name ||
+                "";
+
+
+            if (realName) {
+
+                document.getElementById(
+                    "realName"
+                ).textContent =
+                    maskText(
+                        realName,
+                        1,
+                        0
+                    );
+
+            } else {
+
+                document.getElementById(
+                    "realName"
+                ).textContent =
+                    "H******";
+
+            }
+
+
+            /* =====================
+               EMAIL
+            ===================== */
+
+            const email =
+                user.email ||
+                "";
+
+
+            document.getElementById(
+                "email"
+            ).textContent =
+                maskEmail(
+                    email
+                );
+
+
+            /* =====================
+               WALLET
+            ===================== */
+
+            const wallet =
+                user.wallet_number ||
+                user.wallet ||
+                user.account_number ||
+                user.bank_account ||
+                "";
+
+
+            const walletMethod =
+                user.wallet_method ||
+                user.payment_method ||
+                "";
+
+
+            if (wallet) {
+
+                let walletText =
+                    maskWallet(
+                        wallet
+                    );
+
+
+                if (walletMethod) {
+
+                    walletText =
+                        walletMethod +
+                        " • " +
+                        walletText;
+    }
+
+
+    document.getElementById(
+        "walletInfo"
+    ).textContent =
+        walletText;
+
+
+} else {
+
+    document.getElementById(
+        "walletInfo"
+    ).textContent =
+        "Wallet সেটআপ করা হয়নি";
+
+}
+
+
+        } catch (error) {
+
+            console.error(
+                "Account error:",
+                error
+            );
+
+
+            document.getElementById(
+                "errorMessage"
+            ).style.display =
+                "block";
+
+
+            /*
+             * API error হলেও
+             * page পুরোপুরি বন্ধ হবে না।
+             */
+
+        } finally {
+
+            document.getElementById(
+                "loading"
+            ).classList.add(
+                "hidden"
+            );
+
+        }
+
+    }
+
+
+    /* =========================
+       DEPOSIT
+    ========================= */
+
+    function goDeposit() {
+
+        /*
+         * আপনার বর্তমান working
+         * Deposit page-এই যাবে।
+         */
+
+        window.location.href =
+            "deposit.html";
+
+    }
+
+
+    /* =========================
+       BACK BUTTON
+    ========================= */
+
+    function goBack() {
+
+        if (
+            document.referrer &&
+            history.length > 1
+        ) {
+
+            history.back();
+
+        } else {
+
+            window.location.href =
+                "profile.html";
+
+        }
+
+    }
+
+
+    /* =========================
+       LOAD ACCOUNT
+    ========================= */
+
+    loadAccount();
+
+
+</script>
+
+
+</body>
+
+</html>
+            
