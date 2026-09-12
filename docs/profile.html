@@ -1,13 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
 
     <title>RSK32 - Member</title>
 
     <style>
+
         * {
             box-sizing: border-box;
             margin: 0;
@@ -15,460 +19,887 @@
         }
 
         body {
-            font-family: Arial, sans-serif;
-            background: #f4f5f9;
+
+            font-family:
+                Arial,
+                sans-serif;
+
+            background: #f5f6fa;
+
             color: #222;
-            padding-bottom: 80px;
+
+            padding-bottom: 85px;
+
         }
 
+
+        /* =========================
+           HEADER
+        ========================= */
+
         .header {
+
             height: 60px;
+
             background: #ffffff;
+
             display: flex;
+
             align-items: center;
+
             justify-content: space-between;
+
             padding: 0 16px;
-            border-bottom: 1px solid #ddd;
+
+            border-bottom:
+                1px solid #e5e5e5;
+
+            position: sticky;
+
+            top: 0;
+
+            z-index: 100;
+
         }
 
         .back-btn {
-            font-size: 24px;
-            text-decoration: none;
-            color: #222;
-        }
 
-        .logo {
-            font-size: 22px;
-            font-weight: bold;
+            width: 35px;
+
+            height: 35px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            text-decoration: none;
+
+            color: #222;
+
+            font-size: 26px;
+
         }
 
         .header-title {
+
             font-size: 18px;
+
             font-weight: bold;
+
         }
 
+        .header-logo {
+
+            font-size: 21px;
+
+            font-weight: bold;
+
+        }
+
+
+        /* =========================
+           PROFILE CARD
+        ========================= */
+
         .profile-card {
+
             background: #ffffff;
+
             margin: 15px;
+
             padding: 20px;
-            border-radius: 15px;
+
+            border-radius: 16px;
+
             text-align: center;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+
+            box-shadow:
+                0 3px 12px
+                rgba(0,0,0,0.07);
+
         }
 
         .avatar {
-            width: 70px;
-            height: 70px;
-            margin: auto;
+
+            width: 72px;
+
+            height: 72px;
+
+            margin: 0 auto;
+
             border-radius: 50%;
+
             background: #222;
-            color: white;
+
+            color: #ffffff;
+
             display: flex;
+
             align-items: center;
+
             justify-content: center;
+
             font-size: 30px;
+
             font-weight: bold;
+
         }
 
         .username {
+
             margin-top: 10px;
+
             font-size: 20px;
+
             font-weight: bold;
+
         }
 
         .email {
+
             margin-top: 5px;
+
             color: #777;
+
             font-size: 14px;
+
+            word-break: break-word;
+
         }
 
         .user-id {
+
             margin-top: 5px;
-            color: #777;
+
+            color: #888;
+
             font-size: 13px;
+
         }
 
+
+        /* =========================
+           BALANCE
+        ========================= */
+
         .balance-box {
-            margin-top: 15px;
-            background: #f1f2f6;
-            padding: 15px;
-            border-radius: 12px;
+
+            margin-top: 17px;
+
+            padding: 16px;
+
+            background: #f2f3f7;
+
+            border-radius: 13px;
+
         }
 
         .balance-label {
+
             font-size: 13px;
+
             color: #777;
+
         }
 
         .balance {
-            font-size: 27px;
-            font-weight: bold;
+
             margin-top: 5px;
+
+            font-size: 28px;
+
+            font-weight: bold;
+
         }
 
+
+        /* =========================
+           DEPOSIT / WITHDRAW
+        ========================= */
+
         .action-row {
+
             display: flex;
+
             gap: 10px;
+
             margin-top: 15px;
+
         }
 
         .main-btn {
+
             flex: 1;
+
             border: none;
-            padding: 12px;
-            border-radius: 10px;
+
+            padding: 13px 8px;
+
+            border-radius: 11px;
+
             background: #222;
-            color: white;
+
+            color: #ffffff;
+
             font-size: 15px;
+
             font-weight: bold;
+
             cursor: pointer;
+
         }
 
+        .main-btn:active {
+
+            transform: scale(0.97);
+
+        }
+
+
+        /* =========================
+           SECTION
+        ========================= */
+
         .section {
+
             margin: 15px;
+
         }
 
         .section-title {
-            font-size: 18px;
+
+            font-size: 17px;
+
             font-weight: bold;
+
             margin-bottom: 10px;
+
         }
 
         .menu-card {
-            background: white;
-            border-radius: 13px;
+
+            background: #ffffff;
+
+            border-radius: 14px;
+
             overflow: hidden;
-            box-shadow: 0 2px 7px rgba(0,0,0,0.06);
+
+            box-shadow:
+                0 2px 8px
+                rgba(0,0,0,0.06);
+
         }
 
         .menu-item {
+
+            min-height: 62px;
+
             display: flex;
+
             align-items: center;
+
             justify-content: space-between;
-            padding: 17px 15px;
-            border-bottom: 1px solid #eee;
+
+            padding: 12px 15px;
+
+            border-bottom:
+                1px solid #eeeeee;
+
             text-decoration: none;
+
             color: #222;
+
             cursor: pointer;
+
         }
 
         .menu-item:last-child {
+
             border-bottom: none;
+
         }
 
         .menu-left {
+
             display: flex;
+
             align-items: center;
+
             gap: 12px;
+
         }
 
         .menu-icon {
-            width: 35px;
-            height: 35px;
-            border-radius: 9px;
+
+            width: 38px;
+
+            height: 38px;
+
+            border-radius: 10px;
+
             background: #f1f2f6;
+
             display: flex;
+
             align-items: center;
+
             justify-content: center;
-            font-size: 18px;
+
+            font-size: 19px;
+
+        }
+
+        .menu-text {
+
+            font-size: 15px;
+
+            font-weight: 500;
+
         }
 
         .arrow {
+
             color: #999;
-            font-size: 20px;
+
+            font-size: 22px;
+
         }
 
-        .logout {
-            margin: 15px;
-        }
 
-        .logout-btn {
-            width: 100%;
-            padding: 14px;
-            border: none;
-            border-radius: 12px;
-            background: #e74c3c;
-            color: white;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        /* Bet History */
+        /* =========================
+           BET HISTORY
+        ========================= */
 
         #betHistorySection {
+
             display: none;
+
         }
 
         .history-card {
-            background: white;
+
+            background: #ffffff;
+
             margin-bottom: 10px;
+
             padding: 15px;
+
             border-radius: 12px;
-            box-shadow: 0 2px 7px rgba(0,0,0,0.06);
+
+            box-shadow:
+                0 2px 7px
+                rgba(0,0,0,0.06);
+
         }
 
         .history-row {
+
             display: flex;
+
             justify-content: space-between;
+
+            gap: 10px;
+
             margin-bottom: 8px;
+
             font-size: 14px;
+
         }
 
         .history-row:last-child {
+
             margin-bottom: 0;
+
         }
 
         .history-label {
+
             color: #777;
+
         }
 
         .history-value {
+
             font-weight: bold;
+
+            text-align: right;
+
         }
 
         .win {
+
             color: green;
+
         }
 
         .loss {
+
             color: red;
+
         }
 
         .empty-history {
-            background: white;
+
+            background: #ffffff;
+
             padding: 25px;
+
             border-radius: 12px;
+
             text-align: center;
+
             color: #777;
+
         }
 
-        /* Bottom Navigation */
+
+        /* =========================
+           BOTTOM NAVIGATION
+        ========================= */
 
         .bottom-nav {
+
             position: fixed;
-            bottom: 0;
+
             left: 0;
+
             right: 0;
-            height: 65px;
-            background: white;
-            border-top: 1px solid #ddd;
+
+            bottom: 0;
+
+            height: 68px;
+
+            background: #ffffff;
+
+            border-top:
+                1px solid #dddddd;
+
             display: flex;
-            justify-content: space-around;
+
+            justify-content:
+                space-around;
+
             align-items: center;
+
             z-index: 1000;
+
         }
 
         .nav-item {
+
+            flex: 1;
+
             text-decoration: none;
+
             color: #777;
+
             text-align: center;
+
             font-size: 11px;
+
         }
 
         .nav-icon {
+
             display: block;
+
             font-size: 21px;
+
             margin-bottom: 3px;
+
         }
 
         .nav-item.active {
+
             color: #111;
+
             font-weight: bold;
+
         }
 
+
+        /* =========================
+           DESKTOP
+        ========================= */
+
         @media (min-width: 700px) {
+
             body {
+
                 max-width: 500px;
+
                 margin: auto;
+
             }
 
             .bottom-nav {
+
                 max-width: 500px;
+
                 margin: auto;
+
             }
+
         }
+
     </style>
+
 </head>
+
 
 <body>
 
-<!-- Header -->
+
+<!-- =========================
+     HEADER
+========================= -->
 
 <div class="header">
 
-    <a href="dashboard.html" class="back-btn">
+    <a
+        href="dashboard.html"
+        class="back-btn">
+
         ←
+
     </a>
 
+
     <div class="header-title">
+
         Member
+
     </div>
 
-    <div class="logo">
+
+    <div class="header-logo">
+
         RSK32
+
     </div>
 
 </div>
 
 
-<!-- Profile -->
+
+<!-- =========================
+     PROFILE CARD
+========================= -->
 
 <div class="profile-card">
 
+
     <div class="avatar">
+
         👤
+
     </div>
 
-    <div class="username" id="username">
+
+    <div
+        class="username"
+        id="username">
+
         Loading...
+
     </div>
 
-    <div class="email" id="email">
+
+    <div
+        class="email"
+        id="email">
+
         Loading...
+
     </div>
+
 
     <div class="user-id">
-        User ID: <span id="userId">Loading...</span>
+
+        User ID:
+
+        <span id="userId">
+
+            Loading...
+
+        </span>
+
     </div>
+
 
     <div class="balance-box">
 
+
         <div class="balance-label">
+
             Available Balance
+
         </div>
 
-        <div class="balance" id="balance">
+
+        <div
+            class="balance"
+            id="balance">
+
             ৳0.00
+
         </div>
+
 
     </div>
 
+
     <div class="action-row">
+
 
         <button
             class="main-btn"
             onclick="location.href='deposit.html'">
+
             💳 Deposit
+
         </button>
+
 
         <button
             class="main-btn"
             onclick="location.href='withdraw.html'">
+
             💸 Withdraw
+
         </button>
 
+
     </div>
+
 
 </div>
 
 
-<!-- Account -->
+
+<!-- =========================
+     ACCOUNT
+========================= -->
 
 <div class="section">
 
+
     <div class="section-title">
+
         Account
+
     </div>
+
 
     <div class="menu-card">
 
-        <a href="deposit.html" class="menu-item">
+
+        <a
+            href="deposit.html"
+            class="menu-item">
+
 
             <div class="menu-left">
 
+
                 <div class="menu-icon">
+
                     💳
+
                 </div>
 
-                <span>
+
+                <span class="menu-text">
+
                     Deposit
+
                 </span>
 
+
             </div>
 
+
             <div class="arrow">
+
                 ›
+
             </div>
+
 
         </a>
 
 
-        <a href="withdraw.html" class="menu-item">
+
+        <a
+            href="withdraw.html"
+            class="menu-item">
+
 
             <div class="menu-left">
 
+
                 <div class="menu-icon">
+
                     💸
+
                 </div>
 
-                <span>
+
+                <span class="menu-text">
+
                     Withdraw
+
                 </span>
 
+
             </div>
 
+
             <div class="arrow">
+
                 ›
+
             </div>
+
 
         </a>
 
 
-        <a href="promotion.html" class="menu-item">
+
+        <a
+            href="promotion.html"
+            class="menu-item">
+
 
             <div class="menu-left">
 
+
                 <div class="menu-icon">
+
                     🎁
+
                 </div>
 
-                <span>
+
+                <span class="menu-text">
+
                     Promotions
+
                 </span>
 
+
             </div>
+
 
             <div class="arrow">
+
                 ›
+
             </div>
 
+
         </a>
+
 
     </div>
 
 </div>
 
 
-<!-- Personal -->
+
+<!-- =========================
+     PERSONAL
+========================= -->
 
 <div class="section">
 
+
     <div class="section-title">
+
         Personal
+
     </div>
+
 
     <div class="menu-card">
 
-        <a href="referral.html" class="menu-item">
+
+        <!-- Referral -->
+
+        <a
+            href="referral.html"
+            class="menu-item">
+
 
             <div class="menu-left">
 
+
                 <div class="menu-icon">
+
                     👥
+
                 </div>
 
-                <span>
+
+                <span class="menu-text">
+
                     Referral
+
                 </span>
 
+
             </div>
+
 
             <div class="arrow">
+
                 ›
+
             </div>
 
+
         </a>
+
+
+
+        <!-- Security Center -->
+
+        <a
+            href="security.html"
+            class="menu-item">
+
+
+            <div class="menu-left">
+
+
+                <div class="menu-icon">
+
+                    🔐
+
+                </div>
+
+
+                <span class="menu-text">
+
+                    Security Center
+
+                </span>
+
+
+            </div>
+
+
+            <div class="arrow">
+
+                ›
+
+            </div>
+
+
+        </a>
+
 
 
         <!-- Bet History -->
@@ -477,172 +908,262 @@
             class="menu-item"
             onclick="showBetHistory()">
 
+
             <div class="menu-left">
 
+
                 <div class="menu-icon">
+
                     🎮
+
                 </div>
 
-                <span>
+
+                <span class="menu-text">
+
                     Bet History
+
                 </span>
 
+
             </div>
 
+
             <div class="arrow">
+
                 ›
+
             </div>
+
 
         </div>
 
 
-        <div class="menu-item">
+
+        <!-- Transaction History -->
+
+        <div
+            class="menu-item"
+            onclick="showTransactionMessage()">
+
 
             <div class="menu-left">
 
+
                 <div class="menu-icon">
+
                     🧾
+
                 </div>
 
-                <span>
+
+                <span class="menu-text">
+
                     Transaction History
+
                 </span>
 
+
             </div>
 
+
             <div class="arrow">
+
                 ›
+
             </div>
+
 
         </div>
 
 
-        <div class="menu-item">
+
+        <!-- Customer Service -->
+
+        <div
+            class="menu-item"
+            onclick="showServiceMessage()">
+
 
             <div class="menu-left">
 
+
                 <div class="menu-icon">
+
                     💬
+
                 </div>
 
-                <span>
+
+                <span class="menu-text">
+
                     Customer Service
+
                 </span>
 
+
             </div>
+
 
             <div class="arrow">
+
                 ›
+
             </div>
 
+
         </div>
+
 
     </div>
 
 </div>
 
 
-<!-- Bet History Section -->
+
+<!-- =========================
+     BET HISTORY
+========================= -->
 
 <div
     class="section"
     id="betHistorySection">
 
+
     <div class="section-title">
+
         🎮 Bet History
+
     </div>
+
 
     <div id="betHistory">
+
         Loading...
+
     </div>
 
-</div>
-
-
-<!-- Logout -->
-
-<div class="logout">
-
-    <button
-        class="logout-btn"
-        onclick="logout()">
-
-        🚪 Logout
-
-    </button>
 
 </div>
 
 
-<!-- Bottom Navigation -->
+
+<!-- =========================
+     BOTTOM NAVIGATION
+========================= -->
 
 <div class="bottom-nav">
 
-    <a href="dashboard.html" class="nav-item">
+
+    <a
+        href="dashboard.html"
+        class="nav-item">
+
 
         <span class="nav-icon">
+
             🏠
+
         </span>
+
 
         Home
 
     </a>
 
 
-    <a href="referral.html" class="nav-item">
+
+    <a
+        href="referral.html"
+        class="nav-item">
+
 
         <span class="nav-icon">
+
             👥
+
         </span>
+
 
         Referral
 
     </a>
 
 
-    <a href="promotion.html" class="nav-item">
+
+    <a
+        href="promotion.html"
+        class="nav-item">
+
 
         <span class="nav-icon">
+
             🎁
+
         </span>
+
 
         Promotion
 
     </a>
 
 
-    <a href="#" class="nav-item">
+
+    <a
+        href="#"
+        class="nav-item"
+        onclick="showServiceMessage(); return false;">
+
 
         <span class="nav-icon">
+
             💬
+
         </span>
+
 
         Service
 
     </a>
 
 
-    <a href="profile.html" class="nav-item active">
+
+    <a
+        href="profile.html"
+        class="nav-item active">
+
 
         <span class="nav-icon">
+
             👤
+
         </span>
+
 
         Member
 
     </a>
 
+
 </div>
+
 
 
 <script>
 
+
 const API_URL =
     "https://casinoplatform.onrender.com";
+
 
 const token =
     localStorage.getItem("token");
 
+
+
+/* =========================
+   AUTH CHECK
+========================= */
 
 if (!token) {
 
@@ -652,56 +1173,83 @@ if (!token) {
 }
 
 
+
 /* =========================
    LOAD USER
 ========================= */
 
 async function loadUser() {
 
+
     try {
+
 
         const response =
             await fetch(
                 `${API_URL}/api/me`,
                 {
                     method: "GET",
+
                     headers: {
+
                         "Authorization":
                             "Bearer " + token
+
                     }
+
                 }
             );
+
 
         const data =
             await response.json();
 
 
+
         if (!data.success) {
+
 
             if (
                 response.status === 401
             ) {
 
-                logout();
+                localStorage.removeItem(
+                    "token"
+                );
+
+                window.location.href =
+                    "index.html";
 
             }
+
 
             return;
 
         }
 
 
+
+        /* USERNAME */
+
         document.getElementById(
             "username"
         ).textContent =
-            data.user.username || "User";
+            data.user.username ||
+            "User";
 
+
+
+        /* EMAIL */
 
         document.getElementById(
             "email"
         ).textContent =
-            data.user.email || "";
+            data.user.email ||
+            "";
 
+
+
+        /* USER ID */
 
         document.getElementById(
             "userId"
@@ -709,25 +1257,33 @@ async function loadUser() {
             data.user.id;
 
 
+
+        /* BALANCE */
+
         document.getElementById(
             "balance"
         ).textContent =
             "৳" +
             Number(
-                data.user.balance
+                data.user.balance || 0
             ).toFixed(2);
 
 
-    } catch (error) {
+    }
+
+    catch (error) {
+
 
         console.error(
             "User loading error:",
             error
         );
 
+
     }
 
 }
+
 
 
 /* =========================
@@ -736,10 +1292,12 @@ async function loadUser() {
 
 async function showBetHistory() {
 
+
     const section =
         document.getElementById(
             "betHistorySection"
         );
+
 
     section.style.display =
         "block";
@@ -748,6 +1306,7 @@ async function showBetHistory() {
     section.scrollIntoView({
         behavior: "smooth"
     });
+
 
 
     const history =
@@ -762,15 +1321,20 @@ async function showBetHistory() {
 
     try {
 
+
         const response =
             await fetch(
                 `${API_URL}/api/bet-history`,
                 {
                     method: "GET",
+
                     headers: {
+
                         "Authorization":
                             "Bearer " + token
+
                     }
+
                 }
             );
 
@@ -779,16 +1343,25 @@ async function showBetHistory() {
             await response.json();
 
 
+
         if (!data.success) {
 
-            history.innerHTML =
-                `<div class="empty-history">
+
+            history.innerHTML = `
+
+                <div class="empty-history">
+
                     Unable to load bet history.
-                </div>`;
+
+                </div>
+
+            `;
+
 
             return;
 
         }
+
 
 
         if (
@@ -796,19 +1369,28 @@ async function showBetHistory() {
             data.bets.length === 0
         ) {
 
-            history.innerHTML =
-                `<div class="empty-history">
+
+            history.innerHTML = `
+
+                <div class="empty-history">
+
                     No bet history found.
-                </div>`;
+
+                </div>
+
+            `;
+
 
             return;
 
         }
 
 
+
         history.innerHTML =
             data.bets.map(
                 bet => {
+
 
                     const winLoss =
                         Number(
@@ -819,6 +1401,7 @@ async function showBetHistory() {
                     let resultClass =
                         "";
 
+
                     if (
                         winLoss > 0
                     ) {
@@ -826,7 +1409,9 @@ async function showBetHistory() {
                         resultClass =
                             "win";
 
-                    } else if (
+                    }
+
+                    else if (
                         winLoss < 0
                     ) {
 
@@ -836,139 +1421,92 @@ async function showBetHistory() {
                     }
 
 
+
                     return `
 
-                        <div class="history-card">
-
-                            <div class="history-row">
-
-                                <span class="history-label">
-                                    Bet ID
-                                </span>
-
-                                <span class="history-value">
-                                    #${bet.id}
-                                </span>
-
-                            </div>
+                        <div
+                            class="history-card">
 
 
-                            <div class="history-row">
+                            <div
+                                class="history-row">
 
-                                <span class="history-label">
-                                    Game
-                                </span>
-
-                                <span class="history-value">
-                                    ${bet.game || "N/A"}
-                                </span>
-
-                            </div>
-
-
-                            <div class="history-row">
-
-                                <span class="history-label">
-                                    Bet Amount
-                                </span>
-
-                                <span class="history-value">
-                                    ৳${Number(
-                                        bet.bet_amount
-                                    ).toFixed(2)}
-                                </span>
-
-                            </div>
-
-
-                            <div class="history-row">
-
-                                <span class="history-label">
-                                    Result
-                                </span>
-
-                                <span class="history-value">
-                                    ${bet.result || "N/A"}
-                                </span>
-
-                            </div>
-
-
-                            <div class="history-row">
-
-                                <span class="history-label">
-                                    Win / Loss
-                                </span>
 
                                 <span
-                                    class="history-value ${resultClass}">
-                                    ৳${winLoss.toFixed(2)}
+                                    class="history-label">
+
+                                    Bet ID
+
                                 </span>
+
+
+                                <span
+                                    class="history-value">
+
+                                    #${bet.id}
+
+                                </span>
+
 
                             </div>
 
 
-                            <div class="history-row">
 
-                                <span class="history-label">
-                                    Date & Time
+                            <div
+                                class="history-row">
+
+
+                                <span
+                                    class="history-label">
+
+                                    Game
+
                                 </span>
 
-                                <span class="history-value">
-                                    ${bet.created_at}
+
+                                <span
+                                    class="history-value">
+
+                                    ${bet.game || "N/A"}
+
                                 </span>
+
 
                             </div>
 
-                        </div>
-
-                    `;
-
-                }
-            ).join("");
 
 
-    } catch (error) {
-
-        console.error(
-            "Bet history error:",
-            error
-        );
+                            <div
+                                class="history-row">
 
 
-        history.innerHTML =
-            `<div class="empty-history">
-                Unable to connect to server.
-            </div>`;
+                                <span
+                                    class="history-label">
 
-    }
+                                    Bet Amount
 
-}
+                                </span>
 
 
-/* =========================
-   LOGOUT
-========================= */
+                                <span
+                                    class="history-value">
 
-function logout() {
+                                    ৳${Number(
+                                        bet.bet_amount || 0
+                                    ).toFixed(2)}
 
-    localStorage.removeItem(
-        "token"
-    );
-
-    window.location.href =
-        "index.html";
-
-}
+                                </span>
 
 
-/* =========================
-   START
-========================= */
+                            </div>
 
-loadUser();
 
-</script>
 
-</body>
-</html>: f
+                            <div
+                                class="history-row">
+
+
+                                <span
+                                    class="history-label">
+
+ 
