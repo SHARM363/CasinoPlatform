@@ -79,7 +79,18 @@ def init_db():
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
     """)
-
+    CREATE TABLE IF NOT EXISTS account_information (
+        id SERIAL PRIMARY KEY,
+        user_id INTEGER UNIQUE REFERENCES users(id) ON DELETE CASCADE,
+        real_name TEXT,
+        username VARCHAR(100),
+        email VARCHAR(150),
+        phone VARCHAR(30),
+        whatsapp VARCHAR(30),
+        submitted BOOLEAN DEFAULT FALSE,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );
     cur.execute("""
     ALTER TABLE withdrawals
     ADD COLUMN IF NOT EXISTS payment_method VARCHAR(20),
