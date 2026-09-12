@@ -362,7 +362,85 @@ def get_me():
             "success": False,
             "message": str(e)
         }), 500
+@api.route("/api/account", methods=["GET"])
+def get_account():
 
+    try:
+        auth_header = request.headers.get("Authorization")
+
+        if not auth_header:
+            return jsonify({
+                "success": False,
+                "message": "Authorization token required."
+            }), 401
+
+        token = auth_header.split(" ")[1]
+
+        payload = jwt.decode(
+            token,
+            Config.SECRET_KEY,
+            algorithms=["HS256"]
+        )
+
+        user_id = payload.get("user_id")
+
+        conn = get_connection()
+        cur = conn.cursor()
+
+        cur.execute("""
+            SELECT
+                real_name,
+                username,
+                email,
+                phone,
+                whatsapp,
+                submitted
+            FROM account_information
+            WHERE user_id = %s
+        """, (user_id,))
+
+        account = cur.fetchone()
+
+        cur.close()
+        conn.close()
+
+        if not account:
+            return jsonify({
+                "success": True,
+                "account": {
+                    "submitted": False
+                }
+            }), 200
+
+        return jsonify({
+            "success": True,
+            "account": {
+                "real_name": account["real_name"],
+                "username": account["username"],
+                "email": account["email"],
+                "phone": account["phone"],
+                "whatsapp": account["whatsapp"],
+                "submitted": account["submitted"]
+            }
+        }), 200
+
+    except jwt.ExpiredSignatureError:
+        return jsonify({
+            "success": False,
+            "message": "Token expired."
+        }), 401
+
+    except jwt.InvalidTokenError:
+        return jsonify({
+            "success": False,
+            "message": "Invalid token."
+        }), 401
+
+    except Exception as e:
+        return jsonify({
+            "success": False,
+            "message": str(e)
+        }), 500
 
 @api.route("/api/test-balance", methods=["GET"])
 def test_balance():
