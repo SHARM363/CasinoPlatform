@@ -1510,3 +1510,162 @@ async function showBetHistory() {
                                     class="history-label">
 
  
+                                    Result
+
+                                </span>
+
+
+                                <span
+                                    class="history-value">
+
+                                    ${bet.result || "N/A"}
+
+                                </span>
+
+
+                            </div>
+
+
+
+                            <div
+                                class="history-row">
+
+
+                                <span
+                                    class="history-label">
+
+                                    Win / Loss
+
+                                </span>
+
+
+                                <span
+                                    class="history-value ${resultClass}">
+
+                                    ৳${winLoss.toFixed(2)}
+
+                                </span>
+
+
+                            </div>
+
+
+
+                            <div
+                                class="history-row">
+
+
+                                <span
+                                    class="history-label">
+
+                                    Date & Time
+
+                                </span>
+
+
+                                <span
+                                    class="history-value">
+
+                                    ${bet.created_at || "N/A"}
+
+                                </span>
+
+
+                            </div>
+
+
+                        </div>
+
+                    `;
+
+                }
+
+            ).join("");
+
+
+    }
+
+    catch (error) {
+
+
+        console.error(
+            "Bet history error:",
+            error
+        );
+
+
+        history.innerHTML = `
+
+            <div class="empty-history">
+
+                Unable to connect to server.
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+
+/* =========================
+   TRANSACTION HISTORY
+========================= */
+
+function showTransactionMessage() {
+
+    alert(
+        "Transaction History will be available here."
+    );
+
+}
+
+
+
+/* =========================
+   CUSTOMER SERVICE
+========================= */
+
+function showServiceMessage() {
+
+    alert(
+        "Customer Service will be available here."
+    );
+
+}
+
+
+
+/* =========================
+   LOGOUT
+========================= */
+
+function logout() {
+
+    localStorage.removeItem(
+        "token"
+    );
+
+
+    window.location.href =
+        "index.html";
+
+}
+
+
+
+/* =========================
+   START
+========================= */
+
+loadUser();
+
+
+</script>
+
+
+</body>
+
+</html>
