@@ -856,3 +856,4 @@ loadUsers();
 loadDeposits();
 loadWithdrawals();
 loadPaymentSettings();
+loadAccountInformation();
