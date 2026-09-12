@@ -1,552 +1,1456 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>RSK32 Dashboard</title>
+<meta charset="UTF-8">
 
-    <link rel="stylesheet" href="style.css">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
 
-    <style>
-        /* Game List */
-        .game-list-section {
-            margin-top: 20px;
-            display: none;
-        }
+<title>RSK32 Home</title>
 
-        .game-list-section h3 {
-            margin-bottom: 15px;
-        }
+<style>
 
-        .game-list {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-        }
+* {
+    box-sizing: border-box;
+}
 
-        .game-card {
-            background: #ffffff;
-            border-radius: 12px;
-            padding: 18px 10px;
-            text-align: center;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            cursor: pointer;
-            transition: 0.2s;
-        }
+body {
+    margin: 0;
+    background: #101a2f;
+    color: #ffffff;
+    font-family: Arial, sans-serif;
+    padding-bottom: 75px;
+}
 
-        .game-card:active {
-            transform: scale(0.96);
-        }
+.container {
+    width: 100%;
+    max-width: 700px;
+    margin: auto;
+}
 
-        .game-icon {
-            font-size: 32px;
-            margin-bottom: 8px;
-        }
+/* =========================
+   HEADER
+========================= */
 
-        .game-name {
-            font-weight: bold;
-        }
+.top-bar {
 
-        .back-game-btn {
-            margin-top: 15px;
-            padding: 10px 18px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            background: #222;
-            color: #fff;
-        }
-    </style>
+    height: 72px;
+
+    background: #1251a8;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding: 10px 12px;
+
+}
+
+.logo {
+
+    font-size: 27px;
+
+    font-weight: 900;
+
+    color: #ffd900;
+
+    letter-spacing: 4px;
+
+}
+
+.header-right {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+}
+
+.balance-box {
+
+    background: #1971d5;
+
+    padding: 10px 12px;
+
+    border-radius: 12px;
+
+    font-size: 14px;
+
+    font-weight: bold;
+
+    white-space: nowrap;
+
+}
+
+.header-btn {
+
+    width: 43px;
+
+    height: 43px;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background: #1971d5;
+
+    color: white;
+
+    font-size: 19px;
+
+    cursor: pointer;
+
+}
+
+.login-btn {
+
+    height: 43px;
+
+    padding: 0 12px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    background: #1971d5;
+
+    color: white;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+}
+
+/* =========================
+   BANNER
+========================= */
+
+.banner-slider {
+
+    width: 100%;
+
+    height: 115px;
+
+    overflow: hidden;
+
+    background: #222;
+
+}
+
+.slides {
+
+    display: none;
+
+    width: 100%;
+
+    height: 115px;
+
+}
+
+.slides img {
+
+    width: 100%;
+
+    height: 115px;
+
+    object-fit: cover;
+
+    display: block;
+
+}
+
+/* =========================
+   WELCOME
+========================= */
+
+.welcome-card {
+
+    margin: 12px;
+
+    background: #ffffff;
+
+    color: #222;
+
+    border-radius: 16px;
+
+    padding: 16px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+}
+
+.welcome-info h2 {
+
+    margin: 0 0 7px;
+
+    font-size: 21px;
+
+}
+
+.welcome-info p {
+
+    margin: 0;
+
+    color: #666;
+
+    font-size: 14px;
+
+}
+
+.welcome-balance {
+
+    text-align: right;
+
+}
+
+.welcome-balance small {
+
+    color: #777;
+
+}
+
+.welcome-balance strong {
+
+    display: block;
+
+    margin-top: 5px;
+
+    font-size: 19px;
+
+    color: #1263c9;
+
+}
+
+/* =========================
+   ACTION BUTTONS
+========================= */
+
+.action-section {
+
+    margin: 8px 12px;
+
+    background: #ffffff;
+
+    border-radius: 12px;
+
+    overflow: hidden;
+
+}
+
+.action-grid {
+
+    display: grid;
+
+    grid-template-columns: repeat(4, 1fr);
+
+}
+
+.action-card {
+
+    text-decoration: none;
+
+    color: #333;
+
+    text-align: center;
+
+    padding: 13px 5px;
+
+    border-right: 1px solid #eeeeee;
+
+    cursor: pointer;
+
+}
+
+.action-card:last-child {
+
+    border-right: none;
+
+}
+
+.action-icon {
+
+    font-size: 27px;
+
+    margin-bottom: 5px;
+
+}
+
+.action-name {
+
+    font-size: 12px;
+
+    font-weight: bold;
+
+}
+
+/* =========================
+   GAME CATEGORIES
+========================= */
+
+.game-section {
+
+    margin: 15px 12px;
+
+}
+
+.game-section-title {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 12px;
+
+}
+
+.game-section-title h3 {
+
+    margin: 0;
+
+    font-size: 21px;
+
+}
+
+.view-all {
+
+    color: #4aa3ff;
+
+    text-decoration: none;
+
+    font-size: 13px;
+
+    font-weight: bold;
+
+}
+
+.game-grid {
+
+    display: grid;
+
+    grid-template-columns: repeat(4, 1fr);
+
+    gap: 9px;
+
+}
+
+.game-item {
+
+    background: #172b50;
+
+    border: 1px solid #27477b;
+
+    border-radius: 12px;
+
+    padding: 14px 4px;
+
+    text-align: center;
+
+    cursor: pointer;
+
+    transition: 0.15s;
+
+}
+
+.game-item:active {
+
+    transform: scale(0.95);
+
+}
+
+.game-icon {
+
+    font-size: 30px;
+
+    margin-bottom: 7px;
+
+}
+
+.game-name {
+
+    font-size: 11px;
+
+    font-weight: bold;
+
+}
+
+/* =========================
+   GAME LIST
+========================= */
+
+.game-list-section {
+
+    display: none;
+
+    margin: 15px 12px;
+
+}
+
+.game-list-header {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 12px;
+
+}
+
+.game-list-header h3 {
+
+    margin: 0;
+
+}
+
+.back-btn {
+
+    border: none;
+
+    background: #2674d9;
+
+    color: white;
+
+    padding: 8px 11px;
+
+    border-radius: 8px;
+
+}
+
+.game-list {
+
+    display: grid;
+
+    grid-template-columns: repeat(2, 1fr);
+
+    gap: 10px;
+
+}
+
+.game-card {
+
+    background: #172b50;
+
+    border: 1px solid #27477b;
+
+    border-radius: 12px;
+
+    padding: 22px 8px;
+
+    text-align: center;
+
+    cursor: pointer;
+
+}
+
+.game-card-icon {
+
+    font-size: 38px;
+
+    margin-bottom: 8px;
+
+}
+
+.game-card-name {
+
+    font-size: 14px;
+
+    font-weight: bold;
+
+}
+
+/* =========================
+   BOTTOM NAVIGATION
+========================= */
+
+.bottom-nav {
+
+    position: fixed;
+
+    bottom: 0;
+
+    left: 0;
+
+    right: 0;
+
+    height: 68px;
+
+    background: #ffffff;
+
+    border-top: 1px solid #dddddd;
+
+    display: flex;
+
+    justify-content: space-around;
+
+    z-index: 999;
+
+    max-width: 700px;
+
+    margin: auto;
+
+}
+
+.nav-item {
+
+    flex: 1;
+
+    text-decoration: none;
+
+    color: #777;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 22px;
+
+}
+
+.nav-item span {
+
+    font-size: 11px;
+
+    margin-top: 3px;
+
+}
+
+.nav-item.active {
+
+    color: #1475dc;
+
+    font-weight: bold;
+
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 420px) {
+
+    .logo {
+
+        font-size: 22px;
+
+        letter-spacing: 3px;
+
+    }
+
+    .balance-box {
+
+        font-size: 12px;
+
+        padding: 9px 8px;
+
+    }
+
+    .header-btn {
+
+        width: 38px;
+
+        height: 38px;
+
+        font-size: 17px;
+
+    }
+
+    .login-btn {
+
+        height: 38px;
+
+        padding: 0 8px;
+
+        font-size: 11px;
+
+    }
+
+    .welcome-card {
+
+        padding: 13px;
+
+    }
+
+    .welcome-info h2 {
+
+        font-size: 18px;
+
+    }
+
+    .welcome-balance strong {
+
+        font-size: 16px;
+
+    }
+
+    .action-icon {
+
+        font-size: 24px;
+
+    }
+
+    .action-name {
+
+        font-size: 10px;
+
+    }
+
+    .game-grid {
+
+        grid-template-columns: repeat(4, 1fr);
+
+    }
+
+}
+
+</style>
+
 </head>
+
 
 <body>
 
 <div class="container">
 
-    <div class="top-bar">
 
-        <div class="logo">
-            RSK32
-        </div>
+<!-- =========================
+     HEADER
+========================= -->
 
-        <div class="header-right">
+<div class="top-bar">
 
-            <div class="balance-box">
-                💰 <span id="balance">৳0.00</span>
-            </div>
-
-            <button id="refreshBtn" class="icon-btn">🔄</button>
-
-            <button id="notificationBtn" class="icon-btn">🔔</button>
-
-        </div>
-
+    <div class="logo">
+        RSK32
     </div>
 
+    <div class="header-right">
 
-    <div class="welcome-card">
-
-        <h2>
-            Welcome,
-            <span id="username">Loading...</span>
-        </h2>
-
-        <p>
-            User ID:
-            <span id="userId">Loading...</span>
-        </p>
-
-    </div>
-
-
-    <!-- Banner Slider -->
-
-    <div class="banner-slider">
-
-        <div class="slides fade">
-            <img src="images/banner1.jpg" alt="Banner 1">
+        <div class="balance-box">
+            💰 <span id="balance">৳0.00</span>
         </div>
 
-        <div class="slides fade">
-            <img src="images/banner2.jpg" alt="Banner 2">
-        </div>
-
-        <div class="slides fade">
-            <img src="images/banner3.jpg" alt="Banner 3">
-        </div>
-
-    </div>
-
-
-    <!-- Quick Actions -->
-
-    <div class="quick-actions">
-
-        <a href="deposit.html" class="action-card">
-            💰
-            <span>Deposit</span>
-        </a>
-
-        <a href="withdraw.html" class="action-card">
-            💸
-            <span>Withdraw</span>
-        </a>
-
-        <a href="#" class="action-card">
-            🎁
-            <span>Reward</span>
-        </a>
-
-        <a href="#" class="action-card">
-            💎
-            <span>VIP</span>
-        </a>
-
-    </div>
-
-
-    <!-- Game Categories -->
-
-    <div class="game-section" id="gameCategories">
-
-        <h3>🎮 Game Categories</h3>
-
-        <div class="game-grid">
-
-            <div class="game-item" onclick="openCategory('slots')">
-                🎰
-                <br>
-                Slots
-            </div>
-
-            <div class="game-item" onclick="openCategory('live')">
-                🎲
-                <br>
-                Live
-            </div>
-
-            <div class="game-item" onclick="openCategory('sports')">
-                ⚽
-                <br>
-                Sports
-            </div>
-
-            <div class="game-item" onclick="openCategory('poker')">
-                🃏
-                <br>
-                Poker
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- Game List -->
-
-    <div class="game-list-section" id="gameListSection">
-
-        <h3 id="gameListTitle">🎮 Games</h3>
-
-        <div class="game-list" id="gameList"></div>
-
-        <button class="back-game-btn" onclick="showCategories()">
-            ← Back to Categories
+        <button
+            class="header-btn"
+            id="notificationBtn">
+            🔔
         </button>
 
-    </div>
-
-
-    <button id="logoutBtn" class="main-btn">
-        Logout
-    </button>
-
-
-    <!-- Bottom Navigation -->
-
-    <div class="bottom-nav">
-
-        <a href="dashboard.html" class="nav-item active">
-            👋
-            <span>Home</span>
-        </a>
-
-        <a href="referral.html" class="nav-item">
-            👥
-            <span>Referral</span>
-        </a>
-
-        <a href="promotion.html" class="nav-item">
-            🎁
-            <span>Promotion</span>
-        </a>
-
-        <a href="service.html" class="nav-item">
-            💬
-            <span>Service</span>
-        </a>
-
-        <a href="profile.html" class="nav-item">
-            👤
-            <span>Member</span>
-        </a>
+        <button
+            class="login-btn"
+            onclick="openLogin()">
+            Login
+        </button>
 
     </div>
 
 </div>
 
 
+<!-- =========================
+     SMALL BANNER
+========================= -->
+
+<div class="banner-slider">
+
+    <div class="slides">
+        <img
+            src="images/banner1.jpg"
+            alt="Banner 1">
+    </div>
+
+    <div class="slides">
+        <img
+            src="images/banner2.jpg"
+            alt="Banner 2">
+    </div>
+
+    <div class="slides">
+        <img
+            src="images/banner3.jpg"
+            alt="Banner 3">
+    </div>
+
+</div>
+
+
+<!-- =========================
+     WELCOME
+========================= -->
+
+<div class="welcome-card">
+
+    <div class="welcome-info">
+
+        <h2>
+            Welcome,
+            <span id="username">
+                Loading...
+            </span>
+        </h2>
+
+        <p>
+            User ID:
+            <span id="userId">
+                Loading...
+            </span>
+        </p>
+
+    </div>
+
+    <div class="welcome-balance">
+
+        <small>
+            Balance
+        </small>
+
+        <strong id="welcomeBalance">
+            ৳0.00
+        </strong>
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     ACTION BUTTONS
+========================= -->
+
+<div class="action-section">
+
+    <div class="action-grid">
+
+
+        <a
+            href="deposit.html"
+            class="action-card">
+
+            <div class="action-icon">
+                💰
+            </div>
+
+            <div class="action-name">
+                Deposit
+            </div>
+
+        </a>
+
+
+        <a
+            href="withdraw.html"
+            class="action-card">
+
+            <div class="action-icon">
+                💸
+            </div>
+
+            <div class="action-name">
+                Withdraw
+            </div>
+
+        </a>
+
+
+        <a
+            href="promotion.html"
+            class="action-card">
+
+            <div class="action-icon">
+                🎁
+            </div>
+
+            <div class="action-name">
+                Reward
+            </div>
+
+        </a>
+
+
+        <a
+            href="promotion.html"
+            class="action-card">
+
+            <div class="action-icon">
+                💎
+            </div>
+
+            <div class="action-name">
+                Rebate
+            </div>
+
+        </a>
+
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     GAME CATEGORIES
+========================= -->
+
+<div
+    class="game-section"
+    id="gameCategories">
+
+    <div class="game-section-title">
+
+        <h3>
+            🎮 Game Categories
+        </h3>
+
+        <a
+            href="games.html"
+            class="view-all">
+            View All →
+        </a>
+
+    </div>
+
+
+    <div class="game-grid">
+
+
+        <div
+            class="game-item"
+            onclick="openCategory('slots')">
+
+            <div class="game-icon">
+                🎰
+            </div>
+
+            <div class="game-name">
+                Slots
+            </div>
+
+        </div>
+
+
+        <div
+            class="game-item"
+            onclick="openCategory('live')">
+
+            <div class="game-icon">
+                🎲
+            </div>
+
+            <div class="game-name">
+                Live Casino
+            </div>
+
+        </div>
+
+
+        <div
+            class="game-item"
+            onclick="openCategory('sports')">
+
+            <div class="game-icon">
+                ⚽
+            </div>
+
+            <div class="game-name">
+                Sports
+            </div>
+
+        </div>
+
+
+        <div
+            class="game-item"
+            onclick="openCategory('poker')">
+
+            <div class="game-icon">
+                🃏
+            </div>
+
+            <div class="game-name">
+                Poker
+            </div>
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     GAME LIST
+========================= -->
+
+<div
+    class="game-list-section"
+    id="gameListSection">
+
+    <div class="game-list-header">
+
+        <h3 id="gameListTitle">
+            🎮 Games
+        </h3>
+
+        <button
+            class="back-btn"
+            onclick="showCategories()">
+
+            ← Back
+
+        </button>
+
+    </div>
+
+
+    <div
+        class="game-list"
+        id="gameList">
+    </div>
+
+</div>
+
+
+<!-- =========================
+     BOTTOM NAVIGATION
+========================= -->
+
+<div class="bottom-nav">
+
+
+    <a
+        href="dashboard.html"
+        class="nav-item active">
+
+        🏠
+
+        <span>
+            Home
+        </span>
+
+    </a>
+
+
+    <a
+        href="referral.html"
+        class="nav-item">
+
+        👥
+
+        <span>
+            Referral
+        </span>
+
+    </a>
+
+
+    <a
+        href="promotion.html"
+        class="nav-item">
+
+        🎁
+
+        <span>
+            Promotion
+        </span>
+
+    </a>
+
+
+    <a
+        href="service.html"
+        class="nav-item">
+
+        💬
+
+        <span>
+            Service
+        </span>
+
+    </a>
+
+
+    <a
+        href="profile.html"
+        class="nav-item">
+
+        👤
+
+        <span>
+            Member
+        </span>
+
+    </a>
+
+
+</div>
+
+
+</div>
+
+
 <script>
 
-    const token = localStorage.getItem("token");
 
-    // If user is not logged in
-    if (!token) {
-        window.location.href = "index.html";
-    }
+/* =========================
+   LOGIN CHECK
+========================= */
+
+const token =
+    localStorage.getItem("token");
+
+if (!token) {
+
+    window.location.href =
+        "index.html";
+
+}
 
 
-    const username = document.getElementById("username");
-    const userId = document.getElementById("userId");
-    const balance = document.getElementById("balance");
-    const logoutBtn = document.getElementById("logoutBtn");
+/* =========================
+   ELEMENTS
+========================= */
+
+const usernameElement =
+    document.getElementById("username");
+
+const userIdElement =
+    document.getElementById("userId");
+
+const balanceElement =
+    document.getElementById("balance");
+
+const welcomeBalanceElement =
+    document.getElementById("welcomeBalance");
 
 
-    // =========================
-    // LOAD USER DATA
-    // =========================
+/* =========================
+   LOAD USER
+========================= */
 
-    async function loadUserData() {
+async function loadUserData() {
 
-        try {
+    try {
 
-            console.log("Calling /api/me with token:", token);
-
-            const response = await fetch(
+        const response =
+            await fetch(
                 "https://casinoplatform.onrender.com/api/me",
                 {
                     method: "GET",
+
                     headers: {
-                        "Authorization": "Bearer " + token
+                        "Authorization":
+                            "Bearer " + token
                     }
+
                 }
             );
 
-            const data = await response.json();
 
-            if (data.success) {
+        const data =
+            await response.json();
 
-                username.textContent =
-                    data.user.username || "User";
 
-                userId.textContent =
-                    data.user.id || "N/A";
+        if (
+            data.success &&
+            data.user
+        ) {
 
-                balance.textContent =
-                    "৳" + Number(data.user.balance || 0).toFixed(2);
+            usernameElement.textContent =
+                data.user.username || "User";
 
-            } else {
 
-                alert(data.message || "Unable to load account.");
+            userIdElement.textContent =
+                data.user.id || "N/A";
 
-                localStorage.removeItem("token");
 
-                window.location.href = "index.html";
-            }
+            const userBalance =
+                Number(
+                    data.user.balance || 0
+                ).toFixed(2);
 
-        } catch (error) {
 
-            console.error("Account error:", error);
+            balanceElement.textContent =
+                "৳" + userBalance;
 
-            balance.textContent = "৳0.00";
+
+            welcomeBalanceElement.textContent =
+                "৳" + userBalance;
+
+        } else {
+
+            localStorage.removeItem("token");
+
+            window.location.href =
+                "index.html";
 
         }
+
+
+    } catch (error) {
+
+        console.error(
+            "Account error:",
+            error
+        );
+
+    }
+
+}
+
+
+/* =========================
+   GAME DATA
+========================= */
+
+const games = {
+
+    slots: [
+
+        {
+            name: "Lucky Slots",
+            icon: "🎰"
+        },
+
+        {
+            name: "Fruit Slots",
+            icon: "🍒"
+        },
+
+        {
+            name: "Mega Slots",
+            icon: "💰"
+        }
+
+    ],
+
+
+    live: [
+
+        {
+            name: "Live Casino",
+            icon: "🎲"
+        },
+
+        {
+            name: "Roulette",
+            icon: "🎡"
+        },
+
+        {
+            name: "Blackjack",
+            icon: "🃏"
+        }
+
+    ],
+
+
+    sports: [
+
+        {
+            name: "Football",
+            icon: "⚽"
+        },
+
+        {
+            name: "Cricket",
+            icon: "🏏"
+        },
+
+        {
+            name: "Basketball",
+            icon: "🏀"
+        }
+
+    ],
+
+
+    poker: [
+
+        {
+            name: "Classic Poker",
+            icon: "🃏"
+        },
+
+        {
+            name: "Texas Poker",
+            icon: "♠️"
+        },
+
+        {
+            name: "Poker Table",
+            icon: "🎴"
+        }
+
+    ]
+
+};
+
+
+/* =========================
+   OPEN CATEGORY
+========================= */
+
+function openCategory(category) {
+
+    document.getElementById(
+        "gameCategories"
+    ).style.display =
+        "none";
+
+
+    document.getElementById(
+        "gameListSection"
+    ).style.display =
+        "block";
+
+
+    const gameList =
+        document.getElementById(
+            "gameList"
+        );
+
+
+    const title =
+        document.getElementById(
+            "gameListTitle"
+        );
+
+
+    gameList.innerHTML =
+        "";
+
+
+    let categoryTitle =
+        "🎮 Games";
+
+
+    if (category === "slots") {
+
+        categoryTitle =
+            "🎰 Slots Games";
+
+    }
+
+    if (category === "live") {
+
+        categoryTitle =
+            "🎲 Live Casino";
+
+    }
+
+    if (category === "sports") {
+
+        categoryTitle =
+            "⚽ Sports";
+
+    }
+
+    if (category === "poker") {
+
+        categoryTitle =
+            "🃏 Poker";
+
     }
 
 
-    // =========================
-    // GAME DATA
-    // =========================
-
-    const games = {
-
-        slots: [
-            {
-                name: "Lucky Slots",
-                icon: "🎰"
-            },
-            {
-                name: "Fruit Slots",
-                icon: "🍒"
-            },
-            {
-                name: "Mega Slots",
-                icon: "💰"
-            }
-        ],
-
-        live: [
-            {
-                name: "Live Casino",
-                icon: "🎲"
-            },
-            {
-                name: "Roulette",
-                icon: "🎡"
-            },
-            {
-                name: "Blackjack",
-                icon: "🃏"
-            }
-        ],
-
-        sports: [
-            {
-                name: "Football",
-                icon: "⚽"
-            },
-            {
-                name: "Cricket",
-                icon: "🏏"
-            },
-            {
-                name: "Basketball",
-                icon: "🏀"
-            }
-        ],
-
-        poker: [
-            {
-                name: "Classic Poker",
-                icon: "🃏"
-            },
-            {
-                name: "Texas Poker",
-                icon: "♠️"
-            },
-            {
-                name: "Poker Table",
-                icon: "🎴"
-            }
-        ]
-
-    };
+    title.textContent =
+        categoryTitle;
 
 
-    // =========================
-    // OPEN CATEGORY
-    // =========================
-
-    function openCategory(category) {
-
-        const categories =
-            document.getElementById("gameCategories");
-
-        const gameListSection =
-            document.getElementById("gameListSection");
-
-        const gameList =
-            document.getElementById("gameList");
-
-        const gameListTitle =
-            document.getElementById("gameListTitle");
+    const selectedGames =
+        games[category] || [];
 
 
-        categories.style.display = "none";
+    selectedGames.forEach(
+        function(game) {
 
-        gameListSection.style.display = "block";
-
-        gameList.innerHTML = "";
-
-
-        let title = "🎮 Games";
-
-
-        if (category === "slots") {
-            title = "🎰 Slots Games";
-        }
-
-        if (category === "live") {
-            title = "🎲 Live Games";
-        }
-
-        if (category === "sports") {
-            title = "⚽ Sports Games";
-        }
-
-        if (category === "poker") {
-            title = "🃏 Poker Games";
-        }
+            const card =
+                document.createElement(
+                    "div"
+                );
 
 
-        gameListTitle.textContent = title;
+            card.className =
+                "game-card";
 
 
-        const selectedGames = games[category] || [];
+            card.innerHTML = `
 
-
-        selectedGames.forEach(function(game) {
-
-            const gameCard =
-                document.createElement("div");
-
-            gameCard.className = "game-card";
-
-            gameCard.innerHTML = `
-                <div class="game-icon">
+                <div class="game-card-icon">
                     ${game.icon}
                 </div>
 
-                <div class="game-name">
+                <div class="game-card-name">
                     ${game.name}
                 </div>
+
             `;
 
 
-            gameCard.onclick = function() {
+            card.onclick =
+                function() {
 
-                openGame(game.name);
+                    openGame(
+                        game.name
+                    );
 
-            };
-
-
-            gameList.appendChild(gameCard);
-
-        });
-
-    }
+                };
 
 
-    // =========================
-    // BACK TO CATEGORIES
-    // =========================
+            gameList.appendChild(
+                card
+            );
 
-    function showCategories() {
+        }
+    );
 
-        document.getElementById("gameCategories")
-            .style.display = "block";
-
-        document.getElementById("gameListSection")
-            .style.display = "none";
-
-    }
+}
 
 
-    // =========================
-    // OPEN GAME
-    // =========================
+/* =========================
+   BACK TO CATEGORIES
+========================= */
 
-    function openGame(gameName) {
+function showCategories() {
+
+    document.getElementById(
+        "gameCategories"
+    ).style.display =
+        "block";
+
+
+    document.getElementById(
+        "gameListSection"
+    ).style.display =
+        "none";
+
+}
+
+
+/* =========================
+   OPEN GAME
+========================= */
+
+function openGame(gameName) {
 
     window.location.href =
         "game.html?game=" +
-        encodeURIComponent(gameName);
+        encodeURIComponent(
+            gameName
+        );
 
-    }
+}
 
 
-    // =========================
-    // LOGOUT
-    // =========================
+/* =========================
+   LOGIN BUTTON
+========================= */
 
-    logoutBtn.onclick = function () {
+function openLogin() {
 
-        localStorage.removeItem("token");
+    window.location.href =
+        "index.html";
 
-        window.location.href = "index.html";
+}
+
+
+/* =========================
+   NOTIFICATION
+========================= */
+
+document.getElementById(
+    "notificationBtn"
+).onclick =
+    function() {
+
+        alert(
+            "No new notifications."
+        );
 
     };
 
 
-    // =========================
-    // BANNER SLIDER
-    // =========================
+/* =========================
+   BANNER SLIDER
+========================= */
 
-    let slideIndex = 0;
+let slideIndex = 0;
 
-    showSlides();
+function showSlides() {
 
-
-    function showSlides() {
-
-        let slides =
-            document.getElementsByClassName("slides");
-
-
-        for (let i = 0; i < slides.length; i++) {
-
-            slides[i].style.display = "none";
-
-        }
+    const slides =
+        document.getElementsByClassName(
+            "slides"
+        );
 
 
-        slideIndex++;
+    for (
+        let i = 0;
+        i < slides.length;
+        i++
+    ) {
 
-
-        if (slideIndex > slides.length) {
-
-            slideIndex = 1;
-
-        }
-
-
-        slides[slideIndex - 1].style.display =
-            "block";
-
-
-        setTimeout(showSlides, 3000);
+        slides[i].style.display =
+            "none";
 
     }
 
 
-    // =========================
-    // LOAD USER
-    // =========================
+    slideIndex++;
 
-    loadUserData();
+
+    if (
+        slideIndex >
+        slides.length
+    ) {
+
+        slideIndex = 1;
+
+    }
+
+
+    slides[
+        slideIndex - 1
+    ].style.display =
+        "block";
+
+
+    setTimeout(
+        showSlides,
+        3000
+    );
+
+}
+
+
+showSlides();
+
+
+/* =========================
+   START
+========================= */
+
+loadUserData();
 
 </script>
 
 </body>
+
 </html>
