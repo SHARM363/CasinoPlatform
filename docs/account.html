@@ -10,7 +10,6 @@
 
     <title>RSK32 - আমার অ্যাকাউন্ট</title>
 
-
     <style>
 
         * {
@@ -18,7 +17,6 @@
             margin: 0;
             padding: 0;
         }
-
 
         body {
 
@@ -29,7 +27,7 @@
 
             background: #ffffff;
 
-            color: #222;
+            color: #222222;
 
             min-height: 100vh;
 
@@ -381,6 +379,31 @@
 
 
         /* =========================
+           ERROR
+        ========================= */
+
+        .error-message {
+
+            display: none;
+
+            margin-top: 14px;
+
+            padding: 11px;
+
+            border-radius: 9px;
+
+            text-align: center;
+
+            background: #fff0f0;
+
+            color: #d00000;
+
+            font-size: 13px;
+
+        }
+
+
+        /* =========================
            BOTTOM NAV
         ========================= */
 
@@ -505,6 +528,7 @@
 <header class="header">
 
     <button
+        type="button"
         class="back-btn"
         onclick="goBack()">
 
@@ -522,15 +546,12 @@
 </header>
 
 
-
 <!-- =========================
      MAIN
 ========================= -->
 
 <main class="container">
 
-
-    <!-- USER NUMBER -->
 
     <div class="user-number">
 
@@ -543,7 +564,6 @@
         </strong>
 
     </div>
-
 
 
     <!-- =========================
@@ -579,7 +599,8 @@
                     type="text"
                     id="realName"
                     class="form-input"
-                    placeholder="আপনার আসল নাম লিখুন">
+                    placeholder="আপনার আসল নাম লিখুন"
+                    autocomplete="name">
 
 
                 <div
@@ -591,7 +612,6 @@
             </div>
 
         </div>
-
 
 
         <!-- USERNAME -->
@@ -620,7 +640,8 @@
                     type="text"
                     id="username"
                     class="form-input"
-                    placeholder="আপনার Username লিখুন">
+                    placeholder="আপনার Username লিখুন"
+                    autocomplete="username">
 
 
                 <div
@@ -632,7 +653,6 @@
             </div>
 
         </div>
-
 
 
         <!-- EMAIL -->
@@ -661,7 +681,8 @@
                     type="email"
                     id="email"
                     class="form-input"
-                    placeholder="আপনার Email লিখুন">
+                    placeholder="আপনার Email লিখুন"
+                    autocomplete="email">
 
 
                 <div
@@ -673,7 +694,6 @@
             </div>
 
         </div>
-
 
 
         <!-- PHONE -->
@@ -703,7 +723,8 @@
                     id="phone"
                     class="form-input"
                     placeholder="01XXXXXXXXX"
-                    maxlength="15">
+                    maxlength="15"
+                    autocomplete="tel">
 
 
                 <div
@@ -715,7 +736,6 @@
             </div>
 
         </div>
-
 
 
         <!-- WHATSAPP -->
@@ -745,7 +765,8 @@
                     id="whatsapp"
                     class="form-input"
                     placeholder="01XXXXXXXXX"
-                    maxlength="15">
+                    maxlength="15"
+                    autocomplete="tel">
 
 
                 <div
@@ -762,7 +783,6 @@
     </div>
 
 
-
     <!-- =========================
          PRIVACY
     ========================= -->
@@ -776,34 +796,38 @@
 
     <div class="privacy-text">
 
-        সমস্ত ব্যবহারকারীর তথ্য এনক্রিপ্ট করা হয়
-        আপনার ব্যক্তিগত গোপনীয়তা এবং নিরাপত্তা
-        রক্ষা করার জন্য।
+        আপনার ব্যক্তিগত তথ্য নিরাপদ রাখার জন্য
+        সাধারণ ব্যবহারকারীর সামনে সংবেদনশীল তথ্য
+        আংশিকভাবে গোপন রাখা হবে। অনুমোদিত Admin
+        প্রয়োজন অনুযায়ী সহায়তার জন্য তথ্য দেখতে পারবেন।
 
     </div>
 
 
-
-    <!-- =========================
-         STATUS
-    ========================= -->
+    <!-- STATUS -->
 
     <div
         class="status-message"
         id="statusMessage">
 
-        আপনার অ্যাকাউন্ট তথ্য সফলভাবে সংরক্ষণ করা হয়েছে।
+    </div>
+
+
+    <!-- ERROR -->
+
+    <div
+        class="error-message"
+        id="errorMessage">
 
     </div>
 
 
-
-    <!-- =========================
-         SAVE
-    ========================= -->
+    <!-- SAVE -->
 
     <button
+        type="button"
         class="save-btn"
+        id="saveBtn"
         onclick="saveAccount()">
 
         জমা দিন
@@ -811,10 +835,7 @@
     </button>
 
 
-
-    <!-- =========================
-         SECURITY
-    ========================= -->
+    <!-- SECURITY -->
 
     <a
         href="security.html"
@@ -826,7 +847,6 @@
 
 
 </main>
-
 
 
 <!-- =========================
@@ -908,685 +928,538 @@
 </nav>
 
 
-
 <script>
+const API_URL = "https://casinoplatform.onrender.com";
 
+const token = localStorage.getItem("token");
 
-    /* =========================
-       AUTH
-    ========================= */
+/* =========================
+   LOGIN CHECK
+========================= */
 
-    const token =
-        localStorage.getItem("token");
-
-
-    if (!token) {
-
-        window.location.href =
-            "index.html";
-
-    }
-
-
-
-    /* =========================
-       API
-    ========================= */
-
-    const API_URL =
-        "https://casinoplatform.onrender.com";
-
-
-
-    /* =========================
-       MASK FUNCTION
-    ========================= */
-
-    function maskValue(
-        value,
-        first = 1,
-        last = 1
-    ) {
-
-        if (!value) {
-
-            return "";
-
-        }
-
-
-        value =
-            String(value);
-
-
-        if (
-            value.length <=
-            first + last
-        ) {
-
-            return "*".repeat(
-                value.length
-            );
-
-        }
-
-
-        const beginning =
-            value.substring(
-                0,
-                first
-            );
-
-
-        const ending =
-            last > 0
-                ? value.substring(
-                    value.length - last
-                )
-                : "";
-
-
-        const stars =
-            "*".repeat(
-                Math.max(
-                    3,
-                    value.length -
-                    first -
-                    last
-                )
-            );
-
-
-        return (
-            beginning +
-            stars +
-            ending
-        );
-
-    }
-
-
-
-    /* =========================
-       EMAIL MASK
-    ========================= */
-
-    function maskEmail(email) {
-
-        if (!email) {
-
-            return "";
-
-        }
-
-
-        const parts =
-            String(email).split("@");
-
-
-        if (
-            parts.length !== 2
-        ) {
-
-            return maskValue(
-                email,
-                1,
-                1
-            );
-
-        }
-
-
-        const name =
-            parts[0];
-
-
-        const domain =
-            parts[1];
-
-
-        let maskedName;
-
-
-        if (
-            name.length <= 2
-        ) {
-
-            maskedName =
-                name.charAt(0) +
-                "****";
-
-        } else {
-
-            maskedName =
-                name.substring(
-                    0,
-                    2
-                ) +
-                "********";
-
-        }
-
-
-        return (
-            maskedName +
-            "@" +
-            domain
-        );
-
-    }
-
-
-
-    /* =========================
-       PHONE MASK
-    ========================= */
-
-    function maskPhone(phone) {
-
-        if (!phone) {
-
-            return "";
-
-        }
-
-
-        phone =
-            String(phone);
-
-
-        if (
-            phone.length < 7
-        ) {
-
-            return maskValue(
-                phone,
-                2,
-                1
-            );
-
-        }
-
-
-        return (
-            phone.substring(
-                0,
-                3
-            ) +
-            "****" +
-            phone.substring(
-                phone.length - 3
-            )
-        );
-
-    }
-
-
-
-    /* =========================
-       LOAD SAVED DATA
-    ========================= */
-
-    function loadSavedAccount() {
-
-        const saved =
-            localStorage.getItem(
-                "rsk32_account"
-            );
-
-
-        if (!saved) {
-
-            loadUsernameFromAPI();
-
-            return;
-
-        }
-
-
-        try {
-
-            const data =
-                JSON.parse(saved);
-
-
-            showSavedData(data);
-
-
-        } catch (error) {
-
-            console.error(
-                "Saved account error:",
-                error
-            );
-
-        }
-
-    }
-
-
-
-    /* =========================
-       SHOW SAVED DATA
-    ========================= */
-
-    function showSavedData(data) {
-
-        document.getElementById(
-            "realName"
-        ).style.display = "none";
-
-
-        document.getElementById(
-            "username"
-        ).style.display = "none";
-
-
-        document.getElementById(
-            "email"
-        ).style.display = "none";
-
-
-        document.getElementById(
-            "phone"
-        ).style.display = "none";
-
-
-        document.getElementById(
-            "whatsapp"
-        ).style.display = "none";
-
-
-
-        /* REAL NAME */
-
-        document.getElementById(
-            "realNameMasked"
-        ).style.display = "block";
-
-
-        document.getElementById(
-            "realNameMasked"
-        ).textContent =
-            maskValue(
-                data.real_name,
-                1,
-                1
-            );
-
-
-
-        /* USERNAME */
-
-        document.getElementById(
-            "usernameMasked"
-        ).style.display = "block";
-
-
-        document.getElementById(
-            "usernameMasked"
-        ).textContent =
-            maskValue(
-                data.username,
-                2,
-                1
-            );
-
-
-
-        /* EMAIL */
-
-        document.getElementById(
-            "emailMasked"
-        ).style.display = "block";
-
-
-        document.getElementById(
-            "emailMasked"
-        ).textContent =
-            maskEmail(
-                data.email
-            );
-
-
-
-        /* PHONE */
-
-        document.getElementById(
-            "phoneMasked"
-        ).style.display = "block";
-
-
-        document.getElementById(
-            "phoneMasked"
-        ).textContent =
-            maskPhone(
-                data.phone
-            );
-
-
-
-        /* WHATSAPP */
-
-        document.getElementById(
-            "whatsappMasked"
-        ).style.display = "block";
-
-
-        document.getElementById(
-            "whatsappMasked"
-        ).textContent =
-            maskPhone(
-                data.whatsapp
-            );
-
-
-
-        /* TOP NUMBER */
-
-        document.getElementById(
-            "displayPhone"
-        ).textContent =
-            data.phone ||
-            "Not Verified";
-
-
-
-        /* BUTTON */
-
-        document.querySelector(
-            ".save-btn"
-        ).textContent =
-            "তথ্য সংরক্ষিত";
-
-
-        document.querySelector(
-            ".save-btn"
-        ).style.background =
-            "#999999";
-
-
-        document.querySelector(
-            ".save-btn"
-        ).disabled = true;
-
-    }
-
-
-
-    /* =========================
-       LOAD USERNAME FROM API
-    ========================= */
-
-    async function loadUsernameFromAPI() {
-
-        try {
-
-            const response =
-                await fetch(
-                    `${API_URL}/api/me`,
-                    {
-                        method: "GET",
-
-                        headers: {
-                            "Authorization":
-                                `Bearer ${token}`
-                        }
-                    }
-                );
-
-
-            const data =
-                await response.json();
-
-
-            if (
-                response.ok &&
-                data.success &&
-                data.user
-            ) {
-
-                document.getElementById(
-                    "username"
-                ).value =
-                    data.user.username ||
-                    "";
-
-            }
-
-
-        } catch (error) {
-
-            console.error(
-                "User loading error:",
-                error
-              );
-
+if (!token) {
+    window.location.href = "index.html";
 }
 
 
-    /* =========================
-       SAVE ACCOUNT
-    ========================= */
+/* =========================
+   ELEMENTS
+========================= */
 
-    function saveAccount() {
+const realNameInput = document.getElementById("realName");
+const usernameInput = document.getElementById("username");
+const emailInput = document.getElementById("email");
+const phoneInput = document.getElementById("phone");
+const whatsappInput = document.getElementById("whatsapp");
 
-        const realName =
-            document.getElementById(
-                "realName"
-            ).value.trim();
+const realNameMasked = document.getElementById("realNameMasked");
+const usernameMasked = document.getElementById("usernameMasked");
+const emailMasked = document.getElementById("emailMasked");
+const phoneMasked = document.getElementById("phoneMasked");
+const whatsappMasked = document.getElementById("whatsappMasked");
 
+const statusMessage = document.getElementById("statusMessage");
+const errorMessage = document.getElementById("errorMessage");
+const saveBtn = document.getElementById("saveBtn");
 
-        const username =
-            document.getElementById(
-                "username"
-            ).value.trim();
 
+/* =========================
+   MESSAGE
+========================= */
 
-        const email =
-            document.getElementById(
-                "email"
-            ).value.trim();
+function showStatus(message) {
 
+    statusMessage.innerText = message;
+    statusMessage.style.display = "block";
 
-        const phone =
-            document.getElementById(
-                "phone"
-            ).value.trim();
+    errorMessage.style.display = "none";
+}
 
 
-        const whatsapp =
-            document.getElementById(
-                "whatsapp"
-            ).value.trim();
+function showError(message) {
 
+    errorMessage.innerText = message;
+    errorMessage.style.display = "block";
 
+    statusMessage.style.display = "none";
+}
 
-        /* =====================
-           VALIDATION
-        ===================== */
 
-        if (!realName) {
+/* =========================
+   MASK TEXT
+========================= */
 
-            alert(
-                "আপনার আসল নাম লিখুন।"
-            );
+function maskValue(value) {
 
-            return;
-
-        }
-
-
-        if (!username) {
-
-            alert(
-                "Username লিখুন।"
-            );
-
-            return;
-
-        }
-
-
-        if (!email) {
-
-            alert(
-                "Email Address লিখুন।"
-            );
-
-            return;
-
-        }
-
-
-        if (!phone) {
-
-            alert(
-                "Phone Number লিখুন।"
-            );
-
-            return;
-
-        }
-
-
-        if (!whatsapp) {
-
-            alert(
-                "WhatsApp Number লিখুন।"
-            );
-
-            return;
-
-        }
-
-
-
-        /* =====================
-           EMAIL CHECK
-        ===================== */
-
-        if (
-            !email.includes("@")
-        ) {
-
-            alert(
-                "সঠিক Email Address দিন।"
-            );
-
-            return;
-
-        }
-
-
-
-        /* =====================
-           SAVE
-        ===================== */
-
-        const accountData = {
-
-            real_name:
-                realName,
-
-            username:
-                username,
-
-            email:
-                email,
-
-            phone:
-                phone,
-
-            whatsapp:
-                whatsapp
-
-        };
-
-
-        localStorage.setItem(
-            "rsk32_account",
-            JSON.stringify(
-                accountData
-            )
-        );
-
-
-
-        /* =====================
-           SHOW MASKED
-        ===================== */
-
-        showSavedData(
-            accountData
-        );
-
-
-
-        /* =====================
-           SUCCESS
-        ===================== */
-
-        const status =
-            document.getElementById(
-                "statusMessage"
-            );
-
-
-        status.style.display =
-            "block";
-
-
-        status.textContent =
-            "আপনার অ্যাকাউন্ট তথ্য সফলভাবে সংরক্ষণ করা হয়েছে।";
-
-
-
-        window.scrollTo({
-
-            top: 0,
-
-            behavior: "smooth"
-
-        });
-
+    if (!value) {
+        return "";
     }
 
+    value = String(value).trim();
+
+    if (value.length <= 2) {
+        return value.charAt(0) + "*";
+    }
+
+    if (value.length === 3) {
+        return value.charAt(0) + "*" + value.charAt(2);
+    }
+
+    const first = value.charAt(0);
+    const last = value.charAt(value.length - 1);
+
+    return first +
+        "*".repeat(Math.min(value.length - 2, 6)) +
+        last;
+}
 
 
-    /* =========================
-       BACK
-    ========================= */
+/* =========================
+   MASK EMAIL
+========================= */
 
-    function goBack() {
+function maskEmail(email) {
+
+    if (!email) {
+        return "";
+    }
+
+    email = String(email).trim();
+
+    const parts = email.split("@");
+
+    if (parts.length !== 2) {
+        return maskValue(email);
+    }
+
+    const name = parts[0];
+    const domain = parts[1];
+
+    if (name.length <= 2) {
+        return name.charAt(0) + "*" + "@" + domain;
+    }
+
+    return name.charAt(0) +
+        "*".repeat(Math.min(name.length - 1, 8)) +
+        "@" +
+        domain;
+}
+
+
+/* =========================
+   MASK PHONE
+========================= */
+
+function maskPhone(phone) {
+
+    if (!phone) {
+        return "";
+    }
+
+    phone = String(phone).trim();
+
+    if (phone.length <= 4) {
+        return "*".repeat(phone.length);
+    }
+
+    const first = phone.substring(0, 3);
+    const last = phone.substring(phone.length - 3);
+
+    return first +
+        "*".repeat(Math.max(phone.length - 6, 4)) +
+        last;
+}
+
+
+/* =========================
+   SHOW MASKED DATA
+========================= */
+
+function showSavedData(user) {
+
+    realNameInput.style.display = "none";
+    usernameInput.style.display = "none";
+    emailInput.style.display = "none";
+    phoneInput.style.display = "none";
+    whatsappInput.style.display = "none";
+
+    realNameMasked.innerText =
+        maskValue(user.real_name);
+
+    usernameMasked.innerText =
+        maskValue(user.username);
+
+    emailMasked.innerText =
+        maskEmail(user.email);
+
+    phoneMasked.innerText =
+        maskPhone(user.phone);
+
+    whatsappMasked.innerText =
+        maskPhone(user.whatsapp);
+
+    realNameMasked.style.display = "block";
+    usernameMasked.style.display = "block";
+    emailMasked.style.display = "block";
+    phoneMasked.style.display = "block";
+    whatsappMasked.style.display = "block";
+
+    saveBtn.style.display = "none";
+}
+
+
+/* =========================
+   SHOW INPUTS
+========================= */
+
+function showInputData(user) {
+
+    realNameInput.style.display = "block";
+    usernameInput.style.display = "block";
+    emailInput.style.display = "block";
+    phoneInput.style.display = "block";
+    whatsappInput.style.display = "block";
+
+    realNameMasked.style.display = "none";
+    usernameMasked.style.display = "none";
+    emailMasked.style.display = "none";
+    phoneMasked.style.display = "none";
+    whatsappMasked.style.display = "none";
+
+    if (user) {
+
+        realNameInput.value =
+            user.real_name || "";
+
+        usernameInput.value =
+            user.username || "";
+
+        emailInput.value =
+            user.email || "";
+
+        phoneInput.value =
+            user.phone || "";
+
+        whatsappInput.value =
+            user.whatsapp || "";
+    }
+
+    saveBtn.style.display = "block";
+}
+
+
+/* =========================
+   LOAD ACCOUNT DATA
+========================= */
+
+async function loadAccount() {
+
+    try {
+
+        const response = await fetch(
+            `${API_URL}/api/account`,
+            {
+                method: "GET",
+                headers: {
+                    "Authorization": "Bearer " + token
+                }
+            }
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+
+            showError(
+                data.message ||
+                "Account data load failed."
+            );
+
+            return;
+        }
 
         if (
-            history.length > 1
+            data.success &&
+            data.account &&
+            data.account.submitted
         ) {
 
-            history.back();
+            showSavedData(data.account);
 
         } else {
 
-            window.location.href =
-                "profile.html";
-
+            showInputData(
+                data.account || {}
+            );
         }
 
-    }
+    } catch (error) {
 
+        console.error(
+            "Account Load Error:",
+            error
+        );
+
+        showError(
+            "সার্ভারের সাথে সংযোগ করা যাচ্ছে না।"
+        );
+    }
+}
+
+
+/* =========================
+   LOAD ACCOUNT
+========================= */
+
+loadAccount();
+/* =========================
+   SAVE ACCOUNT
+========================= */
+
+async function saveAccount() {
+
+    const realName =
+        realNameInput.value.trim();
+
+    const username =
+        usernameInput.value.trim();
+
+    const email =
+        emailInput.value.trim();
+
+    const phone =
+        phoneInput.value.trim();
+
+    const whatsapp =
+        whatsappInput.value.trim();
 
 
     /* =========================
-       START
+       VALIDATION
     ========================= */
 
-    loadSavedAccount();
+    if (!realName) {
 
+        showError("আপনার Real Name লিখুন।");
+        realNameInput.focus();
+        return;
+    }
+
+    if (!username) {
+
+        showError("Username লিখুন।");
+        usernameInput.focus();
+        return;
+    }
+
+    if (!email) {
+
+        showError("Email লিখুন।");
+        emailInput.focus();
+        return;
+    }
+
+    if (!phone) {
+
+        showError("Phone Number লিখুন।");
+        phoneInput.focus();
+        return;
+    }
+
+    if (!whatsapp) {
+
+        showError("WhatsApp Number লিখুন।");
+        whatsappInput.focus();
+        return;
+    }
+
+
+    /* =========================
+       EMAIL CHECK
+    ========================= */
+
+    const emailPattern =
+        /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!emailPattern.test(email)) {
+
+        showError("সঠিক Email Address দিন।");
+        emailInput.focus();
+        return;
+    }
+
+
+    /* =========================
+       BUTTON LOADING
+    ========================= */
+
+    saveBtn.disabled = true;
+    saveBtn.innerText = "জমা হচ্ছে...";
+
+
+    try {
+
+        const response = await fetch(
+            `${API_URL}/api/account`,
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization":
+                        "Bearer " + token
+                },
+
+                body: JSON.stringify({
+
+                    real_name: realName,
+                    username: username,
+                    email: email,
+                    phone: phone,
+                    whatsapp: whatsapp
+
+                })
+            }
+        );
+
+
+        const data =
+            await response.json();
+
+
+        /* =========================
+           SUCCESS
+        ========================= */
+
+        if (response.ok && data.success) {
+
+            showStatus(
+                "আপনার Account Information সফলভাবে জমা হয়েছে।"
+            );
+
+
+            /*
+             * Database থেকে পাওয়া তথ্য
+             * দিয়ে আবার masked করে দেখানো হবে
+             */
+
+            const account =
+                data.account || {
+
+                    real_name: realName,
+                    username: username,
+                    email: email,
+                    phone: phone,
+                    whatsapp: whatsapp
+
+                };
+
+
+            showSavedData(account);
+
+            return;
+        }
+
+
+        /* =========================
+           SERVER ERROR
+        ========================= */
+
+        showError(
+            data.message ||
+            "তথ্য জমা দেওয়া যায়নি।"
+        );
+
+
+    } catch (error) {
+
+        console    
+            console.error(
+            "Save Account Error:",
+            error
+        );
+
+        showError(
+            "সার্ভারের সাথে সংযোগ করা যাচ্ছে না।"
+        );
+
+    } finally {
+
+        saveBtn.disabled = false;
+
+        if (saveBtn.style.display !== "none") {
+
+            saveBtn.innerText = "জমা দিন";
+        }
+    }
+}
+
+
+/* =========================
+   BACK BUTTON
+========================= */
+
+function goBack() {
+
+    window.location.href =
+        "profile.html";
+}
+
+
+/* =========================
+   BOTTOM NAVIGATION
+========================= */
+
+function goHome() {
+
+    window.location.href =
+        "dashboard.html";
+}
+
+
+function goReferral() {
+
+    window.location.href =
+        "referral.html";
+}
+
+
+function goPromotion() {
+
+    window.location.href =
+        "promotion.html";
+}
+
+
+function goService() {
+
+    alert(
+        "Customer Service will be available soon."
+    );
+}
+
+
+function goMember() {
+
+    window.location.href =
+        "profile.html";
+}
+
+
+/* =========================
+   PREVENT FORM SUBMIT
+========================= */
+
+document.addEventListener(
+    "submit",
+    function(event) {
+
+        event.preventDefault();
+
+    }
+);
 
 </script>
 
-
 </body>
-
 </html>
