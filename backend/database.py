@@ -69,7 +69,6 @@ def init_db():
         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
 
-        cur.execute("""
     CREATE TABLE IF NOT EXISTS bets (
         id SERIAL PRIMARY KEY,
         user_id INTEGER REFERENCES users(id),
