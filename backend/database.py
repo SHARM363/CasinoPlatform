@@ -69,6 +69,7 @@ def init_db():
         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
 
+        cur.execute("""
     CREATE TABLE IF NOT EXISTS bets (
         id SERIAL PRIMARY KEY,
         user_id INTEGER REFERENCES users(id),
@@ -78,7 +79,7 @@ def init_db():
         win_loss NUMERIC(18,2) DEFAULT 0,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
-    """)
+
     CREATE TABLE IF NOT EXISTS account_information (
         id SERIAL PRIMARY KEY,
         user_id INTEGER UNIQUE REFERENCES users(id) ON DELETE CASCADE,
@@ -91,6 +92,8 @@ def init_db():
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
+    """)
+
     cur.execute("""
     ALTER TABLE withdrawals
     ADD COLUMN IF NOT EXISTS payment_method VARCHAR(20),
