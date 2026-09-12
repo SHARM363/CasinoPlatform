@@ -29,7 +29,7 @@
 
             background: #ffffff;
 
-            color: #222222;
+            color: #222;
 
             min-height: 100vh;
 
@@ -69,19 +69,17 @@
 
             transform: translateY(-50%);
 
-            background: transparent;
-
             border: none;
+
+            background: transparent;
 
             color: #ffffff;
 
             font-size: 38px;
 
-            font-weight: 300;
+            cursor: pointer;
 
             line-height: 1;
-
-            cursor: pointer;
 
         }
 
@@ -114,11 +112,9 @@
 
         .user-number {
 
-            font-size: 21px;
+            font-size: 20px;
 
             margin-bottom: 24px;
-
-            color: #222222;
 
             line-height: 1.5;
 
@@ -133,10 +129,10 @@
 
 
         /* =========================
-           ACCOUNT INFORMATION
+           FORM
         ========================= */
 
-        .account-list {
+        .form-section {
 
             display: flex;
 
@@ -147,37 +143,37 @@
         }
 
 
-        .account-item {
-
-            min-height: 72px;
+        .form-item {
 
             background: #eeeeee;
 
             border-radius: 14px;
 
+            min-height: 72px;
+
+            padding: 10px 16px;
+
             display: flex;
 
             align-items: center;
 
-            padding: 12px 18px;
-
-            gap: 16px;
+            gap: 14px;
 
         }
 
 
-        .account-item.highlight {
+        .form-item.saved {
 
             background: #cfcfcf;
 
         }
 
 
-        .account-icon {
+        .form-icon {
 
-            width: 42px;
+            width: 44px;
 
-            height: 42px;
+            height: 44px;
 
             flex-shrink: 0;
 
@@ -189,27 +185,68 @@
 
             font-size: 28px;
 
+        }
+
+
+        .form-content {
+
+            flex: 1;
+
+            min-width: 0;
+
+        }
+
+
+        .form-label {
+
+            display: block;
+
+            font-size: 12px;
+
+            color: #999999;
+
+            margin-bottom: 5px;
+
+        }
+
+
+        .form-input {
+
+            width: 100%;
+
+            border: none;
+
+            outline: none;
+
+            background: transparent;
+
+            font-size: 19px;
+
+            color: #666666;
+
+            padding: 2px 0;
+
+        }
+
+
+        .form-input::placeholder {
+
             color: #999999;
 
         }
 
 
-        .account-content {
+        /* =========================
+           MASKED VALUE
+        ========================= */
 
-            min-width: 0;
+        .masked-value {
 
-            flex: 1;
+            display: none;
 
-        }
+            font-size: 19px;
 
-
-        .account-value {
-
-            font-size: 20px;
-
-            color: #777777;
-
-            font-weight: 400;
+            color: #666666;
 
             white-space: nowrap;
 
@@ -220,19 +257,8 @@
         }
 
 
-        .account-subtitle {
-
-            font-size: 11px;
-
-            color: #aaaaaa;
-
-            margin-top: 3px;
-
-        }
-
-
         /* =========================
-           PRIVACY TITLE
+           PRIVACY
         ========================= */
 
         .privacy-title {
@@ -243,31 +269,31 @@
 
             font-size: 20px;
 
-            font-weight: 500;
-
             line-height: 1.4;
+
+            font-weight: 500;
 
         }
 
 
         .privacy-text {
 
-            margin-top: 12px;
+            margin-top: 10px;
 
             color: #999999;
 
             font-size: 14px;
 
-            line-height: 1.65;
+            line-height: 1.7;
 
         }
 
 
         /* =========================
-           DEPOSIT BUTTON
+           SAVE BUTTON
         ========================= */
 
-        .deposit-btn {
+        .save-btn {
 
             width: 100%;
 
@@ -282,8 +308,8 @@
             background:
                 linear-gradient(
                     90deg,
-                    #ff2738,
-                    #ff3340
+                    #ff2638,
+                    #ff3442
                 );
 
             color: #ffffff;
@@ -295,13 +321,13 @@
             cursor: pointer;
 
             box-shadow:
-                0 6px 15px
-                rgba(255, 35, 55, 0.25);
+                0 6px 16px
+                rgba(255, 40, 60, 0.25);
 
         }
 
 
-        .deposit-btn:active {
+        .save-btn:active {
 
             transform: scale(0.98);
 
@@ -309,14 +335,12 @@
 
 
         /* =========================
-           SECURITY BUTTON
+           SECURITY LINK
         ========================= */
 
         .security-link {
 
             display: block;
-
-            width: 100%;
 
             text-align: center;
 
@@ -324,73 +348,34 @@
 
             color: #777777;
 
-            font-size: 14px;
-
             text-decoration: none;
 
-        }
-
-
-        /* =========================
-           LOADING
-        ========================= */
-
-        .loading {
-
-            position: fixed;
-
-            inset: 0;
-
-            background: rgba(
-                255,
-                255,
-                255,
-                0.88
-            );
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content: center;
-
-            z-index: 500;
-
-            font-size: 16px;
-
-            color: #555555;
-
-        }
-
-
-        .loading.hidden {
-
-            display: none;
+            font-size: 14px;
 
         }
 
 
         /* =========================
-           ERROR
+           STATUS
         ========================= */
 
-        .error-message {
+        .status-message {
 
             display: none;
 
-            margin-top: 15px;
+            margin-top: 14px;
 
-            padding: 12px;
+            padding: 11px;
 
             border-radius: 9px;
 
-            background: #fff0f0;
+            text-align: center;
 
-            color: #d00000;
+            background: #eaf8ef;
+
+            color: #16833d;
 
             font-size: 13px;
-
-            text-align: center;
 
         }
 
@@ -403,11 +388,11 @@
 
             position: fixed;
 
-            bottom: 0;
-
             left: 0;
 
             right: 0;
+
+            bottom: 0;
 
             height: 66px;
 
@@ -417,11 +402,11 @@
 
             display: flex;
 
-            align-items: center;
-
             justify-content: space-around;
 
-            z-index: 200;
+            align-items: center;
+
+            z-index: 100;
 
         }
 
@@ -470,7 +455,7 @@
             .container {
 
                 padding:
-                    26px 16px 100px;
+                    27px 16px 100px;
 
             }
 
@@ -489,18 +474,10 @@
             }
 
 
-            .account-item {
+            .form-input,
+            .masked-value {
 
-                min-height: 70px;
-
-                padding: 10px 14px;
-
-            }
-
-
-            .account-value {
-
-                font-size: 19px;
+                font-size: 18px;
 
             }
 
@@ -519,18 +496,6 @@
 
 
 <body>
-
-
-<!-- =========================
-     LOADING
-========================= -->
-
-<div class="loading"
-     id="loading">
-
-    অ্যাকাউন্ট তথ্য লোড হচ্ছে...
-
-</div>
 
 
 <!-- =========================
@@ -557,6 +522,7 @@
 </header>
 
 
+
 <!-- =========================
      MAIN
 ========================= -->
@@ -564,72 +530,61 @@
 <main class="container">
 
 
-    <!-- USER PHONE -->
+    <!-- USER NUMBER -->
+
     <div class="user-number">
 
         ব্যবহারকারীর নাম:
 
-        <strong id="mobileNumber">
-            Loading...
+        <strong id="displayPhone">
+
+            তথ্য দিন
+
         </strong>
 
     </div>
 
 
-    <!-- ACCOUNT INFORMATION -->
-    <div class="account-list">
+
+    <!-- =========================
+         ACCOUNT FORM
+    ========================= -->
+
+    <div class="form-section">
 
 
         <!-- REAL NAME -->
-        <div class="account-item highlight">
 
-            <div class="account-icon">
+        <div
+            class="form-item"
+            id="realNameBox">
+
+            <div class="form-icon">
+
                 🪪
+
             </div>
 
 
-            <div class="account-content">
+            <div class="form-content">
 
-                <div
-                    class="account-value"
-                    id="realName">
-
-                    H******
-
-                </div>
-
-                <div class="account-subtitle">
+                <span class="form-label">
 
                     আসল নাম
 
-                </div>
-
-            </div>
-
-        </div>
+                </span>
 
 
-        <!-- WALLET / BANK -->
-        <div class="account-item">
+                <input
+                    type="text"
+                    id="realName"
+                    class="form-input"
+                    placeholder="আপনার আসল নাম লিখুন">
 
-            <div class="account-icon">
-                🏦
-            </div>
-
-
-            <div class="account-content">
 
                 <div
-                    class="account-value"
-                    id="walletInfo">
-
-                    Wallet তথ্য নেই
-
-                </div>
-
-                <div class="account-subtitle">
-
-                    Wallet / Bank
+                    class="masked-value"
+                    id="realNameMasked">
 
                 </div>
 
@@ -637,57 +592,40 @@
 
         </div>
 
-
-        <!-- MOBILE -->
-        <div class="account-item">
-
-            <div class="account-icon">
-                👤
-            </div>
-
-
-            <div class="account-content">
-
-                <div
-                    class="account-value"
-                    id="mobileInfo">
-
-                    01*********
-
-                </div>
-
-                <div class="account-subtitle">
-
-                    মোবাইল নম্বর
-
-                </div>
-
-            </div>
-
-        </div>
 
 
         <!-- USERNAME -->
-        <div class="account-item highlight">
 
-            <div class="account-icon">
+        <div
+            class="form-item"
+            id="usernameBox">
+
+            <div class="form-icon">
+
                 👤
+
             </div>
 
 
-            <div class="account-content">
+            <div class="form-content">
 
-                <div
-                    class="account-value"
-                    id="username">
-
-                    Loading...
-
-                </div>
-
-                <div class="account-subtitle">
+                <span class="form-label">
 
                     Username
+
+                </span>
+
+
+                <input
+                    type="text"
+                    id="username"
+                    class="form-input"
+                    placeholder="আপনার Username লিখুন">
+
+
+                <div
+                    class="masked-value"
+                    id="usernameMasked">
 
                 </div>
 
@@ -696,27 +634,123 @@
         </div>
 
 
-        <!-- EMAIL -->
-        <div class="account-item">
 
-            <div class="account-icon">
+        <!-- EMAIL -->
+
+        <div
+            class="form-item"
+            id="emailBox">
+
+            <div class="form-icon">
+
                 ✉️
+
             </div>
 
 
-            <div class="account-content">
+            <div class="form-content">
+
+                <span class="form-label">
+
+                    Email Address
+
+                </span>
+
+
+                <input
+                    type="email"
+                    id="email"
+                    class="form-input"
+                    placeholder="আপনার Email লিখুন">
+
 
                 <div
-                    class="account-value"
-                    id="email">
-
-                    Email Verify করা হয়নি
+                    class="masked-value"
+                    id="emailMasked">
 
                 </div>
 
-                <div class="account-subtitle">
+            </div>
 
-                    Email Address
+        </div>
+
+
+
+        <!-- PHONE -->
+
+        <div
+            class="form-item"
+            id="phoneBox">
+
+            <div class="form-icon">
+
+                📱
+
+            </div>
+
+
+            <div class="form-content">
+
+                <span class="form-label">
+
+                    Phone Number
+
+                </span>
+
+
+                <input
+                    type="tel"
+                    id="phone"
+                    class="form-input"
+                    placeholder="01XXXXXXXXX"
+                    maxlength="15">
+
+
+                <div
+                    class="masked-value"
+                    id="phoneMasked">
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- WHATSAPP -->
+
+        <div
+            class="form-item"
+            id="whatsappBox">
+
+            <div class="form-icon">
+
+                💬
+
+            </div>
+
+
+            <div class="form-content">
+
+                <span class="form-label">
+
+                    WhatsApp Number
+
+                </span>
+
+
+                <input
+                    type="tel"
+                    id="whatsapp"
+                    class="form-input"
+                    placeholder="01XXXXXXXXX"
+                    maxlength="15">
+
+
+                <div
+                    class="masked-value"
+                    id="whatsappMasked">
 
                 </div>
 
@@ -726,6 +760,7 @@
 
 
     </div>
+
 
 
     <!-- =========================
@@ -748,33 +783,39 @@
     </div>
 
 
+
     <!-- =========================
-         ERROR
+         STATUS
     ========================= -->
 
     <div
-        class="error-message"
-        id="errorMessage">
+        class="status-message"
+        id="statusMessage">
 
-        অ্যাকাউন্ট তথ্য লোড করা সম্ভব হয়নি।
+        আপনার অ্যাকাউন্ট তথ্য সফলভাবে সংরক্ষণ করা হয়েছে।
 
     </div>
 
 
+
     <!-- =========================
-         DEPOSIT
+         SAVE
     ========================= -->
 
     <button
-        class="deposit-btn"
-        onclick="goDeposit()">
+        class="save-btn"
+        onclick="saveAccount()">
 
         জমা দিন
 
     </button>
 
 
-    <!-- SECURITY -->
+
+    <!-- =========================
+         SECURITY
+    ========================= -->
+
     <a
         href="security.html"
         class="security-link">
@@ -785,6 +826,7 @@
 
 
 </main>
+
 
 
 <!-- =========================
@@ -866,19 +908,12 @@
 </nav>
 
 
+
 <script>
 
 
     /* =========================
-       API
-    ========================= */
-
-    const API_URL =
-        "https://casinoplatform.onrender.com";
-
-
-    /* =========================
-       TOKEN
+       AUTH
     ========================= */
 
     const token =
@@ -893,19 +928,29 @@
     }
 
 
+
     /* =========================
-       MASK TEXT
+       API
     ========================= */
 
-    function maskText(
+    const API_URL =
+        "https://casinoplatform.onrender.com";
+
+
+
+    /* =========================
+       MASK FUNCTION
+    ========================= */
+
+    function maskValue(
         value,
-        start = 1,
-        end = 1
+        first = 1,
+        last = 1
     ) {
 
         if (!value) {
 
-            return "Not Set";
+            return "";
 
         }
 
@@ -914,7 +959,10 @@
             String(value);
 
 
-        if (value.length <= start + end) {
+        if (
+            value.length <=
+            first + last
+        ) {
 
             return "*".repeat(
                 value.length
@@ -923,17 +971,19 @@
         }
 
 
-        const first =
+        const beginning =
             value.substring(
                 0,
-                start
+                first
             );
 
 
-        const last =
-            value.substring(
-                value.length - end
-            );
+        const ending =
+            last > 0
+                ? value.substring(
+                    value.length - last
+                )
+                : "";
 
 
         const stars =
@@ -941,92 +991,47 @@
                 Math.max(
                     3,
                     value.length -
-                    start -
-                    end
+                    first -
+                    last
                 )
             );
 
 
-        return first +
-               stars +
-               last;
-
-    }
-
-
-    /* =========================
-       MASK MOBILE
-    ========================= */
-
-    function maskMobile(
-        value
-    ) {
-
-        if (!value) {
-
-            return "Not Verified";
-
-        }
-
-
-        value =
-            String(value);
-
-
-        if (value.length < 7) {
-
-            return maskText(
-                value,
-                2,
-                2
-            );
-
-        }
-
-
         return (
-            value.substring(
-                0,
-                3
-            ) +
-            "****" +
-            value.substring(
-                value.length - 3
-            )
+            beginning +
+            stars +
+            ending
         );
 
     }
 
 
+
     /* =========================
-       MASK EMAIL
+       EMAIL MASK
     ========================= */
 
-    function maskEmail(
-        email
-    ) {
+    function maskEmail(email) {
 
         if (!email) {
 
-            return "Email Verify করা হয়নি";
+            return "";
 
         }
 
 
-        email =
-            String(email);
-
-
         const parts =
-            email.split("@");
+            String(email).split("@");
 
 
-        if (parts.length !== 2) {
+        if (
+            parts.length !== 2
+        ) {
 
-            return maskText(
+            return maskValue(
                 email,
-                2,
-                2
+                1,
+                1
             );
 
         }
@@ -1035,6 +1040,7 @@
         const name =
             parts[0];
 
+
         const domain =
             parts[1];
 
@@ -1042,7 +1048,9 @@
         let maskedName;
 
 
-        if (name.length <= 2) {
+        if (
+            name.length <= 2
+        ) {
 
             maskedName =
                 name.charAt(0) +
@@ -1069,57 +1077,248 @@
     }
 
 
+
     /* =========================
-       MASK WALLET
+       PHONE MASK
     ========================= */
 
-    function maskWallet(
-        value
-    ) {
+    function maskPhone(phone) {
 
-        if (!value) {
+        if (!phone) {
 
-            return "Wallet তথ্য নেই";
+            return "";
 
         }
 
 
-        value =
-            String(value);
+        phone =
+            String(phone);
 
 
-        if (value.length <= 6) {
+        if (
+            phone.length < 7
+        ) {
 
-            return "******";
+            return maskValue(
+                phone,
+                2,
+                1
+            );
 
         }
 
 
         return (
-            value.substring(
+            phone.substring(
                 0,
-                2
+                3
             ) +
-            "****************" +
-            value.substring(
-                value.length - 3
+            "****" +
+            phone.substring(
+                phone.length - 3
             )
         );
 
     }
 
 
+
     /* =========================
-       LOAD USER
+       LOAD SAVED DATA
     ========================= */
 
-    async function loadAccount() {
+    function loadSavedAccount() {
 
-        const loading =
-            document.getElementById(
-                "loading"
+        const saved =
+            localStorage.getItem(
+                "rsk32_account"
             );
 
+
+        if (!saved) {
+
+            loadUsernameFromAPI();
+
+            return;
+
+        }
+
+
+        try {
+
+            const data =
+                JSON.parse(saved);
+
+
+            showSavedData(data);
+
+
+        } catch (error) {
+
+            console.error(
+                "Saved account error:",
+                error
+            );
+
+        }
+
+    }
+
+
+
+    /* =========================
+       SHOW SAVED DATA
+    ========================= */
+
+    function showSavedData(data) {
+
+        document.getElementById(
+            "realName"
+        ).style.display = "none";
+
+
+        document.getElementById(
+            "username"
+        ).style.display = "none";
+
+
+        document.getElementById(
+            "email"
+        ).style.display = "none";
+
+
+        document.getElementById(
+            "phone"
+        ).style.display = "none";
+
+
+        document.getElementById(
+            "whatsapp"
+        ).style.display = "none";
+
+
+
+        /* REAL NAME */
+
+        document.getElementById(
+            "realNameMasked"
+        ).style.display = "block";
+
+
+        document.getElementById(
+            "realNameMasked"
+        ).textContent =
+            maskValue(
+                data.real_name,
+                1,
+                1
+            );
+
+
+
+        /* USERNAME */
+
+        document.getElementById(
+            "usernameMasked"
+        ).style.display = "block";
+
+
+        document.getElementById(
+            "usernameMasked"
+        ).textContent =
+            maskValue(
+                data.username,
+                2,
+                1
+            );
+
+
+
+        /* EMAIL */
+
+        document.getElementById(
+            "emailMasked"
+        ).style.display = "block";
+
+
+        document.getElementById(
+            "emailMasked"
+        ).textContent =
+            maskEmail(
+                data.email
+            );
+
+
+
+        /* PHONE */
+
+        document.getElementById(
+            "phoneMasked"
+        ).style.display = "block";
+
+
+        document.getElementById(
+            "phoneMasked"
+        ).textContent =
+            maskPhone(
+                data.phone
+            );
+
+
+
+        /* WHATSAPP */
+
+        document.getElementById(
+            "whatsappMasked"
+        ).style.display = "block";
+
+
+        document.getElementById(
+            "whatsappMasked"
+        ).textContent =
+            maskPhone(
+                data.whatsapp
+            );
+
+
+
+        /* TOP NUMBER */
+
+        document.getElementById(
+            "displayPhone"
+        ).textContent =
+            data.phone ||
+            "Not Verified";
+
+
+
+        /* BUTTON */
+
+        document.querySelector(
+            ".save-btn"
+        ).textContent =
+            "তথ্য সংরক্ষিত";
+
+
+        document.querySelector(
+            ".save-btn"
+        ).style.background =
+            "#999999";
+
+
+        document.querySelector(
+            ".save-btn"
+        ).disabled = true;
+
+    }
+
+
+
+    /* =========================
+       LOAD USERNAME FROM API
+    ========================= */
+
+    async function loadUsernameFromAPI() {
 
         try {
 
@@ -1127,19 +1326,12 @@
                 await fetch(
                     `${API_URL}/api/me`,
                     {
-
                         method: "GET",
 
                         headers: {
-
                             "Authorization":
-                                `Bearer ${token}`,
-
-                            "Content-Type":
-                                "application/json"
-
+                                `Bearer ${token}`
                         }
-
                     }
                 );
 
@@ -1149,241 +1341,226 @@
 
 
             if (
-                !response.ok ||
-                !data.success
+                response.ok &&
+                data.success &&
+                data.user
             ) {
 
-                throw new Error(
-                    data.message ||
-                    "Account loading failed"
-                );
+                document.getElementById(
+                    "username"
+                ).value =
+                    data.user.username ||
+                    "";
 
             }
-
-
-            const user =
-                data.user || {};
-
-
-            /* =====================
-               USERNAME
-            ===================== */
-
-            const username =
-                user.username ||
-                "-";
-
-
-            document.getElementById(
-                "username"
-            ).textContent =
-                maskText(
-                    username,
-                    2,
-                    1
-                );
-
-
-            /* =====================
-               MOBILE
-            ===================== */
-
-            const mobile =
-                user.mobile ||
-                user.phone ||
-                user.phone_number ||
-                user.mobile_number ||
-                "";
-
-
-            if (mobile) {
-
-                document.getElementById(
-                    "mobileNumber"
-                ).textContent =
-                    mobile;
-
-
-                document.getElementById(
-                    "mobileInfo"
-                ).textContent =
-                    maskMobile(
-                        mobile
-                    );
-
-            } else {
-
-                document.getElementById(
-                    "mobileNumber"
-                ).textContent =
-                    "Not Verified";
-
-
-                document.getElementById(
-                    "mobileInfo"
-                ).textContent =
-                    "Not Verified";
-
-            }
-
-
-            /* =====================
-               REAL NAME
-            ===================== */
-
-            const realName =
-                user.real_name ||
-                user.full_name ||
-                user.name ||
-                "";
-
-
-            if (realName) {
-
-                document.getElementById(
-                    "realName"
-                ).textContent =
-                    maskText(
-                        realName,
-                        1,
-                        0
-                    );
-
-            } else {
-
-                document.getElementById(
-                    "realName"
-                ).textContent =
-                    "H******";
-
-            }
-
-
-            /* =====================
-               EMAIL
-            ===================== */
-
-            const email =
-                user.email ||
-                "";
-
-
-            document.getElementById(
-                "email"
-            ).textContent =
-                maskEmail(
-                    email
-                );
-
-
-            /* =====================
-               WALLET
-            ===================== */
-
-            const wallet =
-                user.wallet_number ||
-                user.wallet ||
-                user.account_number ||
-                user.bank_account ||
-                "";
-
-
-            const walletMethod =
-                user.wallet_method ||
-                user.payment_method ||
-                "";
-
-
-            if (wallet) {
-
-                let walletText =
-                    maskWallet(
-                        wallet
-                    );
-
-
-                if (walletMethod) {
-
-                    walletText =
-                        walletMethod +
-                        " • " +
-                        walletText;
-    }
-
-
-    document.getElementById(
-        "walletInfo"
-    ).textContent =
-        walletText;
-
-
-} else {
-
-    document.getElementById(
-        "walletInfo"
-    ).textContent =
-        "Wallet সেটআপ করা হয়নি";
-
-}
 
 
         } catch (error) {
 
             console.error(
-                "Account error:",
+                "User loading error:",
                 error
+              );
+
+}
+
+
+    /* =========================
+       SAVE ACCOUNT
+    ========================= */
+
+    function saveAccount() {
+
+        const realName =
+            document.getElementById(
+                "realName"
+            ).value.trim();
+
+
+        const username =
+            document.getElementById(
+                "username"
+            ).value.trim();
+
+
+        const email =
+            document.getElementById(
+                "email"
+            ).value.trim();
+
+
+        const phone =
+            document.getElementById(
+                "phone"
+            ).value.trim();
+
+
+        const whatsapp =
+            document.getElementById(
+                "whatsapp"
+            ).value.trim();
+
+
+
+        /* =====================
+           VALIDATION
+        ===================== */
+
+        if (!realName) {
+
+            alert(
+                "আপনার আসল নাম লিখুন।"
             );
 
-
-            document.getElementById(
-                "errorMessage"
-            ).style.display =
-                "block";
-
-
-            /*
-             * API error হলেও
-             * page পুরোপুরি বন্ধ হবে না।
-             */
-
-        } finally {
-
-            document.getElementById(
-                "loading"
-            ).classList.add(
-                "hidden"
-            );
+            return;
 
         }
 
+
+        if (!username) {
+
+            alert(
+                "Username লিখুন।"
+            );
+
+            return;
+
+        }
+
+
+        if (!email) {
+
+            alert(
+                "Email Address লিখুন।"
+            );
+
+            return;
+
+        }
+
+
+        if (!phone) {
+
+            alert(
+                "Phone Number লিখুন।"
+            );
+
+            return;
+
+        }
+
+
+        if (!whatsapp) {
+
+            alert(
+                "WhatsApp Number লিখুন।"
+            );
+
+            return;
+
+        }
+
+
+
+        /* =====================
+           EMAIL CHECK
+        ===================== */
+
+        if (
+            !email.includes("@")
+        ) {
+
+            alert(
+                "সঠিক Email Address দিন।"
+            );
+
+            return;
+
+        }
+
+
+
+        /* =====================
+           SAVE
+        ===================== */
+
+        const accountData = {
+
+            real_name:
+                realName,
+
+            username:
+                username,
+
+            email:
+                email,
+
+            phone:
+                phone,
+
+            whatsapp:
+                whatsapp
+
+        };
+
+
+        localStorage.setItem(
+            "rsk32_account",
+            JSON.stringify(
+                accountData
+            )
+        );
+
+
+
+        /* =====================
+           SHOW MASKED
+        ===================== */
+
+        showSavedData(
+            accountData
+        );
+
+
+
+        /* =====================
+           SUCCESS
+        ===================== */
+
+        const status =
+            document.getElementById(
+                "statusMessage"
+            );
+
+
+        status.style.display =
+            "block";
+
+
+        status.textContent =
+            "আপনার অ্যাকাউন্ট তথ্য সফলভাবে সংরক্ষণ করা হয়েছে।";
+
+
+
+        window.scrollTo({
+
+            top: 0,
+
+            behavior: "smooth"
+
+        });
+
     }
 
 
-    /* =========================
-       DEPOSIT
-    ========================= */
-
-    function goDeposit() {
-
-        /*
-         * আপনার বর্তমান working
-         * Deposit page-এই যাবে।
-         */
-
-        window.location.href =
-            "deposit.html";
-
-    }
-
 
     /* =========================
-       BACK BUTTON
+       BACK
     ========================= */
 
     function goBack() {
 
         if (
-            document.referrer &&
             history.length > 1
         ) {
 
@@ -1399,11 +1576,12 @@
     }
 
 
+
     /* =========================
-       LOAD ACCOUNT
+       START
     ========================= */
 
-    loadAccount();
+    loadSavedAccount();
 
 
 </script>
@@ -1412,4 +1590,3 @@
 </body>
 
 </html>
-            
