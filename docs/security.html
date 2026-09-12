@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>RSK32 - Security Center</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f6fa;
+            color: #222;
+            padding-bottom: 80px;
+        }
+
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        .header {
+            height: 60px;
+            background: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+            border-bottom: 1px solid #e5e5e5;
+        }
+
+        .back-btn {
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: #222;
+            font-size: 26px;
+        }
+
+        .header-title {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .header-logo {
+            font-size: 21px;
+            font-weight: bold;
+        }
+
+
+        /* =========================
+           SECURITY INTRO
+        ========================= */
+
+        .security-card {
+            background: #ffffff;
+            margin: 15px;
+            padding: 20px;
+            border-radius: 16px;
+            box-shadow:
+                0 3px 12px
+                rgba(0,0,0,0.07);
+        }
+
+        .security-icon {
+            width: 65px;
+            height: 65px;
+            margin: 0 auto 12px auto;
+            border-radius: 50%;
+            background: #f1f2f6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+        }
+
+        .security-title {
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .security-description {
+            margin-top: 8px;
+            text-align: center;
+            color: #777;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+
+        /* =========================
+           SECTION
+        ========================= */
+
+        .section {
+            margin: 15px;
+        }
+
+        .section-title {
+            font-size: 17px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .menu-card {
+            background: #ffffff;
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow:
+                0 2px 8px
+                rgba(0,0,0,0.06);
+        }
+
+        .menu-item {
+            min-height: 65px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 15px;
+            border-bottom: 1px solid #eeeeee;
+            text-decoration: none;
+            color: #222;
+            cursor: pointer;
+        }
+
+        .menu-item:last-child {
+            border-bottom: none;
+        }
+
+        .menu-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .menu-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: #f1f2f6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 19px;
+        }
+
+        .menu-text {
+            font-size: 15px;
+            font-weight: 500;
+        }
+
+        .menu-description {
+            margin-top: 3px;
+            color: #888;
+            font-size: 12px;
+        }
+
+        .arrow {
+            color: #999;
+            font-size: 22px;
+        }
+
+
+        /* =========================
+           ACCOUNT STATUS
+        ========================= */
+
+        .status-card {
+            background: #ffffff;
+            padding: 16px;
+            border-radius: 14px;
+            box-shadow:
+                0 2px 8px
+                rgba(0,0,0,0.06);
+        }
+
+        .status-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 0;
+        }
+
+        .status-label {
+            color: #555;
+            font-size: 14px;
+        }
+
+        .status-value {
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .secure {
+            color: green;
+        }
+
+
+        /* =========================
+           LOGOUT
+        ========================= */
+
+        .logout-section {
+            margin: 20px 15px;
+        }
+
+        .logout-btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            background: #e74c3c;
+            color: #ffffff;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .logout-btn:active {
+            transform: scale(0.98);
+        }
+
+
+        /* =========================
+           BOTTOM NAVIGATION
+        ========================= */
+
+        .bottom-nav {
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 68px;
+            background: #ffffff;
+            border-top: 1px solid #dddddd;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .nav-item {
+            flex: 1;
+            text-decoration: none;
+            color: #777;
+            text-align: center;
+            font-size: 11px;
+        }
+
+        .nav-icon {
+            display: block;
+            font-size: 21px;
+            margin-bottom: 3px;
+        }
+
+        .nav-item.active {
+            color: #111;
+            font-weight: bold;
+        }
+
+
+        /* =========================
+           DESKTOP
+        ========================= */
+
+        @media (min-width: 700px) {
+
+            body {
+                max-width: 500px;
+                margin: auto;
+            }
+
+            .bottom-nav {
+                max-width: 500px;
+                margin: auto;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     HEADER
+========================= -->
+
+<div class="header">
+
+
+    <a
+        href="profile.html"
+        class="back-btn">
+
+        ←
+
+    </a>
+
+
+    <div class="header-title">
+
+        Security Center
+
+    </div>
+
+
+    <div class="header-logo">
+
+        RSK32
+
+    </div>
+
+
+</div>
+
+
+
+<!-- =========================
+     SECURITY INTRO
+========================= -->
+
+<div class="security-card">
+
+
+    <div class="security-icon">
+
+        🔐
+
+    </div>
+
+
+    <div class="security-title">
+
+        Security Center
+
+    </div>
+
+
+    <div class="security-description">
+
+        Manage your account security
+        and protect your RSK32 account.
+
+    </div>
+
+
+</div>
+
+
+
+<!-- =========================
+     SECURITY SETTINGS
+========================= -->
+
+<div class="section">
+
+
+    <div class="section-title">
+
+        Security Settings
+
+    </div>
+
+
+    <div class="menu-card">
+
+
+        <!-- Change Password -->
+
+        <div
+            class="menu-item"
+            onclick="changePassword()">
+
+
+            <div class="menu-left">
+
+
+                <div class="menu-icon">
+
+                    🔑
+
+                </div>
+
+
+                <div>
+
+
+                    <div class="menu-text">
+
+                        Change Password
+
+                    </div>
+
+
+                    <div class="menu-description">
+
+                        Update your account password
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+            <div class="arrow">
+
+                ›
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- Login Security -->
+
+        <div
+            class="menu-item"
+            onclick="loginSecurity()">
+
+
+            <div class="menu-left">
+
+
+                <div class="menu-icon">
+
+                    🛡️
+
+                </div>
+
+
+                <div>
+
+
+                    <div class="menu-text">
+
+                        Login Security
+
+                    </div>
+
+
+                    <div class="menu-description">
+
+                        Protect your account login
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+            <div class="arrow">
+
+                ›
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- Account Security -->
+
+        <div
+            class="menu-item"
+            onclick="accountSecurity()">
+
+
+            <div class="menu-left">
+
+
+                <div class="menu-icon">
+
+                    📱
+
+                </div>
+
+
+                <div>
+
+
+                    <div class="menu-text">
+
+                        Account Security
+
+                    </div>
+
+
+                    <div class="menu-description">
+
+                        Review your account security
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+            <div class="arrow">
+
+                ›
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================
+     ACCOUNT STATUS
+========================= -->
+
+<div class="section">
+
+
+    <div class="section-title">
+
+        Account Status
+
+    </div>
+
+
+    <div class="status-card">
+
+
+        <div class="status-row">
+
+
+            <span class="status-label">
+
+                Account
+
+            </span>
+
+
+            <span
+                class="status-value secure">
+
+                ✓ Active
+
+            </span>
+
+
+        </div>
+
+
+
+        <div class="status-row">
+
+
+            <span class="status-label">
+
+                Login Session
+
+            </span>
+
+
+            <span
+                class="status-value secure">
+
+                ✓ Protected
+
+            </span>
+
+
+        </div>
+
+
+
+        <div class="status-row">
+
+
+            <span class="status-label">
+
+                Authentication
+
+            </span>
+
+
+            <span
+                class="status-value secure">
+
+                ✓ JWT Secure
+
+            </span>
+
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================
+     LOGOUT
+========================= -->
+
+<div class="logout-section">
+
+
+    <button
+        class="logout-btn"
+        onclick="logout()">
+
+        🚪 Logout
+
+    </button>
+
+
+</div>
+
+
+
+<!-- =========================
+     BOTTOM NAVIGATION
+========================= -->
+
+<div class="bottom-nav">
+
+
+    <a
+        href="dashboard.html"
+        class="nav-item">
+
+
+        <span class="nav-icon">
+
+            🏠
+
+        </span>
+
+
+        Home
+
+    </a>
+
+
+
+    <a
+        href="referral.html"
+        class="nav-item">
+
+
+        <span class="nav-icon">
+
+            👥
+
+        </span>
+
+
+        Referral
+
+    </a>
+
+
+
+    <a
+        href="promotion.html"
+        class="nav-item">
+
+
+        <span class="nav-icon">
+
+            🎁
+
+        </span>
+
+
+        Promotion
+
+    </a>
+
+
+
+    <a
+        href="#"
+        class="nav-item"
+        onclick="showService(); return false;">
+
+
+        <span class="nav-icon">
+
+            💬
+
+        </span>
+
+
+        Service
+
+    </a>
+
+
+
+    <a
+        href="profile.html"
+        class="nav-item active">
+
+
+        <span class="nav-icon">
+
+            👤
+
+        </span>
+
+
+        Member
+
+    </a>
+
+
+</div>
+
+
+
+<script>
+
+
+/* =========================
+   AUTH CHECK
+========================= */
+
+const token =
+    localStorage.getItem("token");
+
+
+if (!token) {
+
+    window.location.href =
+        "index.html";
+
+}
+
+
+
+/* =========================
+   CHANGE PASSWORD
+========================= */
+
+function changePassword() {
+
+    alert(
+        "Password change feature will be available here."
+    );
+
+}
+
+
+
+/* =========================
+   LOGIN SECURITY
+========================= */
+
+function loginSecurity() {
+
+    alert(
+        "Your account login is protected by secure authentication."
+    );
+
+}
+
+
+
+/* =========================
+   ACCOUNT SECURITY
+========================= */
+
+function accountSecurity() {
+
+    alert(
+        "Your account security information will be available here."
+    );
+
+}
+
+
+
+/* =========================
+   CUSTOMER SERVICE
+========================= */
+
+function showService() {
+
+    alert(
+        "Customer Service will be available here."
+    );
+
+}
+
+
+
+/* =========================
+   LOGOUT
+========================= */
+
+function logout() {
+
+    localStorage.removeItem(
+        "token"
+    );
+
+
+    window.location.href =
+        "index.html";
+
+}
+
+
+</script>
+
+
+</body>
+
+  </html>
