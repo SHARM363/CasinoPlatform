@@ -78,7 +78,89 @@ if (data.success) {
 
     }
 }
+async function loadAccountInformation() {
 
+    try {
+
+        const response = await adminFetch(
+            `${API_URL}/api/admin/account-information`
+        );
+
+        if (!response) return;
+
+        const data = await response.json();
+
+        const list =
+            document.getElementById("accountInformationList");
+
+        if (!data.success) {
+
+            list.innerHTML =
+                "Unable to load account information.";
+
+            return;
+        }
+
+        if (!data.accounts || data.accounts.length === 0) {
+
+            list.innerHTML =
+                "No account information found.";
+
+            return;
+        }
+
+        list.innerHTML = data.accounts.map(account => `
+
+            <div class="card">
+
+                <p>
+                    <strong>User ID:</strong>
+                    ${account.user_id}
+                </p>
+
+                <p>
+                    <strong>Real Name:</strong>
+                    ${account.real_name || "-"}
+                </p>
+
+                <p>
+                    <strong>Username:</strong>
+                    ${account.username || "-"}
+                </p>
+
+                <p>
+                    <strong>Email:</strong>
+                    ${account.email || "-"}
+                </p>
+
+                <p>
+                    <strong>Phone:</strong>
+                    ${account.phone || "-"}
+                </p>
+
+                <p>
+                    <strong>WhatsApp:</strong>
+                    ${account.whatsapp || "-"}
+                </p>
+
+                <p>
+                    <strong>Submitted:</strong>
+                    ${account.submitted ? "Yes" : "No"}
+                </p>
+
+            </div>
+
+        `).join("");
+
+    } catch (error) {
+
+        console.error(
+            "Account Information error:",
+            error
+        );
+
+    }
+}
 
 // ===============================
 // USERS
