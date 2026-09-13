@@ -1273,288 +1273,266 @@
     }
 
 
-    /* =========================
-       MOBILE OTP
-    ========================= */
-
-    function sendMobileOtp() {
-
-        const number =
-            document.getElementById(
-                "mobileNumber"
-            ).value.trim();
-
-
-        if (!number) {
-
-            alert(
-                "প্রথমে মোবাইল নম্বর লিখুন।"
-            );
-
-            return;
-
-        }
-
-
-        alert(
-            "Mobile OTP system পরবর্তী ধাপে backend-এর সাথে যুক্ত করা হবে।"
-        );
-
-    }
-
-
-    function verifyMobile() {
-
-        const number =
-            document.getElementById(
-                "mobileNumber"
-            ).value.trim();
-
-
-        const otp =
-            document.getElementById(
-                "mobileOtp"
-            ).value.trim();
-
-
-        if (!number) {
-
-            alert(
-                "মোবাইল নম্বর দিন।"
-            );
-
-            return;
-
-        }
-
-
-        if (!otp) {
-
-            alert(
-                "OTP Code দিন।"
-            );
-
-            return;
-
-        }
-
-
-        alert(
-            "Mobile Verification backend এখনো সংযুক্ত হয়নি।"
-        );
-
-    }
-
-
+    
     /* =========================
        EMAIL
     ========================= */
 
-    function sendEmailOtp() {
+async function sendEmailOtp() {
 
-        const email =
-            document.getElementById(
-                "emailAddress"
-            ).value.trim();
+    const email =
+        document.getElementById("emailAddress").value.trim();
+
+    if (!email) {
+        alert("Email Address দিন");
+        return;
+    }
+
+    try {
+
+        const response = await fetch(
+            `${API_URL}/api/verification/email/send`,
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                },
+
+                body: JSON.stringify({
+                    email: email
+                })
+            }
+        );
+
+        const data = await response.json();
+
+        alert(data.message);
+
+    } catch (error) {
+
+        console.error("Email OTP error:", error);
+
+        alert("Server Error");
+
+    }
+}
 
 
-        if (!email) {
+async function verifyEmail() {
 
-            alert(
-                "প্রথমে Email Address দিন।"
-            );
+    const otp =
+        document.getElementById("emailOtp").value.trim();
 
-            return;
+    if (!otp) {
+        alert("Verification Code দিন।");
+        return;
+    }
+
+    try {
+
+        const response = await fetch(
+            `${API_URL}/api/verification/email/verify`,
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                },
+
+                body: JSON.stringify({
+                    otp: otp
+                })
+            }
+        );
+
+        const data = await response.json();
+
+        alert(data.message);
+
+        if (data.success) {
+
+            closeModal("emailModal");
+
+            loadUser();
 
         }
 
+    } catch (error) {
 
-        alert(
-            "Email verification backend পরবর্তী ধাপে সংযুক্ত হবে।"
+        console.error(
+            "Email verification error:",
+            error
         );
+
+        alert("Server Error");
+
+    }
+}
+/* =========================
+   CHANGE PASSWORD
+========================= */
+
+function openPasswordModal() {
+
+    const modal =
+        document.getElementById("passwordModal");
+
+    if (modal) {
+
+        modal.classList.add("show");
 
     }
 
-
-    function verifyEmail() {
-
-        const email =
-            document.getElementById(
-                "emailAddress"
-            ).value.trim();
+}
 
 
-        const otp =
-            document.getElementById(
-                "emailOtp"
-            ).value.trim();
+async function changePassword() {
 
-
-        if (!email) {
-
-            alert(
-                "Email Address দিন।"
-            );
-
-            return;
-
-        }
-
-
-        if (!otp) {
-
-            alert(
-                "Verification Code দিন।"
-            );
-
-            return;
-
-        }
-
-
-        alert(
-            "Email Verification backend এখনো সংযুক্ত হয়নি।"
-        );
-
-    }
-
-
-    /* =========================
-       REAL NAME
-    ========================= */
-
-    function saveRealName() {
-
-        const name =
-            document.getElementById(
-                "realName"
-            ).value.trim();
-
-
-        if (!name) {
-
-            alert(
-                "আপনার আসল নাম লিখুন।"
-            );
-
-            return;
-
-        }
-
-
-        alert(
-            "Real Name backend-এর সাথে পরবর্তী ধাপে সংযুক্ত হবে।"
-        );
-
-    }
-
-
-    /* =========================
-       WALLET
-    ========================= */
-
-    const walletMethod =
+    const currentPassword =
         document.getElementById(
-            "walletMethod"
-        );
+            "currentPassword"
+        ).value.trim();
+
+    const newPassword =
+        document.getElementById(
+            "newPassword"
+        ).value.trim();
+
+    const confirmPassword =
+        document.getElementById(
+            "confirmPassword"
+        ).value.trim();
 
 
-    if (walletMethod) {
+    if (!currentPassword) {
 
-        walletMethod.addEventListener(
-            "change",
-            function() {
+        alert("বর্তমান Password দিন।");
 
-                const bankGroup =
-                    document.getElementById(
-                        "bankNameGroup"
-                    );
-
-
-                if (
-                    this.value === "Bank"
-                ) {
-
-                    bankGroup.style.display =
-                        "block";
-
-                } else {
-
-                    bankGroup.style.display =
-                        "none";
-
-                }
-
-            }
-        );
+        return;
 
     }
 
 
-    function saveWallet() {
+    if (!newPassword) {
 
-        const method =
-            document.getElementById(
-                "walletMethod"
-            ).value;
+        alert("নতুন Password দিন।");
 
+        return;
 
-        const number =
-            document.getElementById(
-                "walletNumber"
-            ).value.trim();
+    }
 
 
-        if (!method) {
+    if (newPassword.length < 6) {
 
-            alert(
-                "Wallet Method নির্বাচন করুন।"
-            );
+        alert(
+            "নতুন Password কমপক্ষে 6 অক্ষরের হতে হবে।"
+        );
 
-            return;
+        return;
 
-        }
-
-
-        if (!number) {
-
-            alert(
-                "Wallet Account Number দিন।"
-            );
-
-            return;
-
-        }
+    }
 
 
-        if (method === "Bank") {
+    if (!confirmPassword) {
 
-            const bankName =
-                document.getElementById(
-                    "bankName"
-                ).value.trim();
+        alert(
+            "নতুন Password আবার লিখুন।"
+        );
+
+        return;
+
+    }
 
 
-            if (!bankName) {
+    if (newPassword !== confirmPassword) {
 
-                alert(
-                    "Bank Name দিন।"
-                );
+        alert(
+            "নতুন Password দুটি একই নয়।"
+        );
 
-                return;
+        return;
 
+    }
+
+
+    if (currentPassword === newPassword) {
+
+        alert(
+            "নতুন Password বর্তমান Password-এর মতো হতে পারবে না।"
+        );
+
+        return;
+
+    }
+
+
+    try {
+
+        const response = await fetch(
+            `${API_URL}/api/change-password`,
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                },
+
+                body: JSON.stringify({
+                    current_password: currentPassword,
+                    new_password: newPassword
+                })
             }
+        );
 
-        }
+
+        const data =
+            await response.json();
 
 
         alert(
-            `${method} Wallet setup backend-এর সাথে পরবর্তী ধাপে সংযুক্ত হবে।`
+            data.message ||
+            "Password change request completed."
+        );
+
+
+        if (data.success) {
+
+            document.getElementById(
+                "currentPassword"
+            ).value = "";
+
+            document.getElementById(
+                "newPassword"
+            ).value = "";
+
+            document.getElementById(
+                "confirmPassword"
+            ).value = "";
+
+
+            closeModal("passwordModal");
+
+        }
+
+
+    } catch (error) {
+
+        console.error(
+            "Change password error:",
+            error
+        );
+
+        alert(
+            "Server Error"
         );
 
     }
 
-
+            }
     /* =========================
        LOGOUT
     ========================= */
