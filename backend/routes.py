@@ -2,13 +2,15 @@ from flask import Blueprint, request, jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
 from database import get_connection
 from config import Config
+
 import jwt
 import datetime
-import smtplib
 import secrets
 import hashlib
 import os
-from email.message import EmailMessage
+import json
+import urllib.request
+import urllib.error
 def verify_admin_token():
 
     auth_header = request.headers.get("Authorization")
@@ -622,6 +624,7 @@ def send_email_otp():
         user = cur.fetchone()
 
         if not user or not user["email"]:
+
             cur.close()
             conn.close()
 
@@ -652,7 +655,9 @@ def send_email_otp():
             }), 400
 
         # Generate 6 digit OTP
-        otp = str(secrets.randbelow(900000) + 100000)
+        otp = str(
+            secrets.randbelow(900000) + 100000
+        )
 
         # Hash OTP before storing
         code_hash = hashlib.sha256(
@@ -697,15 +702,53 @@ def send_email_otp():
         cur.close()
         conn.close()
 
-        # Create email
-        message = EmailMessage()
+        # Brevo API settings
+        brevo_api_key = os.environ.get(
+            "BREVO_API_KEY"
+        )
 
-        message["Subject"] = "RSK32 Email Verification Code"
-        message["From"] = os.environ.get("MAIL_USERNAME")
-        message["To"] = email
+        sender_email = os.environ.get(
+            "BREVO_SENDER_EMAIL"
+        )
 
-        message.set_content(
-            f"""Hello,
+        sender_name = os.environ.get(
+            "BREVO_SENDER_NAME",
+            "RSK32 Security"
+        )
+
+        if not brevo_api_key:
+
+            return jsonify({
+                "success": False,
+                "message": "BREVO_API_KEY is not configured."
+            }), 500
+
+        if not sender_email:
+
+            return jsonify({
+                "success": False,
+                "message": "BREVO_SENDER_EMAIL is not configured."
+            }), 500
+
+        # Email data
+        email_data = {
+
+            "sender": {
+                "name": sender_name,
+                "email": sender_email
+            },
+
+            "to": [
+                {
+                    "email": email
+                }
+            ],
+
+            "subject":
+                "RSK32 Email Verification Code",
+
+            "textContent":
+                f"""Hello,
 
 Your RSK32 email verification code is:
 
@@ -716,40 +759,129 @@ This code will expire in 10 minutes.
 If you did not request this code, please ignore this email.
 
 RSK32 Security Team
-"""
+""",
+
+            "htmlContent":
+                f"""
+                <html>
+                <body>
+
+                    <h2>RSK32 Email Verification</h2>
+
+                    <p>
+                        Your RSK32 email verification code is:
+                    </p>
+
+                    <h1>{otp}</h1>
+
+                    <p>
+                        This code will expire in
+                        <strong>10 minutes</strong>.
+                    </p>
+
+                    <p>
+                        If you did not request this code,
+                        please ignore this email.
+                    </p>
+
+                    <br>
+
+                    <p>
+                        RSK32 Security Team
+                    </p>
+
+                </body>
+                </html>
+                """
+        }
+
+        # Brevo HTTP API
+        api_url = (
+            "https://api.brevo.com/v3/smtp/email"
         )
 
-        # Send email using Gmail SMTP
-        mail_username = os.environ.get("MAIL_USERNAME")
-        mail_password = os.environ.get("MAIL_PASSWORD")
+        request_data = json.dumps(
+            email_data
+        ).encode("utf-8")
 
-        if not mail_username or not mail_password:
+        api_request = urllib.request.Request(
+            api_url,
+            data=request_data,
+            method="POST"
+        )
+
+        api_request.add_header(
+            "accept",
+            "application/json"
+        )
+
+        api_request.add_header(
+            "api-key",
+            brevo_api_key
+        )
+
+        api_request.add_header(
+            "content-type",
+            "application/json"
+        )
+
+        # Send email through Brevo
+        try:
+
+            with urllib.request.urlopen(
+                api_request,
+                timeout=20
+            ) as response:
+
+                response_body = (
+                    response.read()
+                    .decode("utf-8")
+                )
+
+        except urllib.error.HTTPError as error:
+
+            error_body = (
+                error.read()
+                .decode(
+                    "utf-8",
+                    errors="replace"
+                )
+            )
+
+            print(
+                "Brevo HTTP Error:",
+                error.code,
+                error_body
+            )
 
             return jsonify({
                 "success": False,
-                "message": "Email service is not configured."
-            }), 500
+                "message": "Email service error.",
+                "details": error_body
+            }), 502
 
-        mail_password = mail_password.replace(" ", "")
+        except urllib.error.URLError as error:
 
-        with smtplib.SMTP(
-            "smtp.gmail.com",
-            587,
-            timeout=20
-        ) as smtp:
-
-            smtp.starttls()
-
-            smtp.login(
-                mail_username,
-                mail_password
+            print(
+                "Brevo Network Error:",
+                error
             )
 
-            smtp.send_message(message)
+            return jsonify({
+                "success": False,
+                "message":
+                    "Unable to connect to email service."
+            }), 502
+
+        print(
+            "Brevo email response:",
+            response_body
+        )
 
         return jsonify({
             "success": True,
-            "message": "Verification code sent to your registered email."
+            "message":
+                "Verification code sent to your registered email."
         }), 200
 
     except jwt.ExpiredSignatureError:
@@ -767,6 +899,11 @@ RSK32 Security Team
         }), 401
 
     except Exception as e:
+
+        print(
+            "Email OTP error:",
+            str(e)
+        )
 
         return jsonify({
             "success": False,
