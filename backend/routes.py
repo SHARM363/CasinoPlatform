@@ -4,6 +4,10 @@ from database import get_connection
 from config import Config
 import jwt
 import datetime
+import smtplib
+import secrets
+import hashlib
+from email.message import EmailMessage
 def verify_admin_token():
 
     auth_header = request.headers.get("Authorization")
@@ -577,7 +581,376 @@ def save_account():
             "success": False,
             "message": str(e)
         }), 500
-        
+ # =========================
+# SEND EMAIL OTP
+# =========================
+
+@api.route("/api/verification/email/send", methods=["POST"])
+def send_email_otp():
+
+    try:
+
+        auth_header = request.headers.get("Authorization")
+
+        if not auth_header or not auth_header.startswith("Bearer "):
+            return jsonify({
+                "success": False,
+                "message": "Authorization token required."
+            }), 401
+
+        token = auth_header.split(" ", 1)[1]
+
+        payload = jwt.decode(
+            token,
+            Config.SECRET_KEY,
+            algorithms=["HS256"]
+        )
+
+        user_id = payload.get("user_id")
+
+        conn = get_connection()
+        cur = conn.cursor()
+
+        # Get registered email
+        cur.execute("""
+            SELECT email
+            FROM users
+            WHERE id = %s
+        """, (user_id,))
+
+        user = cur.fetchone()
+
+        if not user or not user["email"]:
+            cur.close()
+            conn.close()
+
+            return jsonify({
+                "success": False,
+                "message": "Registered email not found."
+            }), 404
+
+        email = user["email"].strip()
+
+        # Check already verified
+        cur.execute("""
+            SELECT email_verified
+            FROM account_information
+            WHERE user_id = %s
+        """, (user_id,))
+
+        account = cur.fetchone()
+
+        if account and account["email_verified"]:
+
+            cur.close()
+            conn.close()
+
+            return jsonify({
+                "success": False,
+                "message": "Email is already verified."
+            }), 400
+
+        # Generate 6 digit OTP
+        otp = str(secrets.randbelow(900000) + 100000)
+
+        # Hash OTP before storing
+        code_hash = hashlib.sha256(
+            otp.encode()
+        ).hexdigest()
+
+        # OTP expires in 10 minutes
+        expires_at = (
+            datetime.datetime.utcnow()
+            + datetime.timedelta(minutes=10)
+        )
+
+        # Remove previous unused email OTPs
+        cur.execute("""
+            DELETE FROM verification_otps
+            WHERE user_id = %s
+              AND verification_type = 'email'
+              AND verified = FALSE
+        """, (user_id,))
+
+        # Store new OTP
+        cur.execute("""
+            INSERT INTO verification_otps
+            (
+                user_id,
+                verification_type,
+                destination,
+                code_hash,
+                expires_at
+            )
+            VALUES (%s, %s, %s, %s, %s)
+        """, (
+            user_id,
+            "email",
+            email,
+            code_hash,
+            expires_at
+        ))
+
+        conn.commit()
+
+        cur.close()
+        conn.close()
+
+        # Create email
+        message = EmailMessage()
+
+        message["Subject"] = "RSK32 Email Verification Code"
+        message["From"] = os.environ.get("MAIL_USERNAME")
+        message["To"] = email
+
+        message.set_content(
+            f"""Hello,
+
+Your RSK32 email verification code is:
+
+{otp}
+
+This code will expire in 10 minutes.
+
+If you did not request this code, please ignore this email.
+
+RSK32 Security Team
+"""
+        )
+
+        # Send email using Gmail SMTP
+        mail_username = os.environ.get("MAIL_USERNAME")
+        mail_password = os.environ.get("MAIL_PASSWORD")
+
+        if not mail_username or not mail_password:
+
+            return jsonify({
+                "success": False,
+                "message": "Email service is not configured."
+            }), 500
+
+        mail_password = mail_password.replace(" ", "")
+
+        with smtplib.SMTP(
+            "smtp.gmail.com",
+            587,
+            timeout=20
+        ) as smtp:
+
+            smtp.starttls()
+
+            smtp.login(
+                mail_username,
+                mail_password
+            )
+
+            smtp.send_message(message)
+
+        return jsonify({
+            "success": True,
+            "message": "Verification code sent to your registered email."
+        }), 200
+
+    except jwt.ExpiredSignatureError:
+
+        return jsonify({
+            "success": False,
+            "message": "Token expired."
+        }), 401
+
+    except jwt.InvalidTokenError:
+
+        return jsonify({
+            "success": False,
+            "message": "Invalid token."
+        }), 401
+
+    except Exception as e:
+
+        return jsonify({
+            "success": False,
+            "message": str(e)
+        }), 500
+# =========================
+# VERIFY EMAIL OTP
+# =========================
+
+@api.route("/api/verification/email/verify", methods=["POST"])
+def verify_email_otp():
+
+    try:
+
+        auth_header = request.headers.get("Authorization")
+
+        if not auth_header or not auth_header.startswith("Bearer "):
+            return jsonify({
+                "success": False,
+                "message": "Authorization token required."
+            }), 401
+
+        token = auth_header.split(" ", 1)[1]
+
+        payload = jwt.decode(
+            token,
+            Config.SECRET_KEY,
+            algorithms=["HS256"]
+        )
+
+        user_id = payload.get("user_id")
+
+        data = request.get_json()
+
+        if not data:
+            return jsonify({
+                "success": False,
+                "message": "Verification code is required."
+            }), 400
+
+        otp = str(data.get("otp", "")).strip()
+
+        if not otp or len(otp) != 6 or not otp.isdigit():
+            return jsonify({
+                "success": False,
+                "message": "Enter a valid 6-digit verification code."
+            }), 400
+
+        conn = get_connection()
+        cur = conn.cursor()
+
+        # Get latest email OTP
+        cur.execute("""
+            SELECT
+                id,
+                code_hash,
+                expires_at,
+                attempts,
+                verified
+            FROM verification_otps
+            WHERE user_id = %s
+              AND verification_type = 'email'
+              AND verified = FALSE
+            ORDER BY created_at DESC
+            LIMIT 1
+        """, (user_id,))
+
+        verification = cur.fetchone()
+
+        if not verification:
+
+            cur.close()
+            conn.close()
+
+            return jsonify({
+                "success": False,
+                "message": "Verification code not found. Please request a new code."
+            }), 400
+
+        # Maximum 5 attempts
+        if verification["attempts"] >= 5:
+
+            cur.close()
+            conn.close()
+
+            return jsonify({
+                "success": False,
+                "message": "Too many incorrect attempts. Please request a new code."
+            }), 429
+
+        # Check expiry
+        if datetime.datetime.utcnow() > verification["expires_at"]:
+
+            cur.execute("""
+                UPDATE verification_otps
+                SET verified = TRUE
+                WHERE id = %s
+            """, (verification["id"],))
+
+            conn.commit()
+
+            cur.close()
+            conn.close()
+
+            return jsonify({
+                "success": False,
+                "message": "Verification code has expired. Please request a new code."
+            }), 400
+
+        # Hash submitted OTP
+        submitted_hash = hashlib.sha256(
+            otp.encode()
+        ).hexdigest()
+
+        # Wrong OTP
+        if submitted_hash != verification["code_hash"]:
+
+            cur.execute("""
+                UPDATE verification_otps
+                SET attempts = attempts + 1
+                WHERE id = %s
+            """, (verification["id"],))
+
+            conn.commit()
+
+            cur.close()
+            conn.close()
+
+            return jsonify({
+                "success": False,
+                "message": "Incorrect verification code."
+            }), 400
+
+        # OTP correct
+        cur.execute("""
+            UPDATE verification_otps
+            SET verified = TRUE
+            WHERE id = %s
+        """, (verification["id"],))
+
+        # Mark email as verified
+        cur.execute("""
+            UPDATE users
+            SET email_verified = TRUE
+            WHERE id = %s
+        """, (user_id,))
+
+        # Also update account information if it exists
+        cur.execute("""
+            UPDATE account_information
+            SET email_verified = TRUE,
+                updated_at = CURRENT_TIMESTAMP
+            WHERE user_id = %s
+        """, (user_id,))
+
+        conn.commit()
+
+        cur.close()
+        conn.close()
+
+        return jsonify({
+            "success": True,
+            "message": "Email verified successfully."
+        }), 200
+
+    except jwt.ExpiredSignatureError:
+
+        return jsonify({
+            "success": False,
+            "message": "Token expired."
+        }), 401
+
+    except jwt.InvalidTokenError:
+
+        return jsonify({
+            "success": False,
+            "message": "Invalid token."
+        }), 401
+
+    except Exception as e:
+
+        return jsonify({
+            "success": False,
+            "message": str(e)
+        }), 500        
 @api.route("/api/test-balance", methods=["GET"])
 def test_balance():
 
