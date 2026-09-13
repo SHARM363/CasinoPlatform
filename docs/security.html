@@ -792,7 +792,10 @@
                 document.getElementById(
                     "username"
                 );
-
+            const emailAddress =
+    document.getElementById(
+        "emailAddress"
+    );
 
             if (accountId) {
 
@@ -808,7 +811,12 @@
                     user.username ?? "-";
 
             }
+if (emailAddress) {
 
+    emailAddress.value =
+        user.email ?? "";
+
+    }
 
         } catch (error) {
 
