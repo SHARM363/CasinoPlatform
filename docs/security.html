@@ -928,7 +928,7 @@ async function sendEmailOtp() {
 
         console.error("Email OTP error:", error);
 
-        alert("Server Error");
+        alert("Server Error: " + error.message);
 
     }
 }
