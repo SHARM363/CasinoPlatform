@@ -14,7 +14,7 @@ def init_db():
     conn = get_connection()
     cur = conn.cursor()
 
-        cur.execute("""
+    cur.execute("""
     CREATE TABLE IF NOT EXISTS users (
         id SERIAL PRIMARY KEY,
         username VARCHAR(100) UNIQUE,
@@ -23,18 +23,6 @@ def init_db():
         balance NUMERIC(18,2) DEFAULT 0,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
-    """)
-
-    # LAST LOGIN INFORMATION
-    cur.execute("""
-    ALTER TABLE users
-    ADD COLUMN IF NOT EXISTS last_login_ip VARCHAR(100);
-    """)
-
-    cur.execute("""
-    ALTER TABLE users
-    ADD COLUMN IF NOT EXISTS last_login_at TIMESTAMP;
-    """)
 
     CREATE TABLE IF NOT EXISTS deposits (
         id SERIAL PRIMARY KEY,
@@ -105,6 +93,24 @@ def init_db():
     );
     """)
 
+    # =========================
+    # LAST LOGIN INFORMATION
+    # =========================
+
+    cur.execute("""
+    ALTER TABLE users
+    ADD COLUMN IF NOT EXISTS last_login_ip VARCHAR(100);
+    """)
+
+    cur.execute("""
+    ALTER TABLE users
+    ADD COLUMN IF NOT EXISTS last_login_at TIMESTAMP;
+    """)
+
+    # =========================
+    # EXISTING TABLE UPDATES
+    # =========================
+
     cur.execute("""
     ALTER TABLE withdrawals
     ADD COLUMN IF NOT EXISTS payment_method VARCHAR(20),
@@ -127,6 +133,7 @@ def init_db():
     ADD COLUMN IF NOT EXISTS turnover_requirement NUMERIC(18,2) DEFAULT 3000,
     ADD COLUMN IF NOT EXISTS bonus_paid BOOLEAN DEFAULT FALSE;
     """)
+
     # =========================
     # SECURITY VERIFICATION
     # =========================
@@ -155,7 +162,10 @@ def init_db():
       AND phone <> '';
     """)
 
-    # OTP storage
+    # =========================
+    # OTP STORAGE
+    # =========================
+
     cur.execute("""
     CREATE TABLE IF NOT EXISTS verification_otps (
         id SERIAL PRIMARY KEY,
@@ -169,6 +179,7 @@ def init_db():
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
     """)
+
     conn.commit()
     cur.close()
     conn.close()
