@@ -1396,7 +1396,6 @@ function getToken() {
 
 }
 
-
 /* =========================
    LOAD REFERRAL DATA
 ========================= */
@@ -1421,9 +1420,11 @@ async function loadReferralData() {
                 `${API_URL}/api/referrals`,
                 {
                     method: "GET",
+
                     headers: {
                         "Authorization":
                             `Bearer ${token}`,
+
                         "Content-Type":
                             "application/json"
                     }
@@ -1452,49 +1453,144 @@ async function loadReferralData() {
             data.referrals || [];
 
 
-        /* REFERRAL LINK */
+        /* =========================
+           REFERRAL LINK
+        ========================= */
 
-        if (data.referral_link) {
+        let referralLink =
+            data.referral_link || "";
 
-            document.getElementById(
-                "referralLink"
-            ).value =
-                data.referral_link;
+
+        /*
+         * যদি API থেকে referral_link
+         * না আসে, তাহলে /api/me থেকে
+         * User ID নিয়ে লিংক তৈরি করবে।
+         */
+
+        if (!referralLink) {
+
+            const meResponse =
+                await fetch(
+                    `${API_URL}/api/me`,
+                    {
+                        method: "GET",
+
+                        headers: {
+                            "Authorization":
+                                `Bearer ${token}`,
+
+                            "Content-Type":
+                                "application/json"
+                        }
+                    }
+                );
+
+
+            const meData =
+                await meResponse.json();
+
+
+            if (
+                meResponse.ok &&
+                meData.success &&
+                meData.user &&
+                meData.user.id
+            ) {
+
+                referralLink =
+                    `https://sharm363.github.io/CasinoPlatform/?ref=${meData.user.id}`;
+
+            }
 
         }
 
 
-        /* TOTAL */
+        if (referralLink) {
+
+            const referralInput =
+                document.getElementById(
+                    "referralLink"
+                );
+
+
+            if (referralInput) {
+
+                referralInput.value =
+                    referralLink;
+
+            }
+
+        }
+
+
+        /* =========================
+           TOTAL
+        ========================= */
 
         const total =
             referrals.length;
 
 
-        document.getElementById(
-            "qualifiedReferral"
-        ).textContent =
-            total;
+        const qualifiedReferral =
+            document.getElementById(
+                "qualifiedReferral"
+            );
 
 
-        document.getElementById(
-            "qualifiedUsers"
-        ).textContent =
-            total;
+        if (qualifiedReferral) {
+
+            qualifiedReferral.textContent =
+                total;
+
+        }
 
 
-        document.getElementById(
-            "activeReferral"
-        ).textContent =
+        const qualifiedUsers =
+            document.getElementById(
+                "qualifiedUsers"
+            );
+
+
+        if (qualifiedUsers) {
+
+            qualifiedUsers.textContent =
+                total;
+
+        }
+
+
+        /* =========================
+           ACTIVE REFERRAL
+        ========================= */
+
+        const activeCount =
             referrals.filter(
                 r =>
                     String(
                         r.status || ""
-                    ).toLowerCase()
+                    )
+                    .toLowerCase()
                     === "active"
             ).length;
 
 
-        /* LEVEL */
+        const activeReferral =
+            document.getElementById(
+                "activeReferral"
+            );
+
+
+        if (activeReferral) {
+
+            activeReferral.textContent =
+                activeCount;
+
+        }
+
+
+        /* =========================
+           LEVEL
+        ========================= */
 
         const levelProgress =
             Math.min(
@@ -1503,52 +1599,48 @@ async function loadReferralData() {
             );
 
 
-        document.getElementById(
-            "qualifiedProgress"
-        ).style.width =
-            levelProgress + "%";
-
-
-        if (total >= 10) {
-
+        const progress =
             document.getElementById(
-                "levelNumber"
-            ).textContent =
-                "L2";
+                "qualifiedProgress"
+            );
+
+
+        if (progress) {
+
+            progress.style.width =
+                levelProgress + "%";
 
         }
 
 
-        /* LIST */
-
-        renderReferralList(
-            referrals
-        );
-
-
-        renderReferralHistory(
-            referrals
-        );
+        const levelNumber =
+            document.getElementById(
+                "levelNumber"
+            );
 
 
-        document.getElementById(
-            "rewardClaimed"
-        ).textContent =
-            `${total} জন দাবি করেছে`;
+        if (levelNumber) {
+
+            if (total >= 10) {
+
+                levelNumber.textContent =
+                    "L2";
+
+            } else {
+
+                levelNumber.textContent =
+                    "L1";
+
+            }
+
+        }
 
 
-    } catch (error) {
+        /* =========================
+           REFERRAL LIST
+        ========================= */
 
-        console.error(
-            "Referral error:",
-            error
-        );
-
-    }
-
-}
-
-
+        render
 /* =========================
    REFERRAL LIST
 ========================= */
