@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="bn">
+
 <head>
 
     <meta charset="UTF-8">
@@ -9,7 +10,7 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>RSK32 - বন্ধুদের আমন্ত্রণ জানান</title>
+    <title>RSK32 - Referral</title>
 
     <style>
 
@@ -19,715 +20,255 @@
 
         body {
             margin: 0;
-            font-family: Arial, "Noto Sans Bengali", sans-serif;
-            background: #f3f5f8;
+            font-family: Arial, sans-serif;
+            background: #f5f7f8;
             color: #222;
+            padding-bottom: 75px;
         }
 
-        /* =========================
-           HEADER
-        ========================= */
-
-        .header {
-            height: 64px;
-            background: #42a579;
+        .top-header {
+            background: #16a34a;
             color: white;
-
+            padding: 16px;
             display: flex;
             align-items: center;
-
-            padding: 0 18px;
-
-            position: sticky;
-            top: 0;
-            z-index: 100;
+            gap: 15px;
         }
 
         .back-btn {
             border: none;
-            background: transparent;
+            background: rgba(255,255,255,0.2);
             color: white;
-
-            font-size: 34px;
-            line-height: 1;
-
-            cursor: pointer;
-
-            margin-right: 18px;
+            font-size: 20px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
         }
 
-        .header-title {
-            font-size: 22px;
-            font-weight: bold;
+        .top-header h2 {
+            margin: 0;
+            font-size: 20px;
         }
-
-        /* =========================
-           CONTAINER
-        ========================= */
 
         .container {
-            width: 100%;
-            max-width: 680px;
-
+            max-width: 600px;
             margin: auto;
-
-            padding-bottom: 90px;
+            padding: 15px;
         }
 
-        /* =========================
-           TABS
-        ========================= */
-
         .tabs {
-            background: white;
-
             display: grid;
-            grid-template-columns:
-                1.2fr
-                0.8fr
-                0.8fr
-                1.2fr;
-
-            border-bottom: 1px solid #ddd;
+            grid-template-columns: repeat(4, 1fr);
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 15px;
         }
 
         .tab {
-            border: none;
-            background: white;
-
-            padding: 15px 5px;
-
-            font-size: 15px;
-            color: #333;
-
+            padding: 12px 5px;
+            text-align: center;
+            font-size: 12px;
             cursor: pointer;
-
-            border-bottom: 3px solid transparent;
         }
 
         .tab.active {
-            color: #168ed1;
-            border-bottom-color: #168ed1;
-            font-weight: bold;
+            background: #16a34a;
+            color: white;
         }
 
-        /* =========================
-           TAB CONTENT
-        ========================= */
-
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        /* =========================
-           LEVEL CARD
-        ========================= */
-
-        .level-card {
-            margin: 18px 16px;
-
-            border-radius: 10px;
-
-            overflow: hidden;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    #d7e9f5,
-                    #b9d8ed
-                );
-
-            box-shadow:
-                0 3px 12px rgba(0,0,0,0.06);
-        }
-
-        .level-top {
-            padding: 15px 22px 5px;
-
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .level-label {
-            font-size: 18px;
-            font-weight: bold;
-            color: #183b64;
-        }
-
-        .rules-btn {
-            background: #74c6ee;
-            color: #173a62;
-
-            border-radius: 22px;
-
-            padding: 9px 17px;
-
-            font-weight: bold;
-            font-size: 14px;
-        }
-
-        .level-number {
-            font-size: 40px;
-            font-weight: bold;
-
-            color: #172d54;
-
-            padding: 15px 28px 22px;
-        }
-
-        /* =========================
-           PROGRESS
-        ========================= */
-
-        .progress-area {
-            background: rgba(65, 174, 231, 0.45);
-
-            padding: 13px 18px 17px;
-        }
-
-        .progress-row {
-            display: grid;
-
-            grid-template-columns: 185px 1fr 45px;
-
-            gap: 10px;
-
-            align-items: center;
-
-            margin: 9px 0;
-        }
-
-        .progress-label {
-            font-size: 14px;
-            font-weight: bold;
-            line-height: 18px;
-        }
-
-        .progress-icon {
-            font-size: 19px;
-        }
-
-        .progress-track {
-            height: 7px;
-
-            background: rgba(255,255,255,0.65);
-
-            border-radius: 10px;
-
-            overflow: hidden;
-        }
-
-        .progress-bar {
-            height: 100%;
-
-            background: #2589c4;
-
-            border-radius: 10px;
-
-            width: 0%;
-        }
-
-        .progress-count {
-            text-align: right;
-
-            font-size: 13px;
-            font-weight: bold;
-        }
-
-        /* =========================
-           SHARE CARD
-        ========================= */
-
-        .share-card {
+        .card {
             background: white;
-
-            margin: 18px 16px;
-
-            padding: 18px;
-
-            border-radius: 10px;
-
-            box-shadow:
-                0 3px 12px rgba(0,0,0,0.05);
+            border-radius: 14px;
+            padding: 16px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
         }
 
-        .share-title {
-            font-size: 18px;
+        .card-title {
+            font-size: 17px;
             font-weight: bold;
-
-            color: #315f8c;
-
             margin-bottom: 14px;
         }
 
-        .link-row {
+        .level-row {
             display: flex;
-
-            gap: 8px;
-
+            justify-content: space-between;
             align-items: center;
         }
 
-        .link-input {
-            flex: 1;
+        .level {
+            font-size: 22px;
+            font-weight: bold;
+            color: #16a34a;
+        }
 
-            min-width: 0;
+        .progress-bg {
+            height: 9px;
+            background: #e5e7eb;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 12px;
+        }
 
-            height: 46px;
+        .progress {
+            height: 100%;
+            width: 0%;
+            background: #16a34a;
+        }
 
-            border: none;
-
-            background: #f2f4f7;
-
-            border-radius: 25px;
-
-            padding: 0 14px;
-
+        .progress-text {
             font-size: 12px;
+            color: #777;
+            margin-top: 7px;
+        }
 
-            color: #555;
+        .referral-link-box {
+            display: flex;
+            gap: 8px;
+        }
+
+        .referral-link-box input {
+            flex: 1;
+            min-width: 0;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 12px;
         }
 
         .copy-btn {
-            width: 48px;
-            height: 46px;
-
             border: none;
-
-            background: #5d379d;
-
+            background: #16a34a;
             color: white;
-
-            border-radius: 50%;
-
-            font-size: 20px;
-
-            cursor: pointer;
+            padding: 0 15px;
+            border-radius: 8px;
+            font-weight: bold;
         }
 
         .copy-message {
             text-align: center;
-
-            min-height: 20px;
-
+            color: #16a34a;
+            font-size: 13px;
             margin-top: 8px;
-
-            font-size: 13px;
-
-            color: #16803c;
         }
 
-        /* =========================
-           QR
-        ========================= */
-
-        .qr-section {
-            text-align: center;
-
-            margin-top: 15px;
-        }
-
-        #qrcode {
-            display: inline-block;
-
-            padding: 10px;
-
-            background: white;
-
-            border-radius: 8px;
-        }
-
-        /* =========================
-           SHARE BUTTONS
-        ========================= */
-
-        .share-buttons {
-            display: flex;
-
-            justify-content: center;
-
-            gap: 9px;
-
-            margin-top: 15px;
-
-            flex-wrap: wrap;
-        }
-
-        .share-btn {
-            width: 45px;
-            height: 45px;
-
-            border: none;
-
-            border-radius: 8px;
-
-            color: white;
-
-            font-size: 18px;
-
-            cursor: pointer;
-        }
-
-        .facebook {
-            background: #1877f2;
-        }
-
-        .telegram {
-            background: #229ed9;
-        }
-
-        .whatsapp {
-            background: #25d366;
-        }
-
-        .copy-share {
-            background: #6a3bc0;
-        }
-
-        .native-share {
-            background: #555;
-        }
-
-        /* =========================
-           INCOME GRID
-        ========================= */
-
-        .income-grid {
+        .stats {
             display: grid;
-
-            grid-template-columns: 1fr 1fr;
-
-            gap: 14px;
-
-            margin: 18px 16px;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
         }
 
-        .income-card {
-            padding: 18px 10px;
-
-            border-radius: 9px;
-
-            text-align: center;
-
-            color: white;
-
-            min-height: 105px;
-        }
-
-        .income-card.blue {
-            background: linear-gradient(
-                135deg,
-                #55bdf1,
-                #2199d5
-            );
-        }
-
-        .income-card.purple {
-            background: linear-gradient(
-                135deg,
-                #b078ed,
-                #7951d7
-            );
-        }
-
-        .income-title {
-            font-size: 14px;
-
-            margin-bottom: 10px;
-        }
-
-        .income-value {
-            font-size: 25px;
-
-            font-weight: bold;
-        }
-
-        /* =========================
-           REWARD
-        ========================= */
-
-        .section-title {
-            margin: 20px 16px 12px;
-
-            font-size: 26px;
-
-            font-weight: bold;
-
-            color: #222;
-        }
-
-        .reward-card {
-            margin: 0 16px 16px;
-
-            background: #f1f6fa;
-
+        .stat {
+            background: #f5f7f8;
+            padding: 14px;
             border-radius: 10px;
-
-            padding: 18px;
-
-            display: flex;
-
-            align-items: center;
-
-            gap: 18px;
         }
 
-        .reward-icon {
-            width: 65px;
-            height: 65px;
+        .stat-title {
+            color: #777;
+            font-size: 12px;
+        }
 
-            border-radius: 50%;
+        .stat-value {
+            font-size: 21px;
+            font-weight: bold;
+            margin-top: 5px;
+        }
 
+        .referral-user {
             display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+        }
 
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #dcfce7;
+            display: flex;
             align-items: center;
             justify-content: center;
-
-            font-size: 38px;
-
-            background: #e4edf3;
         }
 
-        .reward-info {
-            flex: 1;
+        .user-info strong {
+            display: block;
         }
 
-        .reward-name {
-            color: #555;
-
-            font-size: 15px;
-
-            margin-bottom: 7px;
-        }
-
-        .reward-amount {
-            color: #47318d;
-
-            font-size: 25px;
-
-            font-weight: bold;
-        }
-
-        .reward-claimed {
-            color: #777;
-
-            font-size: 13px;
-
-            margin-top: 4px;
-        }
-
-        /* =========================
-           RECORDS
-        ========================= */
-
-        .record-card {
-            margin: 18px 16px;
-
-            background: white;
-
-            border-radius: 10px;
-
-            padding: 18px;
-
-            box-shadow:
-                0 3px 12px rgba(0,0,0,0.05);
-        }
-
-        .record-row {
-            display: flex;
-
-            justify-content: space-between;
-
-            padding: 13px 0;
-
-            border-bottom: 1px solid #eee;
-
-            font-size: 14px;
-        }
-
-        .record-row:last-child {
-            border-bottom: none;
-        }
-
-        .record-value {
-            font-weight: bold;
-        }
-
-        /* =========================
-           FRIEND LIST
-        ========================= */
-
-        .friend-item {
-            display: flex;
-
-            align-items: center;
-
-            justify-content: space-between;
-
-            padding: 14px 0;
-
-            border-bottom: 1px solid #eee;
-        }
-
-        .friend-name {
-            font-weight: bold;
-        }
-
-        .friend-date {
-            font-size: 12px;
-
+        .user-info small {
             color: #888;
-
-            margin-top: 4px;
+            font-size: 11px;
         }
 
         .status {
-            padding: 5px 10px;
-
-            border-radius: 20px;
-
-            font-size: 12px;
-        }
-
-        .status.active {
-            background: #dff7e5;
-
-            color: #16803c;
-        }
-
-        .status.pending {
-            background: #fff2cc;
-
-            color: #996c00;
+            background: #fff3cd;
+            color: #856404;
+            padding: 5px 9px;
+            border-radius: 15px;
+            font-size: 11px;
         }
 
         .empty {
             text-align: center;
-
             color: #888;
-
-            padding: 25px 5px;
+            padding: 20px 0;
         }
-
-        /* =========================
-           BOTTOM NAV
-        ========================= */
 
         .bottom-nav {
             position: fixed;
-
             left: 0;
             right: 0;
             bottom: 0;
-
-            height: 68px;
-
+            height: 65px;
             background: white;
-
             border-top: 1px solid #ddd;
-
             display: grid;
-
-            grid-template-columns:
-                repeat(5, 1fr);
-
-            z-index: 200;
+            grid-template-columns: repeat(5, 1fr);
+            z-index: 100;
         }
 
         .nav-item {
             border: none;
-
-            background: white;
-
-            color: #777;
-
+            background: transparent;
             font-size: 11px;
-
-            cursor: pointer;
-
-            display: flex;
-
-            flex-direction: column;
-
-            align-items: center;
-
-            justify-content: center;
-
-            gap: 3px;
-        }
-
-        .nav-icon {
-            font-size: 22px;
+            color: #666;
         }
 
         .nav-item.active {
-            color: #42a579;
-
+            color: #16a34a;
             font-weight: bold;
-        }
-
-        /* =========================
-           MOBILE
-        ========================= */
-
-        @media (max-width: 480px) {
-
-            .header-title {
-                font-size: 20px;
-            }
-
-            .progress-row {
-                grid-template-columns:
-                    155px 1fr 38px;
-            }
-
-            .progress-label {
-                font-size: 12px;
-            }
-
-            .tab {
-                font-size: 13px;
-            }
-
-            .income-value {
-                font-size: 22px;
-            }
-
         }
 
     </style>
 
-    <!-- QR CODE LIBRARY -->
-    <script
-        src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js">
-    </script>
-
 </head>
 
 <body>
-
-
-<!-- =========================
-     HEADER
+    <!-- =========================
+     TOP HEADER
 ========================= -->
 
-<div class="header">
+<div class="top-header">
 
     <button
         class="back-btn"
         onclick="goBack()"
     >
-        ‹
+        ←
     </button>
 
-    <div class="header-title">
+    <h2>
         বন্ধুদের আমন্ত্রণ জানান
-    </div>
+    </h2>
 
 </div>
 
@@ -741,302 +282,189 @@
 
     <div class="tabs">
 
-        <button
+        <div
             class="tab active"
             onclick="showTab('summary', this)"
         >
             সংক্ষিপ্ত বর্ণনা
-        </button>
+        </div>
 
-        <button
+        <div
             class="tab"
             onclick="showTab('income', this)"
         >
             আয়
-        </button>
+        </div>
 
-        <button
+        <div
             class="tab"
             onclick="showTab('records', this)"
         >
             রেকর্ডস
-        </button>
+        </div>
 
-        <button
+        <div
             class="tab"
-            onclick="showTab('friends', this)"
+            onclick="showTab('users', this)"
         >
             আমন্ত্রিতদের তালিকা
-        </button>
+        </div>
 
     </div>
 
 
-    <!-- =====================================================
-         SUMMARY
-    ====================================================== -->
+    <!-- =========================
+         SUMMARY TAB
+    ========================= -->
 
-    <div
-        id="summary"
-        class="tab-content active"
-    >
+    <div id="summaryTab">
 
 
-        <!-- LEVEL -->
+        <!-- MY LEVEL -->
 
-        <div class="level-card">
+        <div class="card">
 
-            <div class="level-top">
+            <div class="card-title">
+                আমার স্তর
+            </div>
 
-                <div class="level-label">
-                    আমার স্তর
+            <div class="level-row">
+
+                <div>
+                    <div class="level" id="levelNumber">
+                        L1
+                    </div>
+
+                    <div class="progress-text">
+                        রেফারেল লেভেল
+                    </div>
                 </div>
 
-                <div class="rules-btn">
-                    🎲 নিয়ম
+                <div>
+                    <strong id="qualifiedReferral">
+                        0
+                    </strong>
+                    / 10
                 </div>
 
             </div>
 
-            <div
-                class="level-number"
-                id="levelNumber"
-            >
-                L1
+
+            <div class="progress-bg">
+
+                <div
+                    class="progress"
+                    id="qualifiedProgress"
+                ></div>
+
             </div>
 
-
-            <div class="progress-area">
-
-
-                <!-- TOTAL -->
-
-                <div class="progress-row">
-
-                    <div class="progress-label">
-
-                        <span class="progress-icon">
-                            👥
-                        </span>
-
-                        মোট যোগ্য<br>
-                        আমন্ত্রিত
-
-                    </div>
-
-                    <div class="progress-track">
-
-                        <div
-                            class="progress-bar"
-                            id="totalProgress"
-                        ></div>
-
-                    </div>
-
-                    <div
-                        class="progress-count"
-                        id="totalProgressText"
-                    >
-                        0/10
-                    </div>
-
-                </div>
-
-
-                <!-- MONTHLY -->
-
-                <div class="progress-row">
-
-                    <div class="progress-label">
-
-                        <span class="progress-icon">
-                            👥
-                        </span>
-
-                        মাসিক যোগ্য<br>
-                        আমন্ত্রিত
-
-                    </div>
-
-                    <div class="progress-track">
-
-                        <div
-                            class="progress-bar"
-                            id="monthlyProgress"
-                        ></div>
-
-                    </div>
-
-                    <div
-                        class="progress-count"
-                        id="monthlyProgressText"
-                    >
-                        0/1
-                    </div>
-
-                </div>
-
+            <div class="progress-text">
+                মোট যোগ্য আমন্ত্রিত
             </div>
 
         </div>
 
 
-        <!-- SHARE -->
+        <!-- REFERRAL LINK -->
 
-        <div class="share-card">
+        <div class="card">
 
-            <div class="share-title">
-                আপনার বন্ধুদের সাথে ভাগ করুন
+            <div class="card-title">
+                🔗 আমার রেফারেল লিংক
             </div>
 
-
-            <div class="link-row">
+            <div class="referral-link-box">
 
                 <input
-                    class="link-input"
-                    id="referralLink"
                     type="text"
+                    id="referralLink"
+                    value="লিংক তৈরি হচ্ছে..."
                     readonly
-                    value="Loading..."
                 >
 
                 <button
                     class="copy-btn"
                     onclick="copyReferralLink()"
                 >
-                    📋
+                    কপি
                 </button>
 
             </div>
-
 
             <div
-                id="copyMessage"
                 class="copy-message"
+                id="copyMessage"
             ></div>
-
-
-            <!-- QR -->
-
-            <div class="qr-section">
-
-                <div id="qrcode"></div>
-
-            </div>
-
-
-            <!-- SHARE BUTTONS -->
-
-            <div class="share-buttons">
-
-                <button
-                    class="share-btn facebook"
-                    onclick="shareFacebook()"
-                    title="Facebook"
-                >
-                    f
-                </button>
-
-                <button
-                    class="share-btn telegram"
-                    onclick="shareTelegram()"
-                    title="Telegram"
-                >
-                    ✈
-                </button>
-
-                <button
-                    class="share-btn whatsapp"
-                    onclick="shareWhatsApp()"
-                    title="WhatsApp"
-                >
-                    ☎
-                </button>
-
-                <button
-                    class="share-btn copy-share"
-                    onclick="copyReferralLink()"
-                    title="Copy"
-                >
-                    📋
-                </button>
-
-                <button
-                    class="share-btn native-share"
-                    onclick="nativeShare()"
-                    title="Share"
-                >
-                    ↗
-                </button>
-
-            </div>
 
         </div>
 
 
-        <!-- INCOME -->
+        <!-- REFERRAL STATS -->
 
-        <div class="income-grid">
+        <div class="card">
 
-            <div class="income-card blue">
-
-                <div class="income-title">
-                    আজকের আয়
-                </div>
-
-                <div
-                    class="income-value"
-                    id="todayIncome"
-                >
-                    ৳ 0.00
-                </div>
-
+            <div class="card-title">
+                📊 রেফারেল পরিসংখ্যান
             </div>
 
+            <div class="stats">
 
-            <div class="income-card purple">
+                <div class="stat">
 
-                <div class="income-title">
-                    গতকালের আয়
+                    <div class="stat-title">
+                        মোট আমন্ত্রিত
+                    </div>
+
+                    <div
+                        class="stat-value"
+                        id="qualifiedUsers"
+                    >
+                        0
+                    </div>
+
                 </div>
 
-                <div
-                    class="income-value"
-                    id="yesterdayIncome"
-                >
-                    ৳ 0.00
+
+                <div class="stat">
+
+                    <div class="stat-title">
+                        সক্রিয়
+                    </div>
+
+                    <div
+                        class="stat-value"
+                        id="activeReferral"
+                    >
+                        0
+                    </div>
+
                 </div>
 
-            </div>
 
+                <div class="stat">
 
-            <div class="income-card purple">
+                    <div class="stat-title">
+                        আজকের আয়
+                    </div>
 
-                <div class="income-title">
-                    সক্রিয় আমন্ত্রিত
+                    <div class="stat-value">
+                        ৳0.00
+                    </div>
+
                 </div>
 
-                <div
-                    class="income-value"
-                    id="activeCount"
-                >
-                    0
-                </div>
 
-            </div>
+                <div class="stat">
 
+                    <div class="stat-title">
+                        গতকালের আয়
+                    </div>
 
-            <div class="income-card blue">
+                    <div class="stat-value">
+                        ৳0.00
+                    </div>
 
-                <div class="income-title">
-                    যোগ্য পরিচয়কারী
-                </div>
-
-                <div
-                    class="income-value"
-                    id="qualifiedCount"
-                >
-                    0
                 </div>
 
             </div>
@@ -1046,261 +474,44 @@
 
         <!-- REWARD -->
 
-        <div class="section-title">
-            প্রাপ্ত পুরস্কার
-        </div>
+        <div class="card">
 
-
-        <div class="reward-card">
-
-            <div class="reward-icon">
-                ⭐
+            <div class="card-title">
+                🏆 প্রাপ্ত পুরস্কার
             </div>
 
-            <div class="reward-info">
+            <div class="stats">
 
-                <div class="reward-name">
-                    আমন্ত্রণ পুরস্কার
-                </div>
+                <div class="stat">
 
-                <div
-                    class="reward-amount"
-                    id="rewardAmount"
-                >
-                    ৳ 0.00
-                </div>
-
-                <div
-                    class="reward-claimed"
-                                        id="rewardClaimed"
-                >
-                    0 জন দাবি করেছে
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <!-- LEVEL PROGRESS -->
-        <div class="referral-card">
-
-            <div class="level-header">
-
-                <div>
-                    <div class="level-title">
-                        আমার স্তর
+                    <div class="stat-title">
+                        মোট দাবি
                     </div>
 
                     <div
-                        class="level-number"
-                        id="levelNumber"
+                        class="stat-value"
+                        id="rewardClaimed"
                     >
-                        L1
+                        0 জন
                     </div>
-                </div>
-
-                <div class="rule-btn">
-                    ⚙️ নিয়ম
-                </div>
-
-            </div>
-
-
-            <div class="level-progress">
-
-                <div class="progress-row">
-
-                    <span>
-                        👥 মোট যোগ্য আমন্ত্রিত
-                    </span>
-
-                    <strong>
-                        <span id="qualifiedReferral">
-                            0
-                        </span>/10
-                    </strong>
 
                 </div>
 
-                <div class="progress-bar">
+
+                <div class="stat">
+
+                    <div class="stat-title">
+                        যোগ্য আমন্ত্রিত
+                    </div>
 
                     <div
-                        class="progress-fill"
-                        id="qualifiedProgress"
-                        style="width:0%;"
-                    ></div>
-
-                </div>
-
-
-                <div class="progress-row">
-
-                    <span>
-                        👥 মাসিক যোগ্য আমন্ত্রিত
-                    </span>
-
-                    <strong>
-                        <span id="monthlyReferral">
-                            0
-                        </span>/1
-                    </strong>
-
-                </div>
-
-                <div class="progress-bar">
-
-                    <div
-                        class="progress-fill"
-                        id="monthlyProgress"
-                        style="width:0%;"
-                    ></div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <!-- SHARE -->
-        <div class="referral-card">
-
-            <h3>
-                আপনার বন্ধুদের সাথে ভাগ করুন
-            </h3>
-
-            <div class="share-box">
-
-                <div class="qr-box">
-                    <div class="qr-placeholder">
-                        QR
-                    </div>
-
-                    <small>
-                        কোড সংরক্ষণ
-                    </small>
-                </div>
-
-
-                <div class="share-content">
-
-                    <div class="share-link-row">
-
-                        <input
-                            type="text"
-                            id="referralLink"
-                            readonly
-                            value="Loading..."
-                        >
-
-                        <button
-                            class="copy-small-btn"
-                            onclick="copyReferralLink()"
-                        >
-                            📋
-                        </button>
-
-                    </div>
-
-
-                    <div class="share-buttons">
-
-                        <button
-                            onclick="shareReferral('facebook')"
-                        >
-                            f
-                        </button>
-
-                        <button
-                            onclick="shareReferral('x')"
-                        >
-                            X
-                        </button>
-
-                        <button
-                            onclick="shareReferral('telegram')"
-                        >
-                            ✈
-                        </button>
-
-                        <button
-                            onclick="shareReferral('whatsapp')"
-                        >
-                            ☎
-                        </button>
-
-                        <button
-                            onclick="copyReferralLink()"
-                        >
-                            🔗
-                        </button>
-
+                        class="stat-value"
+                        id="rewardQualified"
+                    >
+                        0
                     </div>
 
                 </div>
-
-            </div>
-
-            <div
-                id="copyMessage"
-                class="copy-message"
-            ></div>
-
-        </div>
-
-
-        <!-- INCOME BOXES -->
-        <div class="income-grid">
-
-            <div class="income-box blue">
-
-                <div>
-                    আজকের আয়
-                </div>
-
-                <strong id="todayIncome">
-                    ৳ 0.00
-                </strong>
-
-            </div>
-
-
-            <div class="income-box purple">
-
-                <div>
-                    গতকালের আয়
-                </div>
-
-                <strong id="yesterdayIncome">
-                    ৳ 0.00
-                </strong>
-
-            </div>
-
-
-            <div class="income-box purple">
-
-                <div>
-                    সক্রিয় আমন্ত্রিত
-                </div>
-
-                <strong id="activeReferral">
-                    0
-                </strong>
-
-            </div>
-
-
-            <div class="income-box blue">
-
-                <div>
-                    যোগ্য পরিচয়কারী
-                </div>
-
-                <strong id="qualifiedUsers">
-                    0
-                </strong>
 
             </div>
 
@@ -1308,75 +519,38 @@
 
 
         <!-- REFERRAL LIST -->
-        <div class="section-title">
-            আমার আমন্ত্রিতরা
-        </div>
 
+        <div class="card">
 
-        <div
-            class="referral-card"
-            id="referralList"
-        >
+            <div class="card-title">
+                👥 আমার আমন্ত্রিতরা
+            </div>
 
-            <div class="empty">
-                এখনো কোনো আমন্ত্রিত নেই।
+            <div id="referralList">
+
+                <div class="empty">
+                    লোড হচ্ছে...
+                </div>
+
             </div>
 
         </div>
 
 
         <!-- REFERRAL HISTORY -->
-        <div class="section-title">
-            আমন্ত্রণ ইতিহাস
-        </div>
 
+        <div class="card">
 
-        <div
-            class="referral-card"
-            id="referralHistory"
-        >
-
-            <div class="empty">
-                কোনো ইতিহাস পাওয়া যায়নি।
+            <div class="card-title">
+                🧾 রেফারেল রেকর্ড
             </div>
 
-        </div>
+            <div id="referralHistory">
 
+                <div class="empty">
+                    লোড হচ্ছে...
+                </div>
 
-        <!-- BOTTOM NAV -->
-        <div class="bottom-nav">
-
-            <div
-                onclick="window.location.href='dashboard.html'"
-            >
-                🏠
-                <span>হোম</span>
-            </div>
-
-            <div class="active">
-                👥
-                <span>আমন্ত্রণ</span>
-            </div>
-
-            <div
-                onclick="window.location.href='promotion.html'"
-            >
-                🎁
-                <span>প্রমোশন</span>
-            </div>
-
-            <div
-                onclick="window.location.href='service.html'"
-            >
-                💬
-                <span>সার্ভিস</span>
-            </div>
-
-            <div
-                onclick="window.location.href='profile.html'"
-            >
-                👤
-                <span>মেম্বার</span>
             </div>
 
         </div>
@@ -1384,17 +558,131 @@
     </div>
 
 
+    <!-- =========================
+         INCOME TAB
+    ========================= -->
+
+    <div
+        id="incomeTab"
+        style="display:none;"
+    >
+
+        <div class="card">
+
+            <div class="card-title">
+                💰 রেফারেল আয়
+            </div>
+
+            <div class="stats">
+
+                <div class="stat">
+
+                    <div class="stat-title">
+                        আজ
+                    </div>
+
+                    <div class="stat-value">
+                        ৳0.00
+                    </div>
+
+                </div>
+
+                <div class="stat">
+
+                    <div class="stat-title">
+                        গতকাল
+                    </div>
+
+                    <div class="stat-value">
+                        ৳0.00
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         RECORDS TAB
+    ========================= -->
+
+    <div
+        id="recordsTab"
+        style="display:none;"
+    >
+
+        <div class="card">
+
+            <div class="card-title">
+                🧾 রেকর্ডস
+            </div>
+
+            <div id="recordsList">
+
+                <div class="empty">
+                    কোনো রেকর্ড নেই।
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         USERS TAB
+    ========================= -->
+
+    <div
+        id="usersTab"
+        style="display:none;"
+    >
+
+        <div class="card">
+
+            <div class="card-title">
+                👥 আমন্ত্রিতদের তালিকা
+            </div>
+
+            <div id="usersList">
+
+                <div class="empty">
+                    লোড হচ্ছে...
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+</div>
 <script>
+
+/* =========================
+   API
+========================= */
 
 const API_URL =
     "https://casinoplatform.onrender.com";
 
+
+/* =========================
+   TOKEN
+========================= */
 
 function getToken() {
 
     return localStorage.getItem("token");
 
 }
+
 
 /* =========================
    LOAD REFERRAL DATA
@@ -1412,6 +700,81 @@ async function loadReferralData() {
         return;
 
     }
+
+    /*
+     * প্রথমে User ID বের করি।
+     * এতে API referral_link না দিলেও
+     * Referral Link তৈরি হবে।
+     */
+
+    let userId = null;
+
+    try {
+
+        const meResponse =
+            await fetch(
+                `${API_URL}/api/me`,
+                {
+                    method: "GET",
+
+                    headers: {
+                        "Authorization":
+                            `Bearer ${token}`,
+
+                        "Content-Type":
+                            "application/json"
+                    }
+                }
+            );
+
+        const meData =
+            await meResponse.json();
+
+        if (
+            meResponse.ok &&
+            meData.success &&
+            meData.user
+        ) {
+
+            userId =
+                meData.user.id;
+
+        }
+
+    } catch (error) {
+
+        console.error(
+            "User data error:",
+            error
+        );
+
+    }
+
+
+    /*
+     * Referral Link
+     */
+
+    if (userId) {
+
+        const referralInput =
+            document.getElementById(
+                "referralLink"
+            );
+
+        if (referralInput) {
+
+            referralInput.value =
+                `https://sharm363.github.io/CasinoPlatform/?ref=${userId}`;
+
+        }
+
+    }
+
+
+    /*
+     * Referral API
+     */
 
     try {
 
@@ -1454,71 +817,20 @@ async function loadReferralData() {
 
 
         /* =========================
-           REFERRAL LINK
+           REFERRAL LINK FROM API
         ========================= */
 
-        let referralLink =
-            data.referral_link || "";
+        if (
+            data.referral_link &&
+            document.getElementById(
+                "referralLink"
+            )
+        ) {
 
-
-        /*
-         * যদি API থেকে referral_link
-         * না আসে, তাহলে /api/me থেকে
-         * User ID নিয়ে লিংক তৈরি করবে।
-         */
-
-        if (!referralLink) {
-
-            const meResponse =
-                await fetch(
-                    `${API_URL}/api/me`,
-                    {
-                        method: "GET",
-
-                        headers: {
-                            "Authorization":
-                                `Bearer ${token}`,
-
-                            "Content-Type":
-                                "application/json"
-                        }
-                    }
-                );
-
-
-            const meData =
-                await meResponse.json();
-
-
-            if (
-                meResponse.ok &&
-                meData.success &&
-                meData.user &&
-                meData.user.id
-            ) {
-
-                referralLink =
-                    `https://sharm363.github.io/CasinoPlatform/?ref=${meData.user.id}`;
-
-            }
-
-        }
-
-
-        if (referralLink) {
-
-            const referralInput =
-                document.getElementById(
-                    "referralLink"
-                );
-
-
-            if (referralInput) {
-
-                referralInput.value =
-                    referralLink;
-
-            }
+            document.getElementById(
+                "referralLink"
+            ).value =
+                data.referral_link;
 
         }
 
@@ -1536,7 +848,6 @@ async function loadReferralData() {
                 "qualifiedReferral"
             );
 
-
         if (qualifiedReferral) {
 
             qualifiedReferral.textContent =
@@ -1550,7 +861,6 @@ async function loadReferralData() {
                 "qualifiedUsers"
             );
 
-
         if (qualifiedUsers) {
 
             qualifiedUsers.textContent =
@@ -1559,8 +869,21 @@ async function loadReferralData() {
         }
 
 
+        const rewardQualified =
+            document.getElementById(
+                "rewardQualified"
+            );
+
+        if (rewardQualified) {
+
+            rewardQualified.textContent =
+                total;
+
+        }
+
+
         /* =========================
-           ACTIVE REFERRAL
+           ACTIVE
         ========================= */
 
         const activeCount =
@@ -1579,7 +902,6 @@ async function loadReferralData() {
                 "activeReferral"
             );
 
-
         if (activeReferral) {
 
             activeReferral.textContent =
@@ -1589,12 +911,12 @@ async function loadReferralData() {
 
 
         /* =========================
-           LEVEL
+           LEVEL PROGRESS
         ========================= */
 
         const levelProgress =
             Math.min(
-                total / 10 * 100,
+                (total / 10) * 100,
                 100
             );
 
@@ -1603,7 +925,6 @@ async function loadReferralData() {
             document.getElementById(
                 "qualifiedProgress"
             );
-
 
         if (progress) {
 
@@ -1618,29 +939,101 @@ async function loadReferralData() {
                 "levelNumber"
             );
 
-
         if (levelNumber) {
 
-            if (total >= 10) {
-
-                levelNumber.textContent =
-                    "L2";
-
-            } else {
-
-                levelNumber.textContent =
-                    "L1";
-
-            }
+            levelNumber.textContent =
+                total >= 10
+                    ? "L2"
+                    : "L1";
 
         }
 
 
         /* =========================
-           REFERRAL LIST
+           REWARD CLAIMED
         ========================= */
 
-        render
+        const rewardClaimed =
+            document.getElementById(
+                "rewardClaimed"
+            );
+
+        if (rewardClaimed) {
+
+            rewardClaimed.textContent =
+                `${total} জন`;
+
+        }
+
+
+        /* =========================
+           LIST
+        ========================= */
+
+        renderReferralList(
+            referrals
+        );
+
+
+        /* =========================
+           HISTORY
+        ========================= */
+
+        renderReferralHistory(
+            referrals
+        );
+
+
+        /* USERS TAB
+           একই referral list দেখাবে
+        */
+
+        renderUsersList(
+            referrals
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "Referral API error:",
+            error
+        );
+
+
+        /*
+         * API error হলেও referral link
+         * যেন Loading না থাকে।
+         */
+
+        const referralInput =
+            document.getElementById(
+                "referralLink"
+            );
+
+        if (
+            referralInput &&
+            referralInput.value ===
+                "লিংক তৈরি হচ্ছে..."
+        ) {
+
+            referralInput.value =
+                "Referral link unavailable";
+
+        }
+
+
+        renderReferralList([]);
+
+        renderReferralHistory([]);
+
+        renderUsersList([]);
+
+    }
+
+}
+
+
 /* =========================
    REFERRAL LIST
 ========================= */
@@ -1653,6 +1046,11 @@ function renderReferralList(
         document.getElementById(
             "referralList"
         );
+
+
+    if (!container) {
+        return;
+    }
 
 
     if (!referrals.length) {
@@ -1712,9 +1110,11 @@ function renderReferralList(
 
 
                     <span class="status">
+
                         ${escapeHtml(
                             status
                         )}
+
                     </span>
 
                 </div>
@@ -1745,69 +1145,179 @@ function renderReferralHistory(
         );
 
 
+    if (!container) {
+        return;
+    }
+
+
     if (!referrals.length) {
 
         container.innerHTML =
-            `<div class="
-                       referral-user-card
-            ">
+            `<div class="empty">
+                কোনো রেফারেল রেকর্ড নেই।
+            </div>`;
 
-                <div class="referral-user-info">
+        return;
 
-                    <div class="referral-avatar">
-                        👤
-                    </div>
+    }
 
-                    <div>
 
-                        <div class="referral-username">
-                            ${escapeHtml(username)}
+    let html = "";
+
+
+    referrals.forEach(
+        (ref, index) => {
+
+            const username =
+                ref.username ||
+                ref.first_name ||
+                "User";
+
+
+            const status =
+                ref.status ||
+                "pending";
+
+
+            const date =
+                ref.created_at ||
+                ref.joined_at ||
+                "";
+
+
+            html += `
+
+                <div class="referral-user">
+
+                    <div class="user-info">
+
+                        <div class="user-avatar">
+                            🧾
                         </div>
 
-                        <div class="referral-date">
-                            ${date
-                                ? escapeHtml(String(date))
-                                : "তারিখ পাওয়া যায়নি"
-                            }
+                        <div>
+
+                            <strong>
+                                ${escapeHtml(
+                                    username
+                                )}
+                            </strong>
+
+                            <small>
+                                ${date
+                                    ? escapeHtml(
+                                        String(date)
+                                    )
+                                    : "তারিখ নেই"
+                                }
+                            </small>
+
+                        </div>
+
+                    </div>
+
+
+                    <span class="status">
+
+                        ${escapeHtml(
+                            status
+                        )}
+
+                    </span>
+
+                </div>
+
+            `;
+
+        }
+    );
+
+
+    container.innerHTML =
+        html;
+
+}
+
+
+/* =========================
+   USERS TAB
+========================= */
+
+function renderUsersList(
+    referrals
+) {
+
+    const container =
+        document.getElementById(
+            "usersList"
+        );
+
+
+    if (!container) {
+        return;
+    }
+
+
+    if (!referrals.length) {
+
+        container.innerHTML =
+            `<div class="empty">
+                এখনো কোনো আমন্ত্রিত নেই।
+            </div>`;
+
+        return;
+
+    }
+
+
+    let html = "";
+
+
+    referrals.forEach(
+        (ref, index) => {
+
+            const username =
+                ref.username ||
+                ref.first_name ||
+                "User";
+
+
+            html += `
+
+                <div class="referral-user">
+
+                    <div class="user-info">
+
+                        <div class="user-avatar">
+                            👤
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                ${escapeHtml(
+                                    username
+                                )}
+                            </strong>
+
+                            <small>
+                                আমন্ত্রিত #${index + 1}
+                            </small>
+
                         </div>
 
                     </div>
 
                 </div>
 
+            `;
 
-                <div class="referral-user-right">
-
-                    <div class="referral-status
-                        ${
-                            status === "verified"
-                            ? "status-success"
-                            : "status-pending"
-                        }
-                    ">
-
-                        ${
-                            status === "verified"
-                            ? "যোগ্য"
-                            : "অপেক্ষমাণ"
-                        }
-
-                    </div>
-
-                    <div class="referral-reward">
-                        ৳${Number(ref.reward || 0).toFixed(2)}
-                    </div>
-
-                </div>
-
-            </div>
-
-        `;
-
-    });
+        }
+    );
 
 
-    container.innerHTML = html;
+    container.innerHTML =
+        html;
 
 }
 
@@ -1819,11 +1329,26 @@ function renderReferralHistory(
 async function copyReferralLink() {
 
     const input =
-        document.getElementById("referralLink");
+        document.getElementById(
+            "referralLink"
+        );
 
-    if (!input || !input.value) {
+
+    if (!input) {
         return;
     }
+
+
+    if (
+        !input.value ||
+        input.value ===
+            "লিংক তৈরি হচ্ছে..."
+    ) {
+
+        return;
+
+    }
+
 
     try {
 
@@ -1831,19 +1356,27 @@ async function copyReferralLink() {
             input.value
         );
 
+
         const message =
-            document.getElementById("copyMessage");
+            document.getElementById(
+                "copyMessage"
+            );
+
 
         if (message) {
 
             message.textContent =
                 "✅ রেফারেল লিংক কপি হয়েছে";
 
-            setTimeout(() => {
+            setTimeout(
+                () => {
 
-                message.textContent = "";
+                    message.textContent =
+                        "";
 
-            }, 2000);
+                },
+                2000
+            );
 
         }
 
@@ -1851,23 +1384,9 @@ async function copyReferralLink() {
 
         input.select();
 
-        document.execCommand("copy");
-
-        const message =
-            document.getElementById("copyMessage");
-
-        if (message) {
-
-            message.textContent =
-                "✅ রেফারেল লিংক কপি হয়েছে";
-
-            setTimeout(() => {
-
-                message.textContent = "";
-
-            }, 2000);
-
-        }
+        document.execCommand(
+            "copy"
+        );
 
     }
 
@@ -1875,7 +1394,137 @@ async function copyReferralLink() {
 
 
 /* =========================
-   ESCAPE HTML
+   TABS
+========================= */
+
+function showTab(
+    tabName,
+    element
+) {
+
+    const tabs = [
+        "summary",
+        "income",
+        "records",
+        "users"
+    ];
+
+
+    tabs.forEach(
+        name => {
+
+            const tab =
+                document.getElementById(
+                    name + "Tab"
+                );
+
+            if (tab) {
+
+                tab.style.display =
+                    "none";
+
+            }
+
+        }
+    );
+
+
+    const selected =
+        document.getElementById(
+            tabName + "Tab"
+        );
+
+
+    if (selected) {
+
+        selected.style.display =
+            "block";
+
+    }
+
+
+    document
+        .querySelectorAll(".tab")
+        .forEach(
+            tab => {
+
+                tab.classList.remove(
+                    "active"
+                );
+
+            }
+        );
+
+
+    if (element) {
+
+        element.classList.add(
+            "active"
+        );
+
+    }
+
+}
+
+
+/* =========================
+   BACK
+========================= */
+
+function goBack() {
+
+    window.location.href =
+        "dashboard.html";
+
+}
+
+
+/* =========================
+   BOTTOM NAVIGATION
+========================= */
+
+function goHome() {
+
+    window.location.href =
+        "dashboard.html";
+
+}
+
+
+function goReferral() {
+
+    window.location.href =
+        "referral.html";
+
+}
+
+
+function goPromotion() {
+
+    window.location.href =
+        "promotion.html";
+
+}
+
+
+function goService() {
+
+    window.location.href =
+        "service.html";
+
+}
+
+
+function goMember() {
+
+    window.location.href =
+        "profile.html";
+
+}
+
+
+/* =========================
+   SECURITY
 ========================= */
 
 function escapeHtml(value) {
@@ -1911,58 +1560,6 @@ function escapeHtml(value) {
 
 
 /* =========================
-   BACK BUTTON
-========================= */
-
-function goBack() {
-
-    window.location.href =
-        "dashboard.html";
-
-}
-
-
-/* =========================
-   BOTTOM NAVIGATION
-========================= */
-
-function goHome() {
-
-    window.location.href =
-        "dashboard.html";
-
-}
-
-function goReferral() {
-
-    window.location.href =
-        "referral.html";
-
-}
-
-function goPromotion() {
-
-    window.location.href =
-        "promotion.html";
-
-}
-
-function goService() {
-
-    window.location.href =
-        "service.html";
-
-}
-
-function goMember() {
-
-    window.location.href =
-        "profile.html";
-
-}
-
-
-/* =========================
    START
 ========================= */
 
@@ -1973,8 +1570,62 @@ document.addEventListener(
         loadReferralData();
 
     }
-);          
+);
+
 </script>
+<!-- =========================
+     BOTTOM NAVIGATION
+========================= -->
+
+<div class="bottom-nav">
+
+    <button
+        class="nav-item"
+        onclick="goHome()"
+    >
+        🏠<br>
+        হোম
+    </button>
+
+
+    <button
+        class="nav-item active"
+        onclick="goReferral()"
+    >
+        👥<br>
+        রেফারেল
+    </button>
+
+
+    <button
+        class="nav-item"
+        onclick="goPromotion()"
+    >
+        🎁<br>
+        প্রমোশন
+    </button>
+
+
+    <button
+        class="nav-item"
+        onclick="goService()"
+    >
+        🎧<br>
+        সার্ভিস
+    </button>
+
+
+    <button
+        class="nav-item"
+        onclick="goMember()"
+    >
+        👤<br>
+        মেম্বার
+    </button>
+
+</div>
+
 
 </body>
-</html>    
+
+</html>
