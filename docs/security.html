@@ -1,738 +1,1263 @@
 <!DOCTYPE html>
 <html lang="bn">
+
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport"
-          content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+          content="width=device-width,
+                   initial-scale=1.0,
+                   maximum-scale=1.0">
 
     <title>RSK32 - Security Center</title>
 
+
     <style>
+
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
         }
 
+
         body {
-            font-family: Arial, "Noto Sans Bengali", sans-serif;
+
+            font-family:
+                Arial,
+                "Noto Sans Bengali",
+                sans-serif;
+
             background: #f5f6f8;
+
             color: #222;
+
             min-height: 100vh;
+
         }
+
+
+        /* =========================
+           HEADER
+        ========================= */
 
         .header {
+
             height: 58px;
+
             background: #ffffff;
+
             display: flex;
+
             align-items: center;
-            justify-content: space-between;
+
+            justify-content:
+                space-between;
+
             padding: 0 16px;
-            border-bottom: 1px solid #eeeeee;
+
+            border-bottom:
+                1px solid #eeeeee;
+
             position: sticky;
+
             top: 0;
+
             z-index: 100;
+
         }
+
 
         .back-btn {
+
             border: none;
-            background: transparent;
-            font-size: 26px;
+
+            background:
+                transparent;
+
+            font-size: 28px;
+
             cursor: pointer;
+
             color: #222;
+
             width: 40px;
+
         }
+
 
         .header-title {
-            font-size: 19px;
+
+            font-size: 18px;
+
             font-weight: 700;
+
         }
+
 
         .header-logo {
+
             font-size: 18px;
+
             font-weight: 800;
+
             color: #e60000;
+
         }
+
+
+        /* =========================
+           CONTAINER
+        ========================= */
 
         .container {
+
             max-width: 600px;
+
             margin: auto;
+
             padding: 14px;
-            padding-bottom: 90px;
+
+            padding-bottom: 95px;
+
         }
 
-        .security-intro {
-            background: linear-gradient(135deg, #171717, #333333);
-            color: #ffffff;
-            border-radius: 14px;
-            padding: 20px;
-            margin-bottom: 14px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-        }
 
-        .security-intro h2 {
-            font-size: 20px;
-            margin-bottom: 8px;
-        }
-
-        .security-intro p {
-            font-size: 13px;
-            line-height: 1.6;
-            color: #dddddd;
-        }
-
-        .security-badge {
-            display: inline-block;
-            margin-top: 12px;
-            padding: 6px 12px;
-            background: rgba(255,255,255,0.12);
-            border-radius: 20px;
-            font-size: 12px;
-        }
-
-        .section-title {
-            font-size: 16px;
-            font-weight: 700;
-            margin: 20px 3px 10px;
-        }
+        /* =========================
+           SECURITY HEADER CARD
+        ========================= */
 
         .security-card {
-            background: #ffffff;
-            border-radius: 14px;
-            margin-bottom: 10px;
-            overflow: hidden;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #171717,
+                    #333333
+                );
+
+            color: #ffffff;
+
+            border-radius: 16px;
+
+            padding: 20px;
+
+            margin-bottom: 16px;
+
+            box-shadow:
+                0 4px 14px
+                rgba(0,0,0,0.10);
+
         }
 
-        .security-item {
-            padding: 16px;
-            border-bottom: 1px solid #eeeeee;
-        }
 
-        .security-item:last-child {
-            border-bottom: none;
-        }
+        .security-title {
 
-        .item-top {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 10px;
-        }
+            font-size: 20px;
 
-        .item-left {
-            display: flex;
-            align-items: center;
-            gap: 13px;
-            min-width: 0;
-        }
-
-        .icon {
-            width: 42px;
-            height: 42px;
-            border-radius: 11px;
-            background: #f1f1f1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 21px;
-            flex-shrink: 0;
-        }
-
-        .item-info {
-            min-width: 0;
-        }
-
-        .item-title {
-            font-size: 15px;
             font-weight: 700;
-            margin-bottom: 5px;
+
+            margin-bottom: 16px;
+
         }
 
-        .item-desc {
-            font-size: 12px;
-            color: #888888;
-            line-height: 1.4;
+
+        .security-percent {
+
+            font-size: 38px;
+
+            font-weight: 800;
+
+            line-height: 1;
+
+            margin-bottom: 7px;
+
         }
 
-        .status {
-            font-size: 11px;
-            padding: 5px 9px;
+
+        .security-level {
+
+            font-size: 13px;
+
+            color: #dddddd;
+
+            margin-bottom: 18px;
+
+        }
+
+
+        .progress-bg {
+
+            width: 100%;
+
+            height: 8px;
+
+            background:
+                rgba(255,255,255,0.18);
+
             border-radius: 20px;
-            white-space: nowrap;
+
+            overflow: hidden;
+
+            margin-bottom: 18px;
+
         }
 
-        .status.unverified {
-            background: #fff3f3;
-            color: #d60000;
-        }
 
-        .status.verified {
-            background: #eaf8ef;
-            color: #16833d;
-        }
+        .progress-bar {
 
-        .setup-btn {
-            margin-top: 13px;
             width: 100%;
-            height: 42px;
-            border: none;
-            border-radius: 9px;
-            background: #e60000;
-            color: white;
-            font-size: 14px;
-            font-weight: 700;
-            cursor: pointer;
-        }
 
-        .setup-btn:active {
-            transform: scale(0.98);
-        }
+            height: 100%;
 
-        .secondary-btn {
-            background: #eeeeee;
-            color: #222222;
-        }
-
-        .wallet-methods {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 9px;
-            margin-top: 14px;
-        }
-
-        .wallet-method {
-            border: 1px solid #dddddd;
             background: #ffffff;
+
+            border-radius: 20px;
+
+        }
+
+
+        /* =========================
+           LOGIN INFORMATION
+        ========================= */
+
+        .login-info {
+
+            background:
+                rgba(255,255,255,0.08);
+
             border-radius: 10px;
-            padding: 12px 5px;
-            text-align: center;
-            cursor: pointer;
-            font-size: 12px;
-        }
 
-        .wallet-method.active {
-            border: 2px solid #e60000;
-            color: #e60000;
-            font-weight: 700;
-        }
-
-        .wallet-icon {
-            font-size: 20px;
-            margin-bottom: 5px;
-        }
-
-        .wallet-form {
-            display: none;
-            margin-top: 14px;
-        }
-
-        .wallet-form.show {
-            display: block;
-        }
-
-        .input-group {
-            margin-bottom: 12px;
-        }
-
-        .input-group label {
-            display: block;
-            font-size: 13px;
-            font-weight: 700;
-            margin-bottom: 6px;
-        }
-
-        .input-group input,
-        .input-group select {
-            width: 100%;
-            height: 44px;
-            border: 1px solid #dddddd;
-            border-radius: 9px;
-            padding: 0 12px;
-            outline: none;
-            font-size: 14px;
-            background: #ffffff;
-        }
-
-        .input-group input:focus,
-        .input-group select:focus {
-            border-color: #e60000;
-        }
-
-        .security-note {
-            background: #fff8e8;
-            color: #805d00;
             padding: 12px;
-            border-radius: 9px;
+
+        }
+
+
+        .login-row {
+
+            display: flex;
+
+            justify-content:
+                space-between;
+
+            gap: 10px;
+
+            padding: 8px 0;
+
             font-size: 12px;
-            line-height: 1.5;
-            margin-top: 12px;
+
+            border-bottom:
+                1px solid
+                rgba(255,255,255,0.10);
+
         }
 
-        .account-security {
-            background: #ffffff;
-            border-radius: 14px;
-            padding: 16px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-        }
 
-        .account-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 11px 0;
-            border-bottom: 1px solid #eeeeee;
-            font-size: 13px;
-        }
+        .login-row:last-child {
 
-        .account-row:last-child {
             border-bottom: none;
+
         }
 
-        .account-row span:first-child {
-            color: #777777;
+
+        .login-label {
+
+            color: #bbbbbb;
+
         }
 
-        .account-row span:last-child {
+
+        .login-value {
+
+            color: #ffffff;
+
             font-weight: 700;
+
+            text-align: right;
+
+            word-break: break-word;
+
         }
 
-        .logout-btn {
-            width: 100%;
-            height: 45px;
-            margin-top: 18px;
-            border: none;
-            border-radius: 10px;
-            background: #eeeeee;
-            color: #d00000;
-            font-size: 14px;
+
+        /* =========================
+           SECTION TITLE
+        ========================= */
+
+        .section-title {
+
+            font-size: 16px;
+
             font-weight: 700;
-            cursor: pointer;
+
+            margin: 20px 3px 10px;
+
         }
 
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 66px;
+
+        /* =========================
+           OPTION CARD
+        ========================= */
+
+        .option-card {
+
             background: #ffffff;
-            border-top: 1px solid #eeeeee;
+
+            border-radius: 14px;
+
+            margin-bottom: 10px;
+
+            overflow: hidden;
+
+            box-shadow:
+                0 2px 8px
+                rgba(0,0,0,0.05);
+
+        }
+
+
+        .option-item {
+
+            width: 100%;
+
+            min-height: 76px;
+
+            padding: 14px;
+
+            border: none;
+
+            background: #ffffff;
+
             display: flex;
-            justify-content: space-around;
+
             align-items: center;
-            z-index: 200;
+
+            text-align: left;
+
+            cursor: pointer;
+
         }
 
-        .nav-item {
-            text-decoration: none;
-            color: #777777;
-            text-align: center;
-            font-size: 11px;
+
+        .option-item:active {
+
+            background: #f7f7f7;
+
         }
 
-        .nav-icon {
-            font-size: 20px;
-            display: block;
-            margin-bottom: 3px;
+
+        .option-icon {
+
+            width: 46px;
+
+            height: 46px;
+
+            border-radius: 12px;
+
+            background: #f1f1f1;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 22px;
+
+            flex-shrink: 0;
+
+            margin-right: 13px;
+
         }
 
-        .nav-item.active {
-            color: #e60000;
+
+        .option-info {
+
+            flex: 1;
+
+            min-width: 0;
+
+        }
+
+
+        .option-title {
+
+            font-size: 15px;
+
             font-weight: 700;
+
+            margin-bottom: 5px;
+
         }
+
+
+        .option-desc {
+
+            font-size: 12px;
+
+            color: #888888;
+
+            line-height: 1.4;
+
+        }
+
+
+        .option-arrow {
+
+            font-size: 25px;
+
+            color: #999999;
+
+            margin-left: 8px;
+
+        }
+
+
+        /* =========================
+           PASSWORD MODAL
+        ========================= */
 
         .modal {
+
             display: none;
+
             position: fixed;
+
             inset: 0;
-            background: rgba(0,0,0,0.55);
+
+            background:
+                rgba(0,0,0,0.55);
+
             z-index: 500;
+
             align-items: flex-end;
+
             justify-content: center;
+
         }
+
 
         .modal.show {
+
             display: flex;
+
         }
+
 
         .modal-box {
+
             width: 100%;
+
             max-width: 600px;
+
             background: #ffffff;
-            border-radius: 18px 18px 0 0;
+
+            border-radius:
+                18px 18px 0 0;
+
             padding: 20px;
-            animation: slideUp .2s ease;
+
+            animation:
+                slideUp .2s ease;
+
         }
+
 
         @keyframes slideUp {
+
             from {
-                transform: translateY(100%);
+
+                transform:
+                    translateY(100%);
+
             }
+
             to {
-                transform: translateY(0);
+
+                transform:
+                    translateY(0);
+
             }
+
         }
+
 
         .modal-header {
+
             display: flex;
-            justify-content: space-between;
+
+            justify-content:
+                space-between;
+
             align-items: center;
-            margin-bottom: 16px;
+
+            margin-bottom: 18px;
+
         }
+
 
         .modal-header h3 {
+
             font-size: 18px;
+
         }
+
 
         .close-btn {
+
             border: none;
-            background: transparent;
-            font-size: 25px;
+
+            background:
+                transparent;
+
+            font-size: 26px;
+
             cursor: pointer;
+
         }
 
-        .otp-row {
-            display: flex;
-            gap: 8px;
+
+        .input-group {
+
+            margin-bottom: 13px;
+
         }
 
-        .otp-row input {
-            flex: 1;
-        }
 
-        .otp-btn {
-            width: 105px;
-            border: none;
-            border-radius: 8px;
-            background: #222222;
-            color: #ffffff;
-            font-size: 12px;
+        .input-group label {
+
+            display: block;
+
+            font-size: 13px;
+
             font-weight: 700;
+
+            margin-bottom: 6px;
+
         }
 
-        .hidden {
-            display: none !important;
+
+        .input-group input {
+
+            width: 100%;
+
+            height: 45px;
+
+            border:
+                1px solid #dddddd;
+
+            border-radius: 9px;
+
+            padding: 0 12px;
+
+            outline: none;
+
+            font-size: 14px;
+
         }
+
+
+        .input-group input:focus {
+
+            border-color:
+                #e60000;
+
+        }
+
+
+        .password-btn {
+
+            width: 100%;
+
+            height: 44px;
+
+            border: none;
+
+            border-radius: 9px;
+
+            background: #e60000;
+
+            color: #ffffff;
+
+            font-size: 14px;
+
+            font-weight: 700;
+
+            cursor: pointer;
+
+            margin-top: 5px;
+
+        }
+
+
+        .password-btn:active {
+
+            transform: scale(0.98);
+
+        }
+
+
+        .password-note {
+
+            background: #fff8e8;
+
+            color: #805d00;
+
+            padding: 11px;
+
+            border-radius: 9px;
+
+            font-size: 12px;
+
+            line-height: 1.5;
+
+            margin-bottom: 13px;
+
+        }
+
+
+        /* =========================
+           LOGOUT
+        ========================= */
+
+        .logout-btn {
+
+            width: 100%;
+
+            height: 47px;
+
+            margin-top: 18px;
+
+            border: none;
+
+            border-radius: 10px;
+
+            background: #eeeeee;
+
+            color: #d00000;
+
+            font-size: 14px;
+
+            font-weight: 700;
+
+            cursor: pointer;
+
+        }
+
+
+        .logout-btn:active {
+
+            transform: scale(0.98);
+
+        }
+
+
+        /* =========================
+           BOTTOM NAV
+        ========================= */
+
+        .bottom-nav {
+
+            position: fixed;
+
+            bottom: 0;
+
+            left: 0;
+
+            right: 0;
+
+            height: 66px;
+
+            background: #ffffff;
+
+            border-top:
+                1px solid #eeeeee;
+
+            display: flex;
+
+            justify-content:
+                space-around;
+
+            align-items: center;
+
+            z-index: 200;
+
+        }
+
+
+        .nav-item {
+
+            text-decoration: none;
+
+            color: #777777;
+
+            text-align: center;
+
+            font-size: 11px;
+
+        }
+
+
+        .nav-icon {
+
+            font-size: 20px;
+
+            display: block;
+
+            margin-bottom: 3px;
+
+        }
+
+
+        .nav-item.active {
+
+            color: #e60000;
+
+            font-weight: 700;
+
+        }
+
 
         @media (max-width: 360px) {
-            .wallet-methods {
-                grid-template-columns: 1fr 1fr 1fr;
+
+            .security-percent {
+
+                font-size: 34px;
+
             }
 
             .header-title {
+
                 font-size: 17px;
+
             }
+
         }
+
     </style>
+
 </head>
+
 
 <body>
 
-<!-- HEADER -->
+
+<!-- =========================
+     HEADER
+========================= -->
+
 <header class="header">
 
-    <button class="back-btn" onclick="goBack()">‹</button>
+    <button
+        class="back-btn"
+        onclick="goBack()">
+
+        ‹
+
+    </button>
+
 
     <div class="header-title">
-        Security Center
+
+        সুরক্ষা কেন্দ্র
+
     </div>
 
+
     <div class="header-logo">
+
         RSK32
+
     </div>
 
 </header>
 
 
+
 <div class="container">
 
-    <!-- INTRO -->
-    <div class="security-intro">
 
-        <h2>🔐 Security Center</h2>
-       <p>
-          আপনার ইমেইল নিরাপদভাবে Verify করুন এবং
-          আপনার Account Security নিশ্চিত করুন।
-       </p>
+    <!-- =========================
+         SECURITY STATUS
+    ========================= -->
 
-        <div class="security-badge">
-            🛡️ Account Security
+    <div class="security-card">
+
+        <div class="security-title">
+
+            🔐 সুরক্ষা কেন্দ্র
+
+        </div>
+
+
+        <div class="security-percent">
+
+            100%
+
+        </div>
+
+
+        <div class="security-level">
+
+            নিরাপত্তা শতাংশ: উচ্চ
+
+        </div>
+
+
+        <div class="progress-bg">
+
+            <div class="progress-bar"></div>
+
+        </div>
+
+
+        <div class="login-info">
+
+
+            <div class="login-row">
+
+                <span class="login-label">
+
+                    সর্বশেষ লগইন আইপি
+
+                </span>
+
+
+                <span
+                    class="login-value"
+                    id="lastLoginIP">
+
+                    Loading...
+
+                </span>
+
+            </div>
+
+
+
+            <div class="login-row">
+
+                <span class="login-label">
+
+                    সর্বশেষ লগইন সময়
+
+                </span>
+
+
+                <span
+                    class="login-value"
+                    id="lastLoginTime">
+
+                    Loading...
+
+                </span>
+
+            </div>
+
+
         </div>
 
     </div>
 
 
-    <!-- VERIFICATION -->
+
+    <!-- =========================
+         PERSONAL INFORMATION
+    ========================= -->
+
     <div class="section-title">
-        Verification
+
+        ব্যক্তিগত তথ্য
+
     </div>
 
-    <div class="security-card">
 
-        
-        <!-- EMAIL -->
-        <div class="security-item">
+    <div class="option-card">
 
-            <div class="item-top">
 
-                <div class="item-left">
+        <!-- ACCOUNT -->
 
-                    <div class="icon">
-                        ✉️
-                    </div>
+        <button
+            class="option-item"
+            onclick="openAccount()">
 
-                    <div class="item-info">
 
-                        <div class="item-title">
-                            Email Address
-                        </div>
+            <div class="option-icon">
 
-                        <div class="item-desc" id="emailDisplay">
-                            Email এখনো Verify করা হয়নি
-                        </div>
+                👤
 
-                    </div>
+            </div>
+
+
+            <div class="option-info">
+
+                <div class="option-title">
+
+                    ব্যক্তিগত তথ্য
 
                 </div>
 
-                <div class="status unverified"
-                     id="emailStatus">
-                    Unverified
+
+                <div class="option-desc">
+
+                    ব্যক্তিগত তথ্য সম্পূর্ণ করুন।
+
                 </div>
 
             </div>
 
-            <button class="setup-btn"
-                    onclick="openEmailModal()">
-                Verify Email
-            </button>
 
-        </div>
-        
-    <!-- ACCOUNT SECURITY -->
-    <div class="section-title">
-        Account Security
+            <div class="option-arrow">
+
+                ›
+
+            </div>
+
+        </button>
+
+
+
+        <!-- WALLET -->
+
+        <button
+            class="option-item"
+            onclick="openWallet()">
+
+
+            <div class="option-icon">
+
+                💳
+
+            </div>
+
+
+            <div class="option-info">
+
+                <div class="option-title">
+
+                    ই-ওয়ালেট বাঁধুন
+
+                </div>
+
+
+                <div class="option-desc">
+
+                    উত্তোলনের জন্য ই-ওয়ালেট বাঁধুন।
+
+                </div>
+
+            </div>
+
+
+            <div class="option-arrow">
+
+                ›
+
+            </div>
+
+        </button>
+
+
+
+        <!-- PASSWORD -->
+
+        <button
+            class="option-item"
+            onclick="openPasswordModal()">
+
+
+            <div class="option-icon">
+
+                🔑
+
+            </div>
+
+
+            <div class="option-info">
+
+                <div class="option-title">
+
+                    লগইন পাসওয়ার্ড পরিবর্তন করুন
+
+                </div>
+
+
+                <div class="option-desc">
+
+                    প্রস্তাবিত অক্ষর এবং সংখ্যা সংমিশ্রণ
+
+                </div>
+
+            </div>
+
+
+            <div class="option-arrow">
+
+                ›
+
+            </div>
+
+        </button>
+
+
     </div>
 
-    <div class="account-security">
-
-        <div class="account-row">
-            <span>Account ID</span>
-            <span id="accountId">Loading...</span>
-        </div>
-
-        <div class="account-row">
-            <span>Username</span>
-            <span id="username">Loading...</span>
-        </div>
-
-        <div class="account-row">
-            <span>Security Status</span>
-            <span id="securityStatus">
-                Basic
-            </span>
-        </div>
-
-    </div>
 
 
-    <!-- LOGOUT -->
-    <button class="logout-btn"
-            onclick="logout()">
+    <!-- =========================
+         LOGOUT
+    ========================= -->
 
-        Logout / Sign Out
+    <button
+        class="logout-btn"
+        onclick="logout()">
+
+        🚪 লগআউট
+
+        <br>
+
+        <span
+            style="
+                font-size:11px;
+                font-weight:400;
+                color:#888;
+            ">
+
+            নিরাপদভাবে লগআউট করুন
+
+        </span>
 
     </button>
+
 
 </div>
 
 
-<!-- BOTTOM NAV -->
-<nav class="bottom-nav">
 
-    <a href="dashboard.html"
-       class="nav-item">
+<!-- =========================
+     PASSWORD MODAL
+========================= -->
 
-        <span class="nav-icon">⌂</span>
-        Home
+<div
+    class="modal"
+    id="passwordModal">
 
-    </a>
-
-
-    <a href="referral.html"
-       class="nav-item">
-
-        <span class="nav-icon">👥</span>
-        Referral
-
-    </a>
-
-
-    <a href="promotion.html"
-       class="nav-item">
-
-        <span class="nav-icon">🎁</span>
-        Promotion
-
-    </a>
-
-
-    <a href="#"
-       class="nav-item"
-       onclick="alert('Service Center coming soon'); return false;">
-
-        <span class="nav-icon">💬</span>
-        Service
-
-    </a>
-
-
-    <a href="profile.html"
-       class="nav-item">
-
-        <span class="nav-icon">👤</span>
-        Member
-
-    </a>
-
-</nav>
-
-<!-- EMAIL MODAL -->
-<div class="modal"
-     id="emailModal">
 
     <div class="modal-box">
 
+
         <div class="modal-header">
 
-            <h3>✉️ Verify Email</h3>
+            <h3>
 
-            <button class="close-btn"
-                    onclick="closeModal('emailModal')">
+                🔑 পাসওয়ার্ড পরিবর্তন
+
+            </h3>
+
+
+            <button
+                class="close-btn"
+                onclick="closePasswordModal()">
+
                 ×
+
             </button>
 
         </div>
+
+
+
+        <div class="password-note">
+
+            নিরাপত্তার জন্য বর্তমান পাসওয়ার্ড দিন।
+            নতুন পাসওয়ার্ডে অক্ষর ও সংখ্যা ব্যবহার করুন।
+
+        </div>
+
 
 
         <div class="input-group">
 
-<div class="input-group">
+            <label>
 
-    <label>
-        Email Address
-    </label>
+                বর্তমান পাসওয়ার্ড
 
-    <input
-        type="email"
-        id="emailAddress"
-        placeholder="Registered Email"
-        readonly
-    >
-
-</div>
+            </label>
 
 
-<div class="input-group">
-
-    <label>
-        Verification Code
-    </label>
-
-            <div class="otp-row">
-
-                <input
-                    type="number"
-                    id="emailOtp"
-                    placeholder="Code"
-                >
-
-                <button class="otp-btn"
-                        onclick="sendEmailOtp()">
-                    Send Code
-                </button>
-
-            </div>
+            <input
+                type="password"
+                id="currentPassword"
+                placeholder="বর্তমান পাসওয়ার্ড">
 
         </div>
 
 
-        <button class="setup-btn"
-                onclick="verifyEmail()">
 
-            Verify Email
+        <div class="input-group">
+
+            <label>
+
+                নতুন পাসওয়ার্ড
+
+            </label>
+
+
+            <input
+                type="password"
+                id="newPassword"
+                placeholder="নতুন পাসওয়ার্ড">
+
+        </div>
+
+
+
+        <div class="input-group">
+
+            <label>
+
+                নতুন পাসওয়ার্ড আবার দিন
+
+            </label>
+
+
+            <input
+                type="password"
+                id="confirmPassword"
+                placeholder="পাসওয়ার্ড নিশ্চিত করুন">
+
+        </div>
+
+
+
+        <button
+            class="password-btn"
+            onclick="changePassword()">
+
+            পাসওয়ার্ড পরিবর্তন করুন
 
         </button>
+
 
     </div>
 
 </div>
 
-<!-- BOTTOM NAV -->
+
+
+<!-- =========================
+     BOTTOM NAV
+========================= -->
+
 <nav class="bottom-nav">
 
-    <a href="dashboard.html"
-       class="nav-item">
 
-        <span class="nav-icon">⌂</span>
+    <a
+        href="dashboard.html"
+        class="nav-item">
+
+        <span class="nav-icon">
+
+            ⌂
+
+        </span>
+
         Home
 
     </a>
 
 
-    <a href="referral.html"
-       class="nav-item">
 
-        <span class="nav-icon">👥</span>
+    <a
+        href="referral.html"
+        class="nav-item">
+
+        <span class="nav-icon">
+
+            👥
+
+        </span>
+
         Referral
 
     </a>
 
 
-    <a href="promotion.html"
-       class="nav-item">
 
-        <span class="nav-icon">🎁</span>
+    <a
+        href="promotion.html"
+        class="nav-item">
+
+        <span class="nav-icon">
+
+            🎁
+
+        </span>
+
         Promotion
 
     </a>
 
 
-    <a href="#"
-       class="nav-item"
-       onclick="alert('Service Center coming soon'); return false;">
 
-        <span class="nav-icon">💬</span>
+    <a
+        href="#"
+        class="nav-item"
+        onclick="
+            alert('Service Center coming soon');
+            return false;
+        ">
+
+        <span class="nav-icon">
+
+            💬
+
+        </span>
+
         Service
 
     </a>
 
 
-    <a href="profile.html"
-       class="nav-item active">
 
-        <span class="nav-icon">👤</span>
+    <a
+        href="profile.html"
+        class="nav-item active">
+
+        <span class="nav-icon">
+
+            👤
+
+        </span>
+
         Member
 
     </a>
 
+
 </nav>
 
 
+
 <script>
+
+
+    /* =========================
+       API
+    ========================= */
 
     const API_URL =
         "https://casinoplatform.onrender.com";
 
 
-    /* =========================
-       AUTH CHECK
-    ========================= */
-
     const token =
         localStorage.getItem("token");
 
+
+    /* =========================
+       AUTH CHECK
+    ========================= */
 
     if (!token) {
 
@@ -742,13 +1267,15 @@
     }
 
 
+
     /* =========================
-       LOAD USER
+       LOAD SECURITY DATA
     ========================= */
 
-    async function loadUser() {
+    async function loadSecurityData() {
 
         try {
+
 
             const response =
                 await fetch(
@@ -757,9 +1284,12 @@
                         method: "GET",
 
                         headers: {
+
                             "Authorization":
                                 `Bearer ${token}`
+
                         }
+
                     }
                 );
 
@@ -768,8 +1298,10 @@
                 await response.json();
 
 
-            if (!response.ok ||
-                !data.success) {
+            if (
+                !response.ok ||
+                !data.success
+            ) {
 
                 throw new Error(
                     data.message ||
@@ -783,102 +1315,126 @@
                 data.user;
 
 
-            const accountId =
+            /*
+             * Backend-এ login IP/time
+             * না থাকলে fallback text দেখাবে।
+             */
+
+            const ipElement =
                 document.getElementById(
-                    "accountId"
+                    "lastLoginIP"
                 );
 
-            const username =
+
+            const timeElement =
                 document.getElementById(
-                    "username"
+                    "lastLoginTime"
                 );
-            const emailAddress =
-    document.getElementById(
-        "emailAddress"
-    );
 
-            if (accountId) {
 
-                accountId.textContent =
-                    user.id ?? "-";
+            if (ipElement) {
+
+                ipElement.textContent =
+                    user.last_login_ip ||
+                    "Not available";
 
             }
 
 
-            if (username) {
+            if (timeElement) {
 
-                username.textContent =
-                    user.username ?? "-";
+                timeElement.textContent =
+                    user.last_login_at ||
+                    "Not available";
 
             }
-if (emailAddress) {
 
-    emailAddress.value =
-        user.email ?? "";
-
-    }
 
         } catch (error) {
 
             console.error(
-                "Load user error:",
+                "Security data error:",
                 error
             );
 
+
+            const ipElement =
+                document.getElementById(
+                    "lastLoginIP"
+                );
+
+
+            const timeElement =
+                document.getElementById(
+                    "lastLoginTime"
+                );
+
+
+            if (ipElement) {
+
+                ipElement.textContent =
+                    "Not available";
+
+            }
+
+
+            if (timeElement) {
+
+                timeElement.textContent =
+                    "Not available";
+
+            }
+
         }
 
     }
 
 
-    loadUser();
+    loadSecurityData();
+
 
 
     /* =========================
-       BACK BUTTON
+       ACCOUNT
     ========================= */
 
-    function goBack() {
+    function openAccount() {
 
-        if (history.length > 1) {
-
-            history.back();
-
-        } else {
-
-            window.location.href =
-                "profile.html";
-
-        }
+        window.location.href =
+            "account.html";
 
     }
 
 
-    function openEmailModal() {
+
+    /* =========================
+       WALLET
+    ========================= */
+
+    function openWallet() {
+
+        window.location.href =
+            "wallet.html";
+
+    }
+
+
+
+    /* =========================
+       PASSWORD MODAL
+    ========================= */
+
+    function openPasswordModal() {
 
         const modal =
             document.getElementById(
-                "emailModal"
+                "passwordModal"
             );
 
-        if (modal) {
-
-            modal.classList.add("show");
-
-        }
-
-    }
-
-
-
-    function closeModal(id) {
-
-        const modal =
-            document.getElementById(id);
-
 
         if (modal) {
 
-            modal.classList.remove(
+            modal.classList.add(
                 "show"
             );
 
@@ -887,121 +1443,28 @@ if (emailAddress) {
     }
 
 
-    
-    /* =========================
-       EMAIL
-    ========================= */
 
-async function sendEmailOtp() {
-
-    const email =
-        document.getElementById("emailAddress").value.trim();
-
-    if (!email) {
-        alert("Email Address দিন");
-        return;
-    }
-
-    try {
-
-        const response = await fetch(
-            `${API_URL}/api/verification/email/send`,
-            {
-                method: "POST",
-
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${token}`
-                },
-
-                body: JSON.stringify({
-                    email: email
-                })
-            }
-        );
-
-        const data = await response.json();
-
-        alert(data.message);
-
-    } catch (error) {
-
-        console.error("Email OTP error:", error);
-
-        alert("Server Error: " + error.message);
-
-    }
-}
-
-
-async function verifyEmail() {
-
-    const otp =
-        document.getElementById("emailOtp").value.trim();
-
-    if (!otp) {
-        alert("Verification Code দিন।");
-        return;
-    }
-
-    try {
-
-        const response = await fetch(
-            `${API_URL}/api/verification/email/verify`,
-            {
-                method: "POST",
-
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${token}`
-                },
-
-                body: JSON.stringify({
-                    otp: otp
-                })
-            }
-        );
-
-        const data = await response.json();
-
-        alert(data.message);
-
-        if (data.success) {
-
-            closeModal("emailModal");
-
-            loadUser();
-
-        }
-
-    } catch (error) {
-
-        console.error(
-            "Email verification error:",
-            error
-        );
-
-        alert("Server Error");
-
-    }
-}
-/* =========================
-   CHANGE PASSWORD
-========================= */
-
-function openPasswordModal() {
+    function closePasswordModal() {
 
     const modal =
-        document.getElementById("passwordModal");
+        document.getElementById(
+            "passwordModal"
+        );
 
     if (modal) {
 
-        modal.classList.add("show");
+        modal.classList.remove(
+            "show"
+        );
 
     }
 
 }
 
+
+/* =========================
+   CHANGE PASSWORD
+========================= */
 
 async function changePassword() {
 
@@ -1023,7 +1486,9 @@ async function changePassword() {
 
     if (!currentPassword) {
 
-        alert("বর্তমান Password দিন।");
+        alert(
+            "বর্তমান Password দিন।"
+        );
 
         return;
 
@@ -1032,7 +1497,9 @@ async function changePassword() {
 
     if (!newPassword) {
 
-        alert("নতুন Password দিন।");
+        alert(
+            "নতুন Password দিন।"
+        );
 
         return;
 
@@ -1042,18 +1509,7 @@ async function changePassword() {
     if (newPassword.length < 6) {
 
         alert(
-            "নতুন Password কমপক্ষে 6 অক্ষরের হতে হবে।"
-        );
-
-        return;
-
-    }
-
-
-    if (!confirmPassword) {
-
-        alert(
-            "নতুন Password আবার লিখুন।"
+            "নতুন Password কমপক্ষে ৬ অক্ষরের হতে হবে।"
         );
 
         return;
@@ -1064,18 +1520,7 @@ async function changePassword() {
     if (newPassword !== confirmPassword) {
 
         alert(
-            "নতুন Password দুটি একই নয়।"
-        );
-
-        return;
-
-    }
-
-
-    if (currentPassword === newPassword) {
-
-        alert(
-            "নতুন Password বর্তমান Password-এর মতো হতে পারবে না।"
+            "নতুন Password এবং Confirm Password মিলছে না।"
         );
 
         return;
@@ -1085,22 +1530,34 @@ async function changePassword() {
 
     try {
 
-        const response = await fetch(
-            `${API_URL}/api/change-password`,
-            {
-                method: "POST",
+        const response =
+            await fetch(
+                `${API_URL}/api/change-password`,
+                {
+                    method: "POST",
 
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${token}`
-                },
+                    headers: {
 
-                body: JSON.stringify({
-                    current_password: currentPassword,
-                    new_password: newPassword
-                })
-            }
-        );
+                        "Content-Type":
+                            "application/json",
+
+                        "Authorization":
+                            `Bearer ${token}`
+
+                    },
+
+                    body: JSON.stringify({
+
+                        current_password:
+                            currentPassword,
+
+                        new_password:
+                            newPassword
+
+                    })
+
+                }
+            );
 
 
         const data =
@@ -1109,7 +1566,7 @@ async function changePassword() {
 
         alert(
             data.message ||
-            "Password change request completed."
+            "Password change completed."
         );
 
 
@@ -1119,16 +1576,18 @@ async function changePassword() {
                 "currentPassword"
             ).value = "";
 
+
             document.getElementById(
                 "newPassword"
             ).value = "";
+
 
             document.getElementById(
                 "confirmPassword"
             ).value = "";
 
 
-            closeModal("passwordModal");
+            closePasswordModal();
 
         }
 
@@ -1146,66 +1605,90 @@ async function changePassword() {
 
     }
 
-            }
-    /* =========================
-       LOGOUT
-    ========================= */
-
-    function logout() {
-
-        const confirmLogout =
-            confirm(
-                "আপনি কি Logout করতে চান?"
-            );
+}
 
 
-        if (!confirmLogout) {
+/* =========================
+   LOGOUT
+========================= */
 
-            return;
+function logout() {
 
-        }
-
-
-        localStorage.removeItem(
-            "token"
+    const confirmLogout =
+        confirm(
+            "আপনি কি Logout করতে চান?"
         );
 
 
-        window.location.href =
-            "index.html";
+    if (!confirmLogout) {
+
+        return;
 
     }
 
 
-    /* =========================
-       MODAL BACKGROUND CLOSE
-    ========================= */
+    localStorage.removeItem(
+        "token"
+    );
 
-    document.querySelectorAll(
-        ".modal"
-    ).forEach(function(modal) {
 
-        modal.addEventListener(
-            "click",
-            function(event) {
+    window.location.href =
+        "index.html";
 
-                if (
-                    event.target === modal
-                ) {
+}
 
-                    modal.classList.remove(
-                        "show"
-                    );
 
-                }
+/* =========================
+   MODAL BACKGROUND CLOSE
+========================= */
+
+const passwordModal =
+    document.getElementById(
+        "passwordModal"
+    );
+
+
+if (passwordModal) {
+
+    passwordModal.addEventListener(
+        "click",
+        function(event) {
+
+            if (
+                event.target === this
+            ) {
+
+                closePasswordModal();
 
             }
-        );
 
-    });
+        }
+    );
+
+}
+
+
+/* =========================
+   BACK BUTTON
+========================= */
+
+function goBack() {
+
+    if (history.length > 1) {
+
+        history.back();
+
+    } else {
+
+        window.location.href =
+            "profile.html";
+
+    }
+
+}
 
 </script>
 
-
 </body>
+
 </html>
