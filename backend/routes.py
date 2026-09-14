@@ -420,6 +420,200 @@ def get_me():
             "success": False,
             "message": str(e)
         }), 500
+# =========================
+# CHANGE LOGIN PASSWORD
+# =========================
+
+@api.route("/api/change-password", methods=["POST"])
+def change_password():
+
+    conn = None
+    cur = None
+
+    try:
+
+        # -------------------------
+        # Authorization
+        # -------------------------
+
+        auth_header = request.headers.get("Authorization")
+
+        if not auth_header:
+            return jsonify({
+                "success": False,
+                "message": "Authorization token required."
+            }), 401
+
+        parts = auth_header.split(" ")
+
+        if len(parts) != 2 or parts[0] != "Bearer":
+            return jsonify({
+                "success": False,
+                "message": "Invalid authorization format."
+            }), 401
+
+        token = parts[1]
+
+        # -------------------------
+        # Verify JWT
+        # -------------------------
+
+        payload = jwt.decode(
+            token,
+            Config.SECRET_KEY,
+            algorithms=["HS256"]
+        )
+
+        user_id = payload.get("user_id")
+
+        if not user_id:
+            return jsonify({
+                "success": False,
+                "message": "Invalid user token."
+            }), 401
+
+        # -------------------------
+        # Get request data
+        # -------------------------
+
+        data = request.get_json()
+
+        if not data:
+            return jsonify({
+                "success": False,
+                "message": "Invalid JSON data."
+            }), 400
+
+        current_password = data.get(
+            "current_password"
+        )
+
+        new_password = data.get(
+            "new_password"
+        )
+
+        # -------------------------
+        # Check passwords
+        # -------------------------
+
+        if not current_password:
+            return jsonify({
+                "success": False,
+                "message": "Current password is required."
+            }), 400
+
+        if not new_password:
+            return jsonify({
+                "success": False,
+                "message": "New password is required."
+            }), 400
+
+        if len(new_password) < 6:
+            return jsonify({
+                "success": False,
+                "message": "New password must be at least 6 characters."
+            }), 400
+
+        if current_password == new_password:
+            return jsonify({
+                "success": False,
+                "message": "New password must be different from current password."
+            }), 400
+
+        # -------------------------
+        # Database connection
+        # -------------------------
+
+        conn = get_connection()
+        cur = conn.cursor()
+
+        cur.execute("""
+            SELECT password
+            FROM users
+            WHERE id = %s
+        """, (user_id,))
+
+        user = cur.fetchone()
+
+        if not user:
+            return jsonify({
+                "success": False,
+                "message": "User not found."
+            }), 404
+
+        # -------------------------
+        # Verify current password
+        # -------------------------
+
+        if not check_password_hash(
+            user["password"],
+            current_password
+        ):
+            return jsonify({
+                "success": False,
+                "message": "Current password is incorrect."
+            }), 401
+
+        # -------------------------
+        # Hash new password
+        # -------------------------
+
+        new_password_hash = generate_password_hash(
+            new_password
+        )
+
+        # -------------------------
+        # Update password
+        # -------------------------
+
+        cur.execute("""
+            UPDATE users
+            SET password = %s
+            WHERE id = %s
+        """, (
+            new_password_hash,
+            user_id
+        ))
+
+        conn.commit()
+
+        return jsonify({
+            "success": True,
+            "message": "Password changed successfully."
+        }), 200
+
+    except jwt.ExpiredSignatureError:
+
+        return jsonify({
+            "success": False,
+            "message": "Token expired."
+        }), 401
+
+    except jwt.InvalidTokenError:
+
+        return jsonify({
+            "success": False,
+            "message": "Invalid token."
+        }), 401
+
+    except Exception as e:
+
+        if conn:
+            conn.rollback()
+
+        return jsonify({
+            "success": False,
+            "message": "Password change failed.",
+            "error": str(e)
+        }), 500
+
+    finally:
+
+        if cur:
+            cur.close()
+
+        if conn:
+            conn.close()
 @api.route("/api/account", methods=["GET"])
 def get_account():
 
