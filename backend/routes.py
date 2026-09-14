@@ -246,18 +246,62 @@ def login():
             }), 401
 
         # Check hashed password
-        if not check_password_hash(user["password"], password):
+        if not check_password_hash(
+            user["password"],
+            password
+        ):
             return jsonify({
                 "success": False,
                 "message": "Invalid username/email or password."
             }), 401
 
-        # Generate JWT Token
+        # ==========================================
+        # LAST LOGIN IP
+        # ==========================================
+
+        forwarded_for = request.headers.get(
+            "X-Forwarded-For",
+            ""
+        )
+
+        if forwarded_for:
+            login_ip = forwarded_for.split(",")[0].strip()
+        else:
+            login_ip = request.remote_addr
+
+        # ==========================================
+        # LAST LOGIN TIME
+        # ==========================================
+
+        login_time = datetime.datetime.utcnow()
+
+        # Save login information
+        cur.execute(
+            """
+            UPDATE users
+            SET last_login_ip = %s,
+                last_login_at = %s
+            WHERE id = %s
+            """,
+            (
+                login_ip,
+                login_time,
+                user["id"]
+            )
+        )
+
+        conn.commit()
+
+        # ==========================================
+        # GENERATE JWT TOKEN
+        # ==========================================
+
         token = jwt.encode(
             {
                 "user_id": user["id"],
                 "username": user["username"],
-                "exp": datetime.datetime.utcnow() + datetime.timedelta(days=1)
+                "exp": datetime.datetime.utcnow()
+                + datetime.timedelta(days=1)
             },
             Config.SECRET_KEY,
             algorithm="HS256"
@@ -273,6 +317,7 @@ def login():
                 "email": user["email"]
             }
         }), 200
+
     except Exception as e:
 
         if conn:
@@ -291,6 +336,8 @@ def login():
 
         if conn:
             conn.close()
+
+
 # Get logged-in user's profile and balance
 @api.route("/api/me", methods=["GET"])
 def get_me():
