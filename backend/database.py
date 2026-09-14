@@ -14,7 +14,7 @@ def init_db():
     conn = get_connection()
     cur = conn.cursor()
 
-    cur.execute("""
+        cur.execute("""
     CREATE TABLE IF NOT EXISTS users (
         id SERIAL PRIMARY KEY,
         username VARCHAR(100) UNIQUE,
@@ -23,6 +23,18 @@ def init_db():
         balance NUMERIC(18,2) DEFAULT 0,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
+    """)
+
+    # LAST LOGIN INFORMATION
+    cur.execute("""
+    ALTER TABLE users
+    ADD COLUMN IF NOT EXISTS last_login_ip VARCHAR(100);
+    """)
+
+    cur.execute("""
+    ALTER TABLE users
+    ADD COLUMN IF NOT EXISTS last_login_at TIMESTAMP;
+    """)
 
     CREATE TABLE IF NOT EXISTS deposits (
         id SERIAL PRIMARY KEY,
