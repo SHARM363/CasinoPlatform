@@ -370,7 +370,9 @@ def get_me():
                 id,
                 username,
                 email,
-                balance
+                balance,
+                last_login_ip,
+                last_login_at
             FROM users
             WHERE id = %s
         """, (user_id,))
@@ -392,7 +394,9 @@ def get_me():
                 "id": user["id"],
                 "username": user["username"],
                 "email": user["email"],
-                "balance": user["balance"]
+                "balance": user["balance"],
+                "last_login_ip": user["last_login_ip"],
+                "last_login_at": user["last_login_at"]
             }
         }), 200
 
