@@ -464,7 +464,11 @@
                 name: "Fruit Mania",
                 icon: "🍒"
             },
-
+            {
+                name: "Super Ace",
+                icon: "🃏",
+                page: "super-ace.html"
+            },
             {
                 name: "Diamond Spin",
                 icon: "💎"
@@ -821,21 +825,22 @@
 
             card.onclick = function() {
 
-                window.location.href =
-                    "game.html?game=" +
-                    encodeURIComponent(
-                        game.name
-                    );
+    if (game.page) {
 
-            };
+        window.location.href =
+            game.page;
 
+    } else {
 
-            gameList.appendChild(card);
-
-        });
+        window.location.href =
+            "game.html?game=" +
+            encodeURIComponent(
+                game.name
+            );
 
     }
 
+};
 
     // =========================
     // SHOW CATEGORIES
