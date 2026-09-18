@@ -149,15 +149,15 @@
 
         #gameList {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
         }
 
         .game-card {
             background: #1d2030;
             border: 1px solid #2c3040;
             border-radius: 15px;
-            padding: 22px 12px;
+            padding: 12px 8px;
             text-align: center;
             cursor: pointer;
             transition: 0.2s;
@@ -174,6 +174,49 @@
         .game-icon {
             font-size: 45px;
             margin-bottom: 10px;
+        }
+
+        /* =========================
+           GAME LOGO
+        ========================= */
+
+        .game-logo {
+            width: 100%;
+            height: 95px;
+            margin-bottom: 10px;
+            overflow: hidden;
+            border-radius: 10px;
+            background: #252938;
+        }
+
+        .game-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* =========================
+           MONEY ICON
+        ========================= */
+
+        .dollar-icon {
+            width: 52px;
+            height: 52px;
+            margin: 0 auto 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: linear-gradient(
+                135deg,
+                #ffd700,
+                #b8860b
+            );
+            color: white;
+            font-size: 30px;
+            font-weight: bold;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.35);
         }
 
         .game-name {
@@ -227,7 +270,6 @@
 
 </head>
 
-
 <body>
 
 <div class="container">
@@ -246,11 +288,9 @@
 
         </button>
 
-
         <div class="logo">
             RSK32
         </div>
-
 
         <div class="balance-box">
 
@@ -418,7 +458,6 @@
 
             </div>
 
-
             <button
                 class="category-back"
                 onclick="showCategories()">
@@ -429,14 +468,11 @@
 
         </div>
 
-
         <div id="gameList"></div>
 
     </div>
 
 </div>
-
-
 <script>
 
     // =========================
@@ -455,72 +491,72 @@
 
         "Slots": [
 
-    {
-        name: "Super Ace",
-        icon: "🎰",
-        logo: "images/super-ace.jpg",
-        page: "super-ace.html"
-    },
+            {
+                name: "Super Ace",
+                icon: "🎰",
+                logo: "images/super-ace.jpg",
+                page: "super-ace.html"
+            },
 
-    {
-        name: "Boxing King",
-        icon: "🥊",
-        logo: "images/boxing-king.jpg",
-        page: "boxing-king.html"
-    },
+            {
+                name: "Boxing King",
+                icon: "🥊",
+                logo: "images/boxing-king.jpg",
+                page: "boxing-king.html"
+            },
 
-    {
-        name: "Money",
-        icon: "$",
-        logo: "images/money.jpg",
-        page: "money.html"
-    },
+            {
+                name: "Money",
+                icon: "$",
+                logo: "images/money.jpg",
+                page: "money.html"
+            },
 
-    {
-        name: "SuperAce Deluxe",
-        icon: "🎰",
-        logo: "images/superace-deluxe.jpg",
-        page: "superace-deluxe.html"
-    },
+            {
+                name: "SuperAce Deluxe",
+                icon: "🎰",
+                logo: "images/superace-deluxe.jpg",
+                page: "superace-deluxe.html"
+            },
 
-    {
-        name: "Fortune Garuda 500",
-        icon: "🦅",
-        logo: "images/fortune-garuda-500.jpg",
-        page: "fortune-garuda-500.html"
-    },
+            {
+                name: "Fortune Garuda 500",
+                icon: "🦅",
+                logo: "images/fortune-garuda-500.jpg",
+                page: "fortune-garuda-500.html"
+            },
 
-    {
-        name: "Lucky Slots",
-        icon: "🎰"
-    },
+            {
+                name: "Lucky Slots",
+                icon: "🎰"
+            },
 
-    {
-        name: "Fruit Mania",
-        icon: "🍒"
-    },
+            {
+                name: "Fruit Mania",
+                icon: "🍒"
+            },
 
-    {
-        name: "Diamond Spin",
-        icon: "💎"
-    },
+            {
+                name: "Diamond Spin",
+                icon: "💎"
+            },
 
-    {
-        name: "Super Star",
-        icon: "⭐"
-    },
+            {
+                name: "Super Star",
+                icon: "⭐"
+            },
 
-    {
-        name: "Fire Spin",
-        icon: "🔥"
-    },
+            {
+                name: "Fire Spin",
+                icon: "🔥"
+            },
 
-    {
-        name: "Mega Jackpot",
-        icon: "💎"
-    }
+            {
+                name: "Mega Jackpot",
+                icon: "💎"
+            }
 
-    ],
+        ],
 
 
         "Live Casino": [
@@ -648,9 +684,7 @@
             {
                 name: "Lucky Target",
                 icon: "🎯"
-            },
-
-            {
+            },            {
                 name: "Coin Flip",
                 icon: "🪙"
             }
@@ -837,15 +871,42 @@
                 "game-card";
 
 
+            // =========================
+            // GAME CARD CONTENT
+            // =========================
+
             card.innerHTML = `
 
-                <div class="game-icon">
-                    ${game.icon}
-                </div>
+                ${
+                    game.logo
+                    ? `
+                        <div class="game-logo">
 
-                <div class="game-name">
-                    ${game.name}
-                </div>
+                            <img
+                                src="${game.logo}"
+                                alt="${game.name}"
+                                loading="lazy"
+                            >
+
+                        </div>
+                      `
+                    : game.name === "Money"
+                    ? `
+                        <div class="dollar-icon">
+                            $
+                        </div>
+                      `
+                    : `
+                        <div class="game-icon">
+                            ${game.icon}
+                        </div>
+                      `
+                }
+
+                <div class="game-name
+                ">
+    ${game.name}
+</div>
 
             `;
 
@@ -856,22 +917,34 @@
 
             card.onclick = function() {
 
-    if (game.page) {
+                if (game.page) {
 
-        window.location.href =
-            game.page;
+                    window.location.href =
+                        game.page;
 
-    } else {
+                } else {
 
-        window.location.href =
-            "game.html?game=" +
-            encodeURIComponent(
-                game.name
-            );
+                    window.location.href =
+                        "game.html?game=" +
+                        encodeURIComponent(
+                            game.name
+                        );
+
+                }
+
+            };
+
+
+            // =========================
+            // ADD CARD
+            // =========================
+
+            gameList.appendChild(card);
+
+        });
 
     }
 
-};
 
     // =========================
     // SHOW CATEGORIES
@@ -925,4 +998,5 @@
 
 </body>
 
-  </html>
+</html>
+            
